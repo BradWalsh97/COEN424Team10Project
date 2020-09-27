@@ -25,3 +25,6 @@ hs_err_pid*
 # macOS File
 .DS_Store
 *.DS_Store
+
+#Node modules folder
+node_modules/
