@@ -26,5 +26,15 @@ hs_err_pid*
 .DS_Store
 *.DS_Store
 
-#Node modules folder
-node_modules/
+# IntelliJ Folder
+*.idea/
+
+# Maven dependencies
+*.mvn/
+
+# Node dependencies
+*.node_modules/
+
+# vs code folder
+*.vscode/
+
