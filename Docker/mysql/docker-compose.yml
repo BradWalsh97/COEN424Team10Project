@@ -1,0 +1,18 @@
+services: 
+  mysql-development: 
+    environment: 
+      MYSQL_DATABASE: micro
+      MYSQL_ROOT_PASSWORD: helloworld
+    image: mysql
+    container_name: mysql
+    ports: 
+      - "3310:3306"
+version: "3"
+
+
+
+
+
+
+
+
