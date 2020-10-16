@@ -1,8 +1,8 @@
 {
-  "name": "project_intro2cloud",
+  "name": "sizzle",
   "version": "0.0.1",
-  "description": "An app for sharing and looking up recipes",
-  "productName": "CookBook",
+  "description": "An app to find and organize recipes",
+  "productName": "Sizzle",
   "author": "superDeano",
   "private": true,
   "scripts": {
