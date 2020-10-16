@@ -116,9 +116,9 @@ cfg.module.rules.push({
       workboxPluginMode: 'GenerateSW', // 'GenerateSW' or 'InjectManifest'
       workboxOptions: {}, // only for GenerateSW
       manifest: {
-        name: `CookBook`,
-        short_name: `CookBook`,
-        description: `An app for sharing and looking up recipes`,
+        name: `Sizzle`,
+        short_name: `Sizzle`,
+        description: `An app to find and organize recipes`,
         display: 'standalone',
         orientation: 'portrait',
         background_color: '#ffffff',
@@ -183,7 +183,7 @@ cfg.module.rules.push({
       builder: {
         // https://www.electron.build/configuration/configuration
 
-        appId: 'project_intro2cloud'
+        appId: 'sizzle'
       },
 
       // More info: https://quasar.dev/quasar-cli/developing-electron-apps/node-integration

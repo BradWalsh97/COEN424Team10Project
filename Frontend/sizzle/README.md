@@ -1,6 +1,6 @@
-# CookBook (project_intro2cloud)
+# Sizzle (sizzle)
 
-An app for sharing and looking up recipes
+An app to find and organize recipes
 
 ## Install the dependencies
 ```bash
