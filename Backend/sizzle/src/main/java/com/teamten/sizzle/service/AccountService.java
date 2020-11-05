@@ -22,6 +22,6 @@ public class AccountService {
 
     public boolean deleteUser(Account account) {
         accountDao.delete(account);
-        return false;
+        return true;
     }
 }
