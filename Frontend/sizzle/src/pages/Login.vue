@@ -1,0 +1,62 @@
+<template>
+  <q-page class="full-width row justify-center" >
+    <div class="" style="min-width: 50%;padding-top:5%">
+<!-- The inputs -->
+<h3>Login</h3>
+
+
+    <div style="">
+      <q-input outlined v-model="username" label="username"/>
+    </div>
+    <div style="padding-top: 5%">
+    <q-input outlined v-model="password" :type="isPwd ? 'password' : 'text'" label="Password">
+        <template v-slot:append>
+          <q-icon
+            :name="isPwd ? 'visibility_off' : 'visibility'"
+            class="cursor-pointer"
+            @click="isPwd = !isPwd"
+          />
+        </template>
+    </q-input>
+    </div>
+
+    <div style="padding-top: 5%" class="row justify-between">
+    <div>
+    <q-btn
+    label="Login"
+    outline
+    color="primary"
+    />
+    </div>
+    <div>
+    <q-btn
+    label="Sign Up"
+    color="primary"
+    flat
+    />
+    </div>
+    </div>
+    </div>
+  </q-page>
+</template>
+
+<script>
+export default {
+  name: 'Register',
+  data () {
+  return {
+  username: '',
+  password: '',
+  isPwd: true
+  }
+  },
+  methods: {
+  signUp(){
+
+  },
+  login(){
+
+  }
+  }
+}
+</script>
