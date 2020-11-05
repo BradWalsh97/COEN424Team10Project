@@ -17,7 +17,7 @@ public class AccountService {
 
     public boolean authenticateUser(Account account) {
         Account acc = accountDao.findAccountByUsername(account.getUsername());
-        return false;
+        return acc.getPassword().equals(account.getPassword());
     }
 
     public boolean deleteUser(Account account) {
