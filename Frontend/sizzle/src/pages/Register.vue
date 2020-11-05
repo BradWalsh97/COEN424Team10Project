@@ -27,6 +27,7 @@
     <q-btn
     label="Cancel"
     flat
+    @click="cancel()"
     />
     </div>
     <div>
@@ -57,7 +58,7 @@ export default {
 
   },
   cancel(){
-
+    this.$router.push('/login')
   }
   }
 }

@@ -32,6 +32,7 @@
     <q-btn
     label="Sign Up"
     color="primary"
+    @click="signUp()"
     flat
     />
     </div>
@@ -52,7 +53,7 @@ export default {
   },
   methods: {
   signUp(){
-
+  this.$router.push('/register')
   },
   login(){
 
