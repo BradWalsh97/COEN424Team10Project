@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin
-@RequestMapping("profile")
+@RequestMapping("/profile")
 public class AccountController {
 
     @Autowired
