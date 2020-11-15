@@ -13,12 +13,12 @@ public class AccountController {
     @Autowired
     private AccountService accountService;
 
-    @GetMapping("/new")
+    @PutMapping("/new")
     public boolean addNewUser(@RequestBody Account account) {
         return accountService.addUser(account);
     }
 
-    @GetMapping("/authenticate")
+    @PostMapping("/authenticate")
     public boolean authenticateUser(@RequestBody Account account) {
         return accountService.authenticateUser(account);
     }
