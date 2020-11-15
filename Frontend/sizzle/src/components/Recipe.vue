@@ -1,5 +1,5 @@
 <template>
-  <q-card>
+  <q-card style="height: 50%; width: 50%">
     <q-card-section>
       <div class="text-h3">
         {{ aRecipe.title }}
