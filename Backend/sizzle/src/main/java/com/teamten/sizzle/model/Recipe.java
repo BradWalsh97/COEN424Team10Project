@@ -1,10 +1,14 @@
 package com.teamten.sizzle.model;
 
+import org.springframework.data.annotation.Id;
+
 public class Recipe {
     private String title;
     private String summary;
     private String instructions;
     private String image;
+    @Id
+    private int id;
 
     public Recipe(String title, String summary, String instructions, String image) {
         this.title = title;
@@ -53,5 +57,13 @@ public class Recipe {
                 ", instructions='" + instructions + '\'' +
                 ", image='" + image + '\'' +
                 '}';
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 }

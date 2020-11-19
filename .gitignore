@@ -41,3 +41,4 @@ hs_err_pid*
 # environment variable file
 .env
 
+Frontend/sizzle/.nova/
