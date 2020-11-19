@@ -7,7 +7,7 @@
     </q-card-section>
 
     <q-card-section>
-      <q-img :src="aRecipe.image"  />
+      <q-img :src="aRecipe.image" />
     </q-card-section>
 
     <q-card-section>
