@@ -46,7 +46,7 @@
     <q-dialog v-model="card">
       <q-card class="my-card">
         <q-img :src="chosenRecipe.image" />
-
+        <q-separator />
         <q-card-section>
           <q-btn
             fab
@@ -61,24 +61,28 @@
               {{ chosenRecipe.title }}
             </div>
             <div
-              class="col-auto text-grey text-caption q-pt-md row no-wrap items-center"
+              class="col-auto text-dark-grey text-caption q-pt-md row no-wrap items-center"
             ></div>
           </div>
 
-          <q-rating v-model="stars" :max="5" size="32px" />
+          <!-- <q-rating v-model="stars" :max="5" size="32px" /> -->
         </q-card-section>
 
         <q-card-section class="q-pt-none">
           <div class="text-subtitle1" v-html="chosenRecipe.summary"></div>
+        </q-card-section>
+
+        <q-card-section>
+          Instructions
           <div class="text-grey" v-html="chosenRecipe.instructions"></div>
         </q-card-section>
 
-        <q-separator />
+        <!-- <q-separator /> -->
 
-        <q-card-actions align="right">
+        <!-- <q-card-actions align="right">
           <q-btn v-close-popup flat color="primary" label="Reserve" />
           <q-btn v-close-popup flat color="primary" round icon="event" />
-        </q-card-actions>
+        </q-card-actions> -->
       </q-card>
     </q-dialog>
   </q-page>

@@ -1,16 +1,12 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
+    <q-header>
+      <q-toolbar class="text-primary bg-white">
+        <q-toolbar-title> Sizzle </q-toolbar-title>
 
-        <q-toolbar-title>
-          Sizzle
-        </q-toolbar-title>
-
+        <q-btn label="Log out" flat />
       </q-toolbar>
     </q-header>
-
-
 
     <q-page-container>
       <router-view />
@@ -19,14 +15,11 @@
 </template>
 
 <script>
-
 export default {
-  name: 'MainLayout',
+  name: "MainLayout",
 
-  data () {
-    return {
-
-    }
-  }
-}
+  data() {
+    return {};
+  },
+};
 </script>
