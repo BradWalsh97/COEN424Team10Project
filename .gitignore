@@ -38,5 +38,7 @@ hs_err_pid*
 # vs code folder
 *.vscode/
 
+# environment variable file
+.env
 
 Frontend/sizzle/.nova/
