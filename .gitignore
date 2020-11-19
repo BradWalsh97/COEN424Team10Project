@@ -38,3 +38,6 @@ hs_err_pid*
 # vs code folder
 *.vscode/
 
+# environment variable file
+.env
+
