@@ -1,10 +1,10 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar class="tb text-primary bg-X" >
+    <q-header class="bg-transparent">
+      <q-toolbar class="tb text-white bold" >
         <div class="full-width row justify-between">
         <div>
-        <q-toolbar-title> Sizzle </q-toolbar-title>
+        <q-toolbar-title class="text-h4"> Sizzle </q-toolbar-title>
         </div>
         <div>
             <q-tabs
@@ -19,7 +19,7 @@
         </div>
 
   <div>
-            <q-btn label="Log out" flat />
+            <q-btn label="Log out" flat color="white" />
           </div>
         </div>
       </q-toolbar>
@@ -53,10 +53,12 @@ export default {
     background-repeat: no-repeat;
     background-size: contain;
   }
-
-  .tb{
-    background-color: rgba(105, 105, 105);
+  .text-h4{
+    text-shadow: 2px 2px rgb(49, 49, 49);
   }
+
+  
+
  
 </style>
 
