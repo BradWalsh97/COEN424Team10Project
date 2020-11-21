@@ -1,30 +1,25 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar class="tb text-primary bg-X" >
+    <q-header class="header-bar">
+      <q-toolbar class="tb text-white bold" >
         <div class="full-width row justify-between">
         <div>
-        <q-toolbar-title> Sizzle </q-toolbar-title>
+        <q-toolbar-title class="text-h4"> Sizzle </q-toolbar-title>
         </div>
-        <div>
-            <q-tabs
-            dense inline-label
-        v-model="tab"
-        class="float-left"
-      >
-        <q-tab name="search" icon="search" label="Search" />
-        <q-tab name="home" icon="home" label="Home" />
-        <q-tab name="cookbooks" icon="book" label="Cookbooks" />
-      </q-tabs>
+        <div style="display: flex; justify-content: center; align-items: center;">
+          <q-btn unelevated name="search" icon="search" label="Search" />
+          <q-btn unelevated name="home" icon="home" label="Home" to="/" clickable v-ripple />
+          <q-btn unelevated name="cookbooks" icon="book" label="Cookbooks" to="/cookbooks" clickable v-ripple />
         </div>
 
   <div>
-            <q-btn label="Log out" flat />
+            <q-btn label="Log out" flat color="white" />
           </div>
         </div>
       </q-toolbar>
     </q-header>
 
+    
     <q-page-container>
       <router-view />
     </q-page-container>
@@ -40,8 +35,16 @@ export default {
   name: "MainLayout",
 
   data() {
-    return {};
+    return {
+      tab: ''
+    };
   },
+  methods: {
+    reach(path) {
+      if (this.$router.currentRoute.fullPath !== path)
+        this.$router.push(path);
+    }
+  }
 };
 </script>
 
@@ -53,10 +56,16 @@ export default {
     background-repeat: no-repeat;
     background-size: contain;
   }
-
-  .tb{
-    background-color: rgba(105, 105, 105);
+  .text-h4{
+    text-shadow: 2px 2px rgb(49, 49, 49);
   }
+
+  .header-bar {
+    background: transparent !important;
+    border-bottom: 1px solid white;
+  }
+  
+
  
 </style>
 
