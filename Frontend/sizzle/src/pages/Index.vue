@@ -118,7 +118,7 @@ export default {
     },
     test(id) {
       console.log("test", id);
-      this.chosenRecipe = this.recipes[id];
+      this.chosenRecipe = this.recipes[id - 1];
       this.card = true;
     },
   },
