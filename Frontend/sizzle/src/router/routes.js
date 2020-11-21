@@ -17,13 +17,11 @@ const routes = [
     children: [{ path: "", component: () => import("pages/Login.vue") }],
   },
 
-  // {
-  //   path: '/cookbooks',
-  //   component: () => import('layouts/MainLayout.vue'),
-  //   children: [
-  //     { path: '', component: () => import('pages/Cookbooks.vue') }
-  //   ]
-  // },
+  {
+    path: "/profile",
+    component: () => import("layouts/ProfileLayout.vue"),
+    children: [{ path: "", component: () => import("pages/Profile.vue") }],
+  },
 
   // Always leave this as last one,
   // but you can also remove it
