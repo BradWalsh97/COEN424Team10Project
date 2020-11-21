@@ -44,3 +44,7 @@ hs_err_pid*
 Frontend/sizzle/.nova/
 
 Backend/sizzle/sizzle.iml
+
+Backend/sizzle/target/
+
+mongo-volume/
