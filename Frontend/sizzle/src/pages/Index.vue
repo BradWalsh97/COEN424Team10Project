@@ -38,11 +38,11 @@
             style="width: 60%; height: 100%"
           >
             <q-carousel-slide
-              v-for="recipe in recipes"
-              :key="recipe.id"
-              :name="recipe.id"
+              v-for="(recipe, index) in recipes"
+              :key="index"
+              :name="index"
               :img-src="recipe.image"
-              @click="test(recipe.id)"
+              @click="test(index)"
             >
             </q-carousel-slide>
           </q-carousel>
@@ -115,7 +115,7 @@ export default {
     },
     test(id) {
       console.log("test", id);
-      this.chosenRecipe = this.recipes[id - 1];
+      this.chosenRecipe = this.recipes[id];
       this.card = true;
     },
   },
