@@ -24,9 +24,7 @@
       <router-view />
     </q-page-container>
 
-    <q-img 
-        src="../assets/cookbooks-img.jpg"
-        class="bg-image absolute-top"/>
+    <q-img src="../assets/cookbooks-img.jpg" class="bg-image absolute-top" />
   </q-layout>
 </template>
 
@@ -68,5 +66,3 @@ export default {
 
  
 </style>
-
-
