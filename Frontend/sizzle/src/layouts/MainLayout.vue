@@ -29,7 +29,7 @@
       </q-header>
 
       <q-page-container>
-        <q-tab-panels keep-alive v-model="tab">
+        <q-tab-panels keep-alive animated v-model="tab">
           <q-tab-panel name="home">
             <PageIndex />
           </q-tab-panel>
