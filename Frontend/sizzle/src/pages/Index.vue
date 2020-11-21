@@ -1,16 +1,26 @@
+<!-- <style lang="scss">
+.bg-image {
+  height: 100%;
+  z-index: -1;
+  background-image: url("/src/assets/cookbooks-img.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+</style> -->
+
 <template>
-  <q-page class="full-width column">
-    <!-- <div class="col " style="padding-left: 30%"> -->
+  <q-page class="full-width column" style="padding-top: 1%">
     <div class="q-pa-md doc-container">
       <div>
         <div class="col-1">
-          <div class="column items-center text-h2">Random Recipes</div>
+          <div class="column items-center text-h2 text-primary">
+            Random Recipes
+          </div>
           <div class="">
             <q-btn label="Refresh" @click="getRecipes()" style="width: 100px" />
           </div>
         </div>
-        <!-- <div class="q-pa-md"> -->
-        <!-- <div class="col-6 justify-center" style="width: 100%"> -->
+
         <div class="column items-center" style="height: 500pt; width: 100%">
           <q-carousel
             v-model="slide"
@@ -35,9 +45,6 @@
               @click="test(recipe.id)"
             >
             </q-carousel-slide>
-
-            <!-- </div> -->
-            <!-- </div> -->
           </q-carousel>
         </div>
       </div>
@@ -64,8 +71,6 @@
               class="col-auto text-dark-grey text-caption q-pt-md row no-wrap items-center"
             ></div>
           </div>
-
-          <!-- <q-rating v-model="stars" :max="5" size="32px" /> -->
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -76,13 +81,6 @@
           Instructions
           <div class="text-grey" v-html="chosenRecipe.instructions"></div>
         </q-card-section>
-
-        <!-- <q-separator /> -->
-
-        <!-- <q-card-actions align="right">
-          <q-btn v-close-popup flat color="primary" label="Reserve" />
-          <q-btn v-close-popup flat color="primary" round icon="event" />
-        </q-card-actions> -->
       </q-card>
     </q-dialog>
   </q-page>
@@ -111,7 +109,6 @@ export default {
       Axios.get(this.baseUrl)
         .then((res) => {
           this.recipes = res.data;
-          // console.log("res", res);
           console.log("res.data", res.data);
         })
         .catch((err) => console.log("error during get", err));
@@ -122,7 +119,7 @@ export default {
       this.card = true;
     },
   },
-  mounted() {
+  beforeMount() {
     this.getRecipes();
   },
 };
