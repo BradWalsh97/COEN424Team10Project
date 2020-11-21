@@ -1,50 +1,29 @@
 <template>
-  <q-layout view="hhr lpR fFr">
-
-    <!-- <q-header reveal elevated class="bg-primary text-white" height-hint="98">
-      <q-toolbar>
-        <q-toolbar-title>
-          <q-avatar>
-            <img src="https://cdn.quasar.dev/logo/svg/quasar-logo.svg">
-          </q-avatar>
-          Sizzle
-        </q-toolbar-title>
-
-        <q-btn dense flat round icon="menu" @click="right = !right" />
-      </q-toolbar>
-
-      
-    </q-header> -->
-
-    <q-drawer show-if-above v-model="right" side="right" behavior="desktop" elevated>
-        <q-scroll-area style="height: calc(100% - 200px); margin-top: 200px; border-right: 1px solid #ddd">
-          <q-list padding>
-            <q-item clickable v-ripple>
-              <q-item-section avatar>
-                <q-icon name="book" />
-              </q-item-section>
-
-              <q-item-section>
-                Inbox
-              </q-item-section>
-            </q-item>
-
-            
-          </q-list>
-        </q-scroll-area>
-
-        <q-img class="dw-img absolute-top" src="../assets/cookbook-tabs.jpg" style="height: 200px">
-          <div class="absolute-bottom bg-transparent">
-            <div class="text">Your Library of Cookbooks:</div>
+    <q-page-container style="padding-right: 0 !important;">
         
-          </div>
-        </q-img>
+        <q-drawer show-if-above v-model="right" side="right" behavior="desktop" class="cookbook-drawer">
+            <div class="text-h5 text-capitalize cookbook-header">
+                Your cookbooks
+                <q-btn class="cookbook-add" flat round icon="add">
+                </q-btn>
+            </div>
+            <q-scroll-area style="height: calc(100% - 50px); margin-top: 50px;">
+                <q-list style="padding: 0 1rem">
 
-      <!-- drawer content -->
-    </q-drawer>
+                    <q-card v-for="index in (0, 10)" :key="index"
+                        class="my-card text-white"
+                        style="background: radial-gradient(circle, #35a2ff 0%, #014a88 100%); margin: 0.8rem 0;">
 
-    <q-page-container>
-     
+                        <q-card-section>
+                            <div class="text-h6">Our Changing Planet</div>
+                            <div class="text-subtitle2">by John Doe</div>
+                        </q-card-section>
+
+                    </q-card>
+
+                </q-list>
+            </q-scroll-area>
+        </q-drawer>
 
         <div class="col-1 q-pb-md">
             <div class="column items-center text-h2">"Current Cookbook Name"</div>
@@ -52,7 +31,7 @@
         </div>
 
         <div class="column items-center" style="height: 500pt; width: 100%">
-            <q-carousel
+            <!-- <q-carousel
                 v-model="slide"
                 vertical
                 transition-prev="slide-down"
@@ -76,25 +55,18 @@
                 >
                 </q-carousel-slide>
 
-                <!-- </div> -->
-                <!-- </div> -->
-            </q-carousel>
+            </q-carousel> -->
 
           
         </div>
-           
-        
     </q-page-container>
-
-    
-      <router-view />
-  </q-layout>
 </template>
 
 <script>
 export default {
   data () {
     return {
+        right: true,
       baseUrl: "http://localhost:8181/cookbooks/"
     }
   }
@@ -111,11 +83,36 @@ export default {
         color: black;
     }
 
-  
+    .cookbook-drawer {
+        .q-drawer {
+            background-color: rgba(255, 224, 188, 0.5);
+            backdrop-filter: blur(5px);
+        }
 
-  .dw-img{
-    z-index: -1;  
-  }
+        .cookbook-header {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            right: 0; 
+            padding: 0 1rem;
+            height: 50px;
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            color: white !important;
+            font-weight: 400;
+        }
+
+        .cookbook-add {
+            position: absolute;
+            right: 0;
+            margin-right: 0.3rem;
+        }
+    }
+
+    .dw-img{
+        z-index: -1;  
+    }
 
 
 
