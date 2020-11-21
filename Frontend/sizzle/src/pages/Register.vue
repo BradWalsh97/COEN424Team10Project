@@ -4,7 +4,7 @@
       <!-- The inputs -->
       <h3>Register your new Sizzle account</h3>
       <div>
-        <q-input outlined v-model="account.name" label="Name" />
+        <q-input outlined v-model="account.email" label="Email" />
       </div>
 
       <div style="padding-top: 5%">
@@ -48,7 +48,7 @@ export default {
   data() {
     return {
       baseUrl: "http://localhost:8181/",
-      account: { name: "", username: "", password: "" },
+      account: { email: "", username: "", password: "" },
       isPwd: true,
     };
   },
