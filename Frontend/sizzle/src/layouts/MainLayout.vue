@@ -88,7 +88,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .bg-image {
   height: 100%;
   z-index: -1;

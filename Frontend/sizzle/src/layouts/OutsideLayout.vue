@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
-    <q-header>
-      <q-toolbar class="text-primary bg-white">
+    <q-header style="background: transparent">
+      <q-toolbar class="text-primary">
         <q-toolbar-title> Sizzle </q-toolbar-title>
 
         <!-- <q-btn label="Log out" flat /> -->

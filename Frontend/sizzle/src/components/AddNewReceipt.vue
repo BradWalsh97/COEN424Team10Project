@@ -1,5 +1,5 @@
 <template>
-  <q-layout view="Lhh lpR fff" container class="bg-white">
+  <q-layout view="Lhh lpR fff" container :class="customBackground">
     <q-header class="bg-primary">
       <q-toolbar>
         <q-toolbar-title>Add new Recipe</q-toolbar-title>
@@ -122,7 +122,20 @@ export default {
       },
     };
   },
+  computed: {
+    customBackground: function () {
+      if (this.$q.dark.isActive) {
+        return "bg-grey-10";
+      } else {
+        return "bg-white";
+      }
+    },
+
+    // watch: {
+    // 	this.$q.dark.isActive() :
+    // },
+  },
 };
 </script>
 
-<style scoped></style>
+<style></style>
