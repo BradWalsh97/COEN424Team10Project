@@ -77,24 +77,6 @@
                   'strike',
                   'underline',
                   'link',
-
-                  {
-                    label: $q.lang.editor.fontSize,
-                    icon: $q.iconSet.editor.fontSize,
-                    fixedLabel: true,
-                    fixedIcon: true,
-                    list: 'no-icons',
-                    options: [
-                      'size-1',
-                      'size-2',
-                      'size-3',
-                      'size-4',
-                      'size-5',
-                      'size-6',
-                      'size-7',
-                    ],
-                  },
-
                   'unordered',
                   'ordered',
                 ],
