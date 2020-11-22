@@ -56,7 +56,7 @@
     </div>
 
     <div style="padding-top: 3%">
-      <q-btn label="Change Password" @click="changePassword()" />
+      <q-btn outline label="Change Password" @click="changePassword()" />
     </div>
   </div>
 </template>

@@ -18,7 +18,12 @@
         color="primary"
       />
       <div style="padding-top: 1%">
-        <q-btn label="Delete" style="width: 75pt" :disable="!understand" />
+        <q-btn
+          outline
+          label="Delete"
+          style="width: 75pt"
+          :disable="!understand"
+        />
       </div>
     </div>
   </div>

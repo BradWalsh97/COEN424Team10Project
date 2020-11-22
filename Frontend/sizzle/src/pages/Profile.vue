@@ -28,17 +28,17 @@
             transition-next="slide-up"
           >
             <q-tab-panel name="name">
-              <div class="text-h3 q-mb-md">Change Email</div>
+              <div class="q-mb-md"><h3>Change Email</h3></div>
               <ProfileChangeEmail />
             </q-tab-panel>
 
             <q-tab-panel name="password">
-              <div class="text-h3 q-mb-md">Change Password</div>
+              <div class="q-mb-md"><h3>Change Password</h3></div>
               <ProfileChangePassword />
             </q-tab-panel>
 
             <q-tab-panel name="delete">
-              <div class="text-h3 q-mb-md">Delete Your Account</div>
+              <div class="q-mb-md"><h3>Delete Your Account</h3></div>
               <ProfileDeleteAccount />
             </q-tab-panel>
           </q-tab-panels>

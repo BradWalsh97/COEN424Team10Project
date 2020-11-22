@@ -19,7 +19,7 @@
     </div>
 
     <div style="padding-top: 2%">
-      <q-btn label="Change Email" />
+      <q-btn outline label="Change Email" />
     </div>
   </div>
 </template>

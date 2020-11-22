@@ -14,7 +14,7 @@
       <!-- <div> -->
       <div class="col-1" style="min-height: 150px">
         <div class="column items-center text-h2 text-primary">
-          Random Recipes
+          Recipes you might like
         </div>
         <div style="padding-top: 1%; padding-bottom: 1%">
           <q-btn label="Refresh" @click="getRecipes()" style="width: 100px" />
