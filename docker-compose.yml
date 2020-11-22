@@ -2,25 +2,34 @@ version: "3.7"
 services:
 
   springboot:
-    image: sizzle/spring-boot-backend:latest
+    image: sizzle/spring-boot_backend:latest
     restart: always
     ports: 
       - "8181:8181"
+    environment: 
+      - SPRING_DATA_MONGODB_host=mongodb-dev:27017
+    depends_on: 
+      - mongodb-dev
 
   nginx:
     image: sizzle/nginx_reverse_proxy:latest
     restart: always
     ports: 
       - "80:80"
+    depends_on: 
+      - quasar
     
   quasar:
     image: sizzle/quasar_fe:latest
     restart: always
     ports:
       - "8080:80"
+    depends_on: 
+      - springboot
+
   mongodb-dev:
     image: mongo
-    container_name: sizzle/mongodb-database
+    container_name: mongodb-database
     environment: 
       MONGO_INITDB_DATABASE: test # database name to give
       MONGO_INITDB_ROOT_USERNAME: root
