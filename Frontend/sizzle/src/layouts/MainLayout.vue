@@ -22,7 +22,18 @@
             </div>
 
             <div>
-              <q-btn label="Log out" flat color="primary" />
+              <q-btn-dropdown label="Admin" flat color="primary">
+                <q-list anchor="bottom right" self="top right">
+                  <q-item clickable>
+                    <q-item-section @click="goToAccountSettings"
+                      >Account Settings</q-item-section
+                    >
+                  </q-item>
+                  <q-item clickable @click="logOut">
+                    <q-item-section>Log out</q-item-section>
+                  </q-item>
+                </q-list>
+              </q-btn-dropdown>
             </div>
           </div>
         </q-toolbar>
@@ -66,6 +77,12 @@ export default {
   methods: {
     reach(path) {
       if (this.$router.currentRoute.fullPath !== path) this.$router.push(path);
+    },
+    goToAccountSettings() {
+      this.$router.push("/profile");
+    },
+    logOut() {
+      this.$router.push("/login");
     },
   },
 };
