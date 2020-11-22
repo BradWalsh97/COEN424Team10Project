@@ -9,19 +9,23 @@
 </style> -->
 
 <template>
-  <q-page class="full-width column" style="padding-top: 1%">
-    <div class="q-pa-md doc-container">
-      <div>
-        <div class="col-1">
-          <div class="column items-center text-h2 text-primary">
-            Random Recipes
-          </div>
-          <div class="">
-            <q-btn label="Refresh" @click="getRecipes()" style="width: 100px" />
-          </div>
+  <q-page class="full-height">
+    <div class="column" style="height: 100%">
+      <!-- <div> -->
+      <div class="col-1" style="">
+        <div class="column items-center text-h2 text-primary">
+          Random Recipes
         </div>
+        <div style="padding-top: 1%; padding-bottom: 1%">
+          <q-btn label="Refresh" @click="getRecipes()" style="width: 100px" />
+        </div>
+      </div>
 
-        <div class="column items-center" style="height: 500pt; width: 100%">
+      <div class="col-8">
+        <div
+          class="column items-center full-height"
+          style="width: 100%; height: 100%"
+        >
           <q-carousel
             v-model="slide"
             vertical
@@ -43,11 +47,11 @@
               :name="index"
               :img-src="recipe.image"
               @click="test(index)"
-            >
-            </q-carousel-slide>
+            />
           </q-carousel>
         </div>
       </div>
+      <!-- </div> -->
     </div>
 
     <q-dialog v-model="card">

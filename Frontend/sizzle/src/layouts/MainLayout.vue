@@ -28,7 +28,7 @@
         </q-toolbar>
       </q-header>
 
-      <q-page-container>
+      <q-page-container class="column full-height">
         <q-tab-panels keep-alive animated v-model="tab">
           <q-tab-panel name="home">
             <PageIndex />
