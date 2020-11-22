@@ -12,7 +12,7 @@
   <q-page class="full-height">
     <div class="column" style="height: 100%">
       <!-- <div> -->
-      <div class="col-1" style="">
+      <div class="col-1" style="min-height: 150px">
         <div class="column items-center text-h2 text-primary">
           Random Recipes
         </div>
@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div class="col-8">
+      <div class="col-9">
         <div
           class="column items-center full-height"
           style="width: 100%; height: 100%"
@@ -53,6 +53,24 @@
       </div>
       <!-- </div> -->
     </div>
+
+    <q-page-sticky position="bottom-right" :offset="[40, 40]">
+      <q-fab
+        icon="add"
+        :value="layout"
+        color="accent"
+        @click="layout = !layout"
+      />
+    </q-page-sticky>
+
+    <q-dialog
+      v-model="layout"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <AddNewRecipe />
+    </q-dialog>
 
     <q-dialog v-model="card">
       <q-card class="my-card">
@@ -93,11 +111,11 @@
 <script>
 import Axios from "axios";
 // import Recipe from "../components/Recipe.vue";
-
+import AddNewRecipe from "../components/AddNewReceipt";
 export default {
   name: "PageIndex",
   components: {
-    // Recipe,
+    AddNewRecipe,
   },
   data() {
     return {
@@ -105,6 +123,7 @@ export default {
       recipes: {},
       slide: 0,
       card: false,
+      layout: false,
       chosenRecipe: {},
     };
   },
