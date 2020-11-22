@@ -105,6 +105,20 @@
           </div>
         </div>
 
+        <div class="q-pa-md q-gutter-none" style="padding-top: 2%">
+          <q-file
+            v-model="recipe.image"
+            label="Image"
+            outlined
+            counter
+            clearable
+          >
+            <template v-slot:prepend>
+              <q-icon name="attach_file" />
+            </template>
+          </q-file>
+        </div>
+
         <div class="q-pa-md q-gutter-sm" style="padding-top: 1%">
           <q-btn label="Save" outline color="primary" />
         </div>
@@ -122,6 +136,7 @@ export default {
         title: "",
         summary: "",
         instructions: "",
+        image: null,
       },
     };
   },
