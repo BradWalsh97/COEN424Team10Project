@@ -14,7 +14,7 @@
                 align-items: center;
               "
             >
-              <q-tabs v-model="tab" inline-label class="text-primary">
+              <q-tabs v-model="tab" inline-label dense class="text-primary">
                 <q-tab name="home" icon="home" label="Home" />
                 <q-tab name="search" icon="search" label="Search" />
                 <q-tab name="cookbook" icon="book" label="Cookbooks" />
