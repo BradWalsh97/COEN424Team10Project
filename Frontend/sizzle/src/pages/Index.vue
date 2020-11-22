@@ -73,49 +73,21 @@
     </q-dialog>
 
     <q-dialog v-model="card">
-      <q-card class="my-card">
-        <q-img :src="chosenRecipe.image" />
-        <q-separator />
-        <q-card-section>
-          <q-btn
-            fab
-            color="primary"
-            icon="save"
-            class="absolute"
-            style="top: 0; right: 12px; transform: translateY(-50%)"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              {{ chosenRecipe.title }}
-            </div>
-            <div
-              class="col-auto text-dark-grey text-caption q-pt-md row no-wrap items-center"
-            ></div>
-          </div>
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1" v-html="chosenRecipe.summary"></div>
-        </q-card-section>
-
-        <q-card-section>
-          Instructions
-          <div class="text-grey" v-html="chosenRecipe.instructions"></div>
-        </q-card-section>
-      </q-card>
+      <SeeRecipe v-bind:recipe="chosenRecipe" />
     </q-dialog>
   </q-page>
 </template>
 
 <script>
 import Axios from "axios";
-// import Recipe from "../components/Recipe.vue";
 import AddNewRecipe from "../components/AddNewReceipt";
+import SeeRecipe from "../components/SeeRecipe";
+
 export default {
   name: "PageIndex",
   components: {
     AddNewRecipe,
+    SeeRecipe,
   },
   data() {
     return {
