@@ -2,7 +2,7 @@ version: "3.7"
 services:
 
   springboot:
-    image: sizzle/spring-boot_backend:latest
+    image: sizzle/spring-boot-backend:latest
     restart: always
     ports: 
       - "8181:8181"
