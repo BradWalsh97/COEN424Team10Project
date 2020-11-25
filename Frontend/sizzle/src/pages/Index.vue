@@ -21,7 +21,7 @@
         </div>
       </div>
 
-      <div class="col-9">
+      <div class="col-9 column-grow">
         <div
           class="column items-center full-height"
           style="width: 100%; height: 100%"
@@ -39,7 +39,7 @@
             padding
             arrows
             class="bg-purple text-white shadow-1 rounded-borders"
-            style="width: 60%; height: 100%"
+            style="width: 60%; height: 100%; min-height: 100%"
           >
             <q-carousel-slide
               v-for="(recipe, index) in recipes"
@@ -47,6 +47,7 @@
               :name="index"
               :img-src="recipe.image"
               @click="test(index)"
+              style="min-height: 40em; overflow: auto"
             />
           </q-carousel>
         </div>
