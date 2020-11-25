@@ -5,12 +5,12 @@
       <h3>Login</h3>
 
       <div style="">
-        <q-input outlined v-model="username" label="username" />
+        <q-input outlined v-model="account.username" label="username" />
       </div>
       <div style="padding-top: 5%">
         <q-input
           outlined
-          v-model="password"
+          v-model="aacount.password"
           :type="isPwd ? 'password' : 'text'"
           label="Password"
         >
