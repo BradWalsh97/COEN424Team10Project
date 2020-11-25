@@ -16,6 +16,7 @@ public class DefaultRecipesServiceImpl implements RecipesService {
     private RecipesFacade recipesFacade;
     @Autowired
     private RecipeDao recipeDao;
+    private int latestRecipeId = -1;
 
     public ArrayList<Recipe> getRecipes(Integer amount) {
         return recipesFacade.getRecipesByIngredients(amount);
@@ -31,7 +32,21 @@ public class DefaultRecipesServiceImpl implements RecipesService {
         }
     }
 
-    public List<Recipe> getAllSavedRecipes(){
+    public List<Recipe> getAllSavedRecipes() {
         return recipeDao.findAll();
     }
+
+    public int getNextRecipeIndex() {
+        if (latestRecipeId == -1) {
+            latestRecipeId = recipeDao.findIds().get(0).getId();
+        }
+        return ++latestRecipeId;
+    }
+
+    public void addNewRecipe(String username, Recipe recipe){
+        recipe.setId(getNextRecipeIndex());
+        recipeDao.save(recipe);
+
+    }
+
 }
