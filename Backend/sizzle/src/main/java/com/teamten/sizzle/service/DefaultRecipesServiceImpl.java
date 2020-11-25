@@ -24,7 +24,7 @@ public class DefaultRecipesServiceImpl implements RecipesService {
     public void storeABunchOfRecipesInDb() {
         ArrayList<Recipe> recipes = recipesFacade.getRecipesByIngredients(10);
         Recipe recipe;
-        for (int i = 0; i <= recipes.toArray().length; i++) {
+        for (int i = 0; i < recipes.toArray().length; i++) {
             recipe = recipes.get(i);
             recipe.setId(i + 1);
             recipeDao.save(recipe);

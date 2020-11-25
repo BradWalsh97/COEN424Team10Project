@@ -1,17 +1,31 @@
+<!-- <style lang="scss">
+.bg-image {
+  height: 100%;
+  z-index: -1;
+  background-image: url("/src/assets/cookbooks-img.jpg");
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+</style> -->
+
 <template>
-  <q-page class="full-width column">
-    <!-- <div class="col " style="padding-left: 30%"> -->
-    <div class="q-pa-md doc-container">
-      <div>
-        <div class="col-1">
-          <div class="column items-center text-h2">Random Recipes</div>
-          <div class="">
-            <q-btn label="Refresh" @click="getRecipes()" style="width: 100px" />
-          </div>
+  <q-page class="full-height">
+    <div class="column" style="height: 100%">
+      <!-- <div> -->
+      <div class="col-1" style="min-height: 150px">
+        <div class="column items-center text-h2 text-primary">
+          Recipes you might like
         </div>
-        <!-- <div class="q-pa-md"> -->
-        <!-- <div class="col-6 justify-center" style="width: 100%"> -->
-        <div class="column items-center" style="height: 500pt; width: 100%">
+        <div style="padding-top: 1%; padding-bottom: 1%">
+          <q-btn label="Refresh" @click="getRecipes()" style="width: 100px" />
+        </div>
+      </div>
+
+      <div class="col-9">
+        <div
+          class="column items-center full-height"
+          style="width: 100%; height: 100%"
+        >
           <q-carousel
             v-model="slide"
             vertical
@@ -28,74 +42,52 @@
             style="width: 60%; height: 100%"
           >
             <q-carousel-slide
-              v-for="recipe in recipes"
-              :key="recipe.id"
-              :name="recipe.id"
+              v-for="(recipe, index) in recipes"
+              :key="index"
+              :name="index"
               :img-src="recipe.image"
-              @click="test(recipe.id)"
-            >
-            </q-carousel-slide>
-
-            <!-- </div> -->
-            <!-- </div> -->
+              @click="test(index)"
+            />
           </q-carousel>
         </div>
       </div>
+      <!-- </div> -->
     </div>
 
+    <q-page-sticky position="bottom-right" :offset="[40, 40]">
+      <q-fab
+        icon="add"
+        :value="layout"
+        color="accent"
+        @click="layout = !layout"
+      />
+    </q-page-sticky>
+
+    <q-dialog
+      v-model="layout"
+      persistent
+      transition-show="scale"
+      transition-hide="scale"
+    >
+      <AddNewRecipe />
+    </q-dialog>
+
     <q-dialog v-model="card">
-      <q-card class="my-card">
-        <q-img :src="chosenRecipe.image" />
-        <q-separator />
-        <q-card-section>
-          <q-btn
-            fab
-            color="primary"
-            icon="save"
-            class="absolute"
-            style="top: 0; right: 12px; transform: translateY(-50%)"
-          />
-
-          <div class="row no-wrap items-center">
-            <div class="col text-h6 ellipsis">
-              {{ chosenRecipe.title }}
-            </div>
-            <div
-              class="col-auto text-dark-grey text-caption q-pt-md row no-wrap items-center"
-            ></div>
-          </div>
-
-          <!-- <q-rating v-model="stars" :max="5" size="32px" /> -->
-        </q-card-section>
-
-        <q-card-section class="q-pt-none">
-          <div class="text-subtitle1" v-html="chosenRecipe.summary"></div>
-        </q-card-section>
-
-        <q-card-section>
-          Instructions
-          <div class="text-grey" v-html="chosenRecipe.instructions"></div>
-        </q-card-section>
-
-        <!-- <q-separator /> -->
-
-        <!-- <q-card-actions align="right">
-          <q-btn v-close-popup flat color="primary" label="Reserve" />
-          <q-btn v-close-popup flat color="primary" round icon="event" />
-        </q-card-actions> -->
-      </q-card>
+      <SeeRecipe v-bind:recipe="chosenRecipe" />
     </q-dialog>
   </q-page>
 </template>
 
 <script>
 import Axios from "axios";
-// import Recipe from "../components/Recipe.vue";
+import AddNewRecipe from "../components/AddNewReceipt";
+import SeeRecipe from "../components/SeeRecipe";
 
 export default {
   name: "PageIndex",
   components: {
-    // Recipe,
+    AddNewRecipe,
+    SeeRecipe,
   },
   data() {
     return {
@@ -103,6 +95,7 @@ export default {
       recipes: {},
       slide: 0,
       card: false,
+      layout: false,
       chosenRecipe: {},
     };
   },
@@ -111,7 +104,6 @@ export default {
       Axios.get(this.baseUrl)
         .then((res) => {
           this.recipes = res.data;
-          // console.log("res", res);
           console.log("res.data", res.data);
         })
         .catch((err) => console.log("error during get", err));
@@ -122,7 +114,7 @@ export default {
       this.card = true;
     },
   },
-  mounted() {
+  beforeMount() {
     this.getRecipes();
   },
 };
