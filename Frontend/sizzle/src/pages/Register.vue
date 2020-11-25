@@ -33,7 +33,7 @@
         </div>
 
         <div>
-          <q-btn label="Sign Up" color="primary" outline />
+          <q-btn label="Sign Up" color="primary" outline @click="signUp()" />
         </div>
       </div>
     </div>
