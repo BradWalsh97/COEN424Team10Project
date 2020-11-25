@@ -26,7 +26,7 @@
 
       <div style="padding-top: 5%" class="row justify-between">
         <div>
-          <q-btn label="Login" outline color="primary" />
+          <q-btn label="Login" outline color="primary" @click="login()" />
         </div>
         <div>
           <q-btn label="Sign Up" color="primary" @click="signUp()" flat />
