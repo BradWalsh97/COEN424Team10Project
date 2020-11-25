@@ -82,6 +82,7 @@
 import Axios from "axios";
 import AddNewRecipe from "../components/AddNewReceipt";
 import SeeRecipe from "../components/SeeRecipe";
+import baseURL from "url";
 
 export default {
   name: "PageIndex",
@@ -91,7 +92,7 @@ export default {
   },
   data() {
     return {
-      baseUrl: "http://localhost:8181/api/recipes/get",
+      baseUrl: baseURL + "/recipes/get",
       recipes: {},
       slide: 0,
       card: false,

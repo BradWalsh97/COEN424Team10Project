@@ -37,12 +37,13 @@
 </template>
 
 <script>
+import baseURL from "url";
 import Axios from "axios";
 export default {
   name: "Register",
   data() {
     return {
-      baseUrl: "http://localhost:8181/profile/",
+      baseUrl: baseURL + "/profile/",
       account: {
         username: "",
         password: "",
@@ -55,9 +56,10 @@ export default {
       this.$router.push("/register");
     },
     login() {
-      Axios.post(this.baseUrl, this.account)
-        .then((res) => this.checkResult(res.data))
-        .catch((err) => console.log("Login", err));
+      // Axios.post(this.baseUrl, this.account)
+      //   .then((res) => this.checkResult(res.data))
+      //   .catch((err) => console.log("Login", err));
+      this.$router.push("/home");
     },
     checkResult(result) {
       if (result) {

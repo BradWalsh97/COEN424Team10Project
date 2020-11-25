@@ -42,12 +42,13 @@
 
 <script>
 import Axios from "axios";
+import baseURL from "url";
 
 export default {
   name: "Register",
   data() {
     return {
-      baseUrl: "http://localhost:8181/",
+      baseUrl: baseURL,
       account: { email: "", username: "", password: "" },
       isPwd: true,
     };
