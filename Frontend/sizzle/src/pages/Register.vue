@@ -33,7 +33,7 @@
         </div>
 
         <div>
-          <q-btn label="Sign Up" color="primary" outline />
+          <q-btn label="Sign Up" color="primary" outline @click="signUp()" />
         </div>
       </div>
     </div>
@@ -57,12 +57,12 @@ export default {
     signUp() {
       Axios.put(this.baseUrl + "profile/new", this.account)
         .then((res) => {
-          this.$router.push("/");
+          this.$router.push("/home");
         })
         .catch((err) => console.log("Register", err));
     },
     cancel() {
-      this.$router.push("/login");
+      this.$router.push("/");
     },
   },
 };
