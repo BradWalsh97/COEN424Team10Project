@@ -10,7 +10,7 @@
       <div style="padding-top: 5%">
         <q-input
           outlined
-          v-model="aacount.password"
+          v-model="account.password"
           :type="isPwd ? 'password' : 'text'"
           label="Password"
         >
