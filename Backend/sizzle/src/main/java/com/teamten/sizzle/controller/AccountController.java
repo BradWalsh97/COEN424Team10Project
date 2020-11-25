@@ -1,6 +1,7 @@
 package com.teamten.sizzle.controller;
 
 import com.teamten.sizzle.model.Account;
+import com.teamten.sizzle.model.CookBook;
 import com.teamten.sizzle.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -28,4 +29,9 @@ public class AccountController {
         return accountService.deleteUser(account);
     }
 
+
+    @PutMapping("/newCookBook/{user}")
+    public void addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
+        accountService.addNewCookBook(user, cookBook);
+    }
 }
