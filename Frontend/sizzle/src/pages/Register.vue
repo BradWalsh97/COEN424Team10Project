@@ -48,7 +48,7 @@ export default {
   name: "Register",
   data() {
     return {
-      baseUrl: baseURL,
+      baseUrl: "http://localhost/api/", //todo: get it working with the version in url.js
       account: { email: "", username: "", password: "" },
       isPwd: true,
     };

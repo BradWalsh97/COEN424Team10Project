@@ -43,7 +43,8 @@ export default {
   name: "Register",
   data() {
     return {
-      baseUrl: baseURL + "/profile/",
+      //baseUrl: baseURL.baseURL + "/profile/",
+      baseUrl: "http://localhost/api/profile/",
       account: {
         username: "",
         password: "",
@@ -56,6 +57,7 @@ export default {
       this.$router.push("/register");
     },
     login() {
+      console.log("BaseUrl: ", this.baseUrl);
       Axios.post(this.baseUrl, this.account)
         .then((res) => this.checkResult(res.data))
         .catch((err) => console.log("Login", err));

@@ -83,7 +83,8 @@
 import Axios from "axios";
 import AddNewRecipe from "../components/AddNewReceipt";
 import SeeRecipe from "../components/SeeRecipe";
-import baseURL from "url";
+//import baseURL from "url";
+let urlSchema = require("url");
 
 export default {
   name: "PageIndex",
@@ -93,7 +94,8 @@ export default {
   },
   data() {
     return {
-      baseUrl: baseURL + "/recipes/get",
+      //baseUrl: urlSchema.localURL + "/recipes/get/",
+      baseUrl: "http://localhost/api/recipes/get/",
       recipes: {},
       slide: 0,
       card: false,
@@ -103,6 +105,9 @@ export default {
   },
   methods: {
     getRecipes() {
+      console.log("urlSchema: ", this.urlSchema);
+      console.log("BaseURL: ", this.baseURL);
+      console.log("BaseUrl: ", this.baseUrl);
       Axios.get(this.baseUrl)
         .then((res) => {
           this.recipes = res.data;
