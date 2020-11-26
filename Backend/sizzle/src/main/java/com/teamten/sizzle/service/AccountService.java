@@ -31,7 +31,7 @@ public class AccountService {
     public void addNewCookBook(String user, CookBook cookBook) {
         Account account = accountDao.findAccountByUsername(user);
         List<CookBook> cookBookList = account.getCookBooks();
-        if (cookBookList == null) {
+        if (cookBookList == null || cookBookList.size() == 0) {
             cookBook.setId(0);
         } else {
             cookBookList.sort((c1, c2) -> c2.getId() - c1.getId());

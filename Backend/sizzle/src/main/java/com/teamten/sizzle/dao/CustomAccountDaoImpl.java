@@ -32,7 +32,7 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         query.addCriteria(Criteria.where("username").is(user).and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId).and("recipeIds").elemMatch(Criteria.byExample(recipeId))));
         Update update = new Update();
         update.pull("recipeIds",new Query().addCriteria(Criteria.byExample(recipeId)));
-        
+
     }
 
     @Override
