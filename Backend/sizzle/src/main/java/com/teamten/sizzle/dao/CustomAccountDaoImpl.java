@@ -47,8 +47,9 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         Query query = new Query();
         query.addCriteria(Criteria.where("username").is(user).and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId)));
         Update update = new Update();
-        update.pull("cookBooks", Criteria.where("id").is(cookBookId));
+        update.pull("cookBooks", new Query().addCriteria(Criteria.where("id").is(cookBookId)));
         FindAndModifyOptions options = FindAndModifyOptions.options();
+        options.returnNew(true);
         mongoOperations.findAndModify(query, update, options, Account.class);
     }
 }

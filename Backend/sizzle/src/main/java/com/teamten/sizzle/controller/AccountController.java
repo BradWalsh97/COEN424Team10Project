@@ -34,4 +34,9 @@ public class AccountController {
     public void addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
         accountService.addNewCookBook(user, cookBook);
     }
+
+    @DeleteMapping("/cookBook/{user}/{cookBookId}")
+    public void deleteCookBook(@PathVariable String user, @PathVariable int cookBookId) {
+        accountService.removeCookBook(user, cookBookId);
+    }
 }

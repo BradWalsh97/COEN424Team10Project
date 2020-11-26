@@ -39,4 +39,8 @@ public class AccountService {
         }
         accountDao.addNewCookBook(user, cookBook);
     }
+
+    public void removeCookBook(String user, int cookBookId) {
+        accountDao.removeCookBook(user, cookBookId);
+    }
 }
