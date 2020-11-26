@@ -44,4 +44,9 @@ public class AccountController {
     public void saveRecipeForUser(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
         accountService.addRecipeToUser(user, cookBookId, recipeId);
     }
+
+    @GetMapping("checkRecipeSaved/{user}/{cookBookId}/{recipeId}")
+    public boolean checkRecipeSavedInCookBook(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
+        return accountService.checkRecipeSaved(user, cookBookId, recipeId);
+    }
 }

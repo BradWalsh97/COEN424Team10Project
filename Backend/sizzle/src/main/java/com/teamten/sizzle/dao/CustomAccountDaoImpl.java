@@ -31,8 +31,10 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         Query query = new Query();
         query.addCriteria(Criteria.where("username").is(user).and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId).and("recipeIds").elemMatch(Criteria.byExample(recipeId))));
         Update update = new Update();
-        update.pull("recipeIds",new Query().addCriteria(Criteria.byExample(recipeId)));
-
+        update.pull("recipeIds", new Query().addCriteria(Criteria.byExample(recipeId)));
+        FindAndModifyOptions options = FindAndModifyOptions.options();
+        options.returnNew(true);
+        mongoOperations.findAndModify(query, update, options, Account.class);
     }
 
     @Override
@@ -54,5 +56,15 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         FindAndModifyOptions options = FindAndModifyOptions.options();
         options.returnNew(true);
         mongoOperations.findAndModify(query, update, options, Account.class);
+    }
+
+    @Override
+    public boolean cookBookContainsRecipeWithId(String user, int cookBookId, int recipeId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(user)
+                .and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId))
+                .and("recipeIds").is(recipeId));
+        query.limit(1);
+        return mongoOperations.exists(query, Account.class);
     }
 }
