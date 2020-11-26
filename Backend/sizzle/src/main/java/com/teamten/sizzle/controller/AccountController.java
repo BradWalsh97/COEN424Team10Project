@@ -39,4 +39,9 @@ public class AccountController {
     public void deleteCookBook(@PathVariable String user, @PathVariable int cookBookId) {
         accountService.removeCookBook(user, cookBookId);
     }
+
+    @PostMapping("/saveRecipe/{user}/{cookBookId}/{recipeId}")
+    public void saveRecipeForUser(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
+        accountService.addRecipeToUser(user, cookBookId, recipeId);
+    }
 }
