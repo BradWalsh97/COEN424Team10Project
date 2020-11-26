@@ -1,11 +1,13 @@
 package com.teamten.sizzle.dao;
 
 import com.teamten.sizzle.model.CookBook;
-import com.teamten.sizzle.model.Recipe;
 
 public interface CustomAccountDao {
-    void addNewRecipeToUser(String user, int cookBookId,Recipe recipe);
-    void removeRecipeFromUserAccount();
+    void addNewRecipeToUser(String user, int cookBookId, int recipe);
+
+    void removeRecipeFromCookBook(String user, int cookBookId, int recipeId);
+
     void addNewCookBook(String user, CookBook cookBook);
+
     void removeCookBook(String user, int cookBookId);
 }

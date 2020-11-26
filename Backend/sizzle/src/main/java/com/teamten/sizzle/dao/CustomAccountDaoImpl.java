@@ -2,7 +2,6 @@ package com.teamten.sizzle.dao;
 
 import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
-import com.teamten.sizzle.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -19,17 +18,21 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
     }
 
     @Override
-    public void addNewRecipeToUser(String user, int cookBookId, Recipe recipe) {
+    public void addNewRecipeToUser(String user, int cookBookId, int recipe) {
         Query query = new org.springframework.data.mongodb.core.query.Query();
         query.addCriteria(Criteria.where("username").is(user).and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId)));
         Update update = new Update();
-        update.addToSet("recipeIds", recipe.getId());
+        update.addToSet("recipeIds", recipe);
         mongoOperations.findAndModify(query, update, Account.class);
     }
 
     @Override
-    public void removeRecipeFromUserAccount() {
-
+    public void removeRecipeFromCookBook(String user, int cookBookId, int recipeId) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(user).and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId).and("recipeIds").elemMatch(Criteria.byExample(recipeId))));
+        Update update = new Update();
+        update.pull("recipeIds",new Query().addCriteria(Criteria.byExample(recipeId)));
+        
     }
 
     @Override
