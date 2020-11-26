@@ -45,7 +45,8 @@ public class AccountService {
     }
 
     public void addRecipeToUser(String user, int cookBookId, int recipe) {
-        accountDao.addNewRecipeToUser(user, cookBookId, recipe);
+        if (!accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipe))
+            accountDao.addNewRecipeToUser(user, cookBookId, recipe);
     }
 
     public boolean checkRecipeSaved(String user, int cookBookId, int recipeId) {
