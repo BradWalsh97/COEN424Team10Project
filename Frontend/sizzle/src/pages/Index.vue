@@ -13,7 +13,10 @@
     <div class="column" style="height: 100%">
       <!-- <div> -->
       <div class="col-1" style="min-height: 150px">
-        <div class="column items-center text-h2 text-primary">
+        <div
+          class="row justify-center text-h3 text-primary"
+          style="padding-top: 1%"
+        >
           Recipes you might like
         </div>
         <div style="padding-top: 1%; padding-bottom: 1%">
@@ -21,11 +24,8 @@
         </div>
       </div>
 
-      <div class="col-9 column-grow">
-        <div
-          class="column items-center full-height"
-          style="width: 100%; height: 100%"
-        >
+      <div class="col-10">
+        <div class="column items-center" style="width: 100%; height: 100%">
           <q-carousel
             v-model="slide"
             vertical
@@ -39,7 +39,7 @@
             padding
             arrows
             class="bg-purple text-white shadow-1 rounded-borders"
-            style="width: 60%; height: 100%; min-height: 100%"
+            style="width: 60%; height: 100%"
           >
             <q-carousel-slide
               v-for="(recipe, index) in recipes"
@@ -47,7 +47,7 @@
               :name="index"
               :img-src="recipe.image"
               @click="test(index)"
-              style="min-height: 40em; overflow: auto"
+              :style="customHeight"
             />
           </q-carousel>
         </div>
@@ -115,6 +115,14 @@ export default {
       this.card = true;
     },
   },
+
+  computed: {
+    customHeight: function () {
+      let h = window.innerHeight * 0.5;
+      return { height: `${h}pt` };
+    },
+  },
+
   beforeMount() {
     this.getRecipes();
   },
