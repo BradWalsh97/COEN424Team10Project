@@ -29,9 +29,10 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
     @Override
     public void removeRecipeFromCookBook(String user, int cookBookId, int recipeId) {
         Query query = new Query();
-        query.addCriteria(Criteria.where("username").is(user).and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId).and("recipeIds").elemMatch(Criteria.byExample(recipeId))));
+        query.addCriteria(Criteria.where("username").is(user)
+                .and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId)).and("recipeIds").is(recipeId));
         Update update = new Update();
-        update.pull("recipeIds", new Query().addCriteria(Criteria.byExample(recipeId)));
+        update.pull("recipeIds", new Query().addCriteria(Criteria.where("recipeIds").is(recipeId)));
         FindAndModifyOptions options = FindAndModifyOptions.options();
         options.returnNew(true);
         mongoOperations.findAndModify(query, update, options, Account.class);

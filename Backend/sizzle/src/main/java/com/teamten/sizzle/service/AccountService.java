@@ -49,6 +49,12 @@ public class AccountService {
             accountDao.addNewRecipeToUser(user, cookBookId, recipe);
     }
 
+
+    public void removeRecipeFromCookBook(String user, int cookBookId, int recipeId) {
+        if (accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipeId))
+            accountDao.removeRecipeFromCookBook(user, cookBookId, recipeId);
+    }
+
     public boolean checkRecipeSaved(String user, int cookBookId, int recipeId) {
         return accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipeId);
     }

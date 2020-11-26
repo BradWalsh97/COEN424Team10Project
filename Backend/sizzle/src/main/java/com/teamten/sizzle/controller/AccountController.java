@@ -45,6 +45,11 @@ public class AccountController {
         accountService.addRecipeToUser(user, cookBookId, recipeId);
     }
 
+    @DeleteMapping("/removeRecipeFromCookBook/{user}/{cookBookId}/{recipeId}")
+    public void removeRecipeFromCookCook(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
+        accountService.removeRecipeFromCookBook(user, cookBookId, recipeId);
+    }
+
     @GetMapping("checkRecipeSaved/{user}/{cookBookId}/{recipeId}")
     public boolean checkRecipeSavedInCookBook(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
         return accountService.checkRecipeSaved(user, cookBookId, recipeId);
