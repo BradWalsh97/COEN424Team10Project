@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Field;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 
@@ -99,5 +100,13 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         query.limit(1);
         return mongoOperations.exists(query, Account.class);
 
+    }
+
+    @Override
+    public Account getCookBooksForUser(String user) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(user));
+        query.fields().include("cookBooks");
+        return mongoOperations.findOne(query, Account.class);
     }
 }

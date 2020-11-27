@@ -1,5 +1,6 @@
 package com.teamten.sizzle.dao;
 
+import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
 
 public interface CustomAccountDao {
@@ -18,4 +19,6 @@ public interface CustomAccountDao {
     void updateUserPassword(String user, String password);
 
     boolean userExistsWithUsername(String username);
+
+    Account getCookBooksForUser(String user);
 }

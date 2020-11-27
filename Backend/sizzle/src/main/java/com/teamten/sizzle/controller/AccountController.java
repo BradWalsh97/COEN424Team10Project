@@ -69,4 +69,9 @@ public class AccountController {
     public boolean checkUserExist(@PathVariable String user){
         return accountService.checkUserExist(user);
     }
+
+    @GetMapping("getCookBooksFor/{user}")
+    public Account getCookBooks(@PathVariable String user){
+        return accountService.getCookBooksForUser(user);
+    }
 }

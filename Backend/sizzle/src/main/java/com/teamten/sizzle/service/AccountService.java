@@ -17,20 +17,29 @@ public class AccountService {
     private PasswordEncoder passwordEncoder;
 
     public boolean addUser(Account account) {
+        if (accountDao.userExistsWithUsername(account.getUsername())) return false;
         account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountDao.save(account);
         return true;
     }
 
     public boolean authenticateUser(Account account) {
-        Account acc = accountDao.findAccountByUsername(account.getUsername());
-        return passwordEncoder.matches(account.getPassword(), acc.getPassword());
+        if (checkUserExist(account.getUsername())) {
+            Account acc = accountDao.findAccountByUsername(account.getUsername());
+            return passwordEncoder.matches(account.getPassword(), acc.getPassword());
+        } else {
+            return false;
+        }
     }
 
     public boolean deleteUser(Account account) {
-        account = accountDao.findAccountByUsername(account.getUsername());
-        accountDao.delete(account);
-        return true;
+        if (checkUserExist(account.getUsername())) {
+            account = accountDao.findAccountByUsername(account.getUsername());
+            accountDao.delete(account);
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public void addNewCookBook(String user, CookBook cookBook) {
@@ -47,21 +56,25 @@ public class AccountService {
     }
 
     public void removeCookBook(String user, int cookBookId) {
+        if (!accountDao.userExistsWithUsername(user)) return;
         accountDao.removeCookBook(user, cookBookId);
     }
 
     public void addRecipeToUser(String user, int cookBookId, int recipe) {
+        if (!accountDao.userExistsWithUsername(user)) return;
         if (!accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipe))
             accountDao.addNewRecipeToUser(user, cookBookId, recipe);
     }
 
 
     public void removeRecipeFromCookBook(String user, int cookBookId, int recipeId) {
+        if (!accountDao.userExistsWithUsername(user)) return;
         if (accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipeId))
             accountDao.removeRecipeFromCookBook(user, cookBookId, recipeId);
     }
 
     public boolean checkRecipeSaved(String user, int cookBookId, int recipeId) {
+        if (!accountDao.userExistsWithUsername(user)) return false;
         return accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipeId);
     }
 
@@ -75,7 +88,14 @@ public class AccountService {
             newPassword = passwordEncoder.encode(newPassword);
             accountDao.updateUserPassword(user, newPassword);
         }
+    }
 
+    public boolean checkUserExist(String user) {
+        return accountDao.userExistsWithUsername(user);
+    }
+
+    public Account getCookBooksForUser(String user){
+        return accountDao.getCookBooksForUser(user);
     }
 }
 

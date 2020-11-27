@@ -1,5 +1,6 @@
 package com.teamten.sizzle.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +17,9 @@ import java.util.List;
 @AllArgsConstructor
 public class Account {
 
+    @JsonIgnore
     private String email;
+    @JsonIgnore
     private String password;
     @Id
     private String username;
