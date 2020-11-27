@@ -19,10 +19,21 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
 
     @Override
     public void addNewRecipeToUser(String user, int cookBookId, int recipe) {
+        System.out.println("Adding recipe to cookbook now");
         Query query = new org.springframework.data.mongodb.core.query.Query();
         query.addCriteria(Criteria.where("username").is(user).and("cookBooks").elemMatch(Criteria.where("id").is(cookBookId)));
         Update update = new Update();
-        update.addToSet("recipeIds", recipe);
+        update.addToSet("cookBooks.$.recipeIds", recipe);
+        mongoOperations.findAndModify(query, update, Account.class);
+    }
+
+
+    @Override
+    public void addNewCookBook(String user, CookBook cookBook) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(user));
+        Update update = new Update();
+        update.addToSet("cookBooks", cookBook);
         mongoOperations.findAndModify(query, update, Account.class);
     }
 
