@@ -54,4 +54,9 @@ public class AccountController {
     public boolean checkRecipeSavedInCookBook(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
         return accountService.checkRecipeSaved(user, cookBookId, recipeId);
     }
+
+    @PostMapping("updatePassword/{user}/{currentPassword}/{newPassword}")
+    public void updatePasswordForUser(@PathVariable String user, @PathVariable String currentPassword, @PathVariable String newPassword) {
+        accountService.updateUserPassword(user, currentPassword, newPassword);
+    }
 }

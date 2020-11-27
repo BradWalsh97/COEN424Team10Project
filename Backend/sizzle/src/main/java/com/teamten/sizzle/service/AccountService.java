@@ -4,6 +4,7 @@ import com.teamten.sizzle.dao.AccountDao;
 import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,16 +12,19 @@ import java.util.List;
 @Service
 public class AccountService {
     @Autowired
-    AccountDao accountDao;
+    private AccountDao accountDao;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public boolean addUser(Account account) {
+        account.setPassword(passwordEncoder.encode(account.getPassword()));
         accountDao.save(account);
         return true;
     }
 
     public boolean authenticateUser(Account account) {
         Account acc = accountDao.findAccountByUsername(account.getUsername());
-        return acc.getPassword().equals(account.getPassword());
+        return passwordEncoder.matches(acc.getPassword(), passwordEncoder.encode(account.getPassword()));
     }
 
     public boolean deleteUser(Account account) {
@@ -65,7 +69,14 @@ public class AccountService {
         accountDao.updateUserEmail(user, newEmail);
     }
 
-    public void updateUserPassword(String user, String newPassword) {
-        accountDao.updateUserPassword(user, newPassword);
+    public void updateUserPassword(String user, String currentPassword, String newPassword) {
+        Account account = accountDao.findAccountByUsername(user);
+        if (passwordEncoder.matches(currentPassword, account.getPassword())) {
+            newPassword = passwordEncoder.encode(newPassword);
+            accountDao.updateUserPassword(user, newPassword);
+        }
+
     }
 }
+
+

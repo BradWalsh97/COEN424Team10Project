@@ -85,6 +85,10 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
 
     @Override
     public void updateUserPassword(String user, String password) {
-
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(user));
+        Update update = new Update();
+        update.set("password", password);
+        mongoOperations.findAndModify(query, update, Account.class);
     }
 }
