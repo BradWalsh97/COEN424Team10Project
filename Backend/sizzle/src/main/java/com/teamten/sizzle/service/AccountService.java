@@ -24,12 +24,14 @@ public class AccountService {
     }
 
     public boolean deleteUser(Account account) {
+        account = accountDao.findAccountByUsername(account.getUsername());
         accountDao.delete(account);
         return true;
     }
 
     public void addNewCookBook(String user, CookBook cookBook) {
         Account account = accountDao.findAccountByUsername(user);
+        cookBook.setRecipeIds(new int[0]);
         List<CookBook> cookBookList = account.getCookBooks();
         if (cookBookList == null || cookBookList.size() == 0) {
             cookBook.setId(0);
@@ -57,5 +59,13 @@ public class AccountService {
 
     public boolean checkRecipeSaved(String user, int cookBookId, int recipeId) {
         return accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipeId);
+    }
+
+    public void updateUserEmail(String user, String newEmail) {
+        accountDao.updateUserEmail(user, newEmail);
+    }
+
+    public void updateUserPassword(String user, String newPassword) {
+        accountDao.updateUserPassword(user, newPassword);
     }
 }

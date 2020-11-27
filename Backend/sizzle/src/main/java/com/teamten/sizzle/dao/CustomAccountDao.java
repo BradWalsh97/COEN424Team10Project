@@ -12,4 +12,8 @@ public interface CustomAccountDao {
     void removeCookBook(String user, int cookBookId);
 
     boolean cookBookContainsRecipeWithId(String user, int cookBookId, int recipeId);
+
+    void updateUserEmail(String user, String email);
+
+    void updateUserPassword(String user, String password);
 }
