@@ -38,6 +38,8 @@
 
 <script>
 import Axios from "axios";
+const urlSchema = require("../SizzleUrls").default;
+
 export default {
   name: "Register",
   data() {
@@ -55,7 +57,7 @@ export default {
       this.$router.push("/register");
     },
     login() {
-      Axios.post(this.baseUrl, this.account)
+      Axios.post(urlSchema.profileUrl, this.account)
         .then((res) => this.checkResult(res.data))
         .catch((err) => console.log("Login", err));
     },

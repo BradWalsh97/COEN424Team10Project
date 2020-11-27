@@ -42,19 +42,18 @@
 
 <script>
 import Axios from "axios";
-
+const urlSchema = require("../SizzleUrls").default;
 export default {
   name: "Register",
   data() {
     return {
-      baseUrl: "http://localhost:8181/",
       account: { email: "", username: "", password: "" },
       isPwd: true,
     };
   },
   methods: {
     signUp() {
-      Axios.put(this.baseUrl + "profile/new", this.account)
+      Axios.put(`${urlSchema.profileUrl}new`, this.account)
         .then((res) => {
           this.$router.push("/");
         })

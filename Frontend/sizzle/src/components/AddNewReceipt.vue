@@ -110,6 +110,8 @@
 </template>
 
 <script>
+const urlSchema = require("../SizzleUrls").default;
+
 export default {
   name: "AddNewRecipe",
   data() {
@@ -130,7 +132,7 @@ export default {
         return "bg-white";
       }
     },
-
+    methods: {},
     // watch: {
     // 	this.$q.dark.isActive() :
     // },

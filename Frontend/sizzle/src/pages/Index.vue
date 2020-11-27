@@ -83,6 +83,7 @@
 import Axios from "axios";
 import AddNewRecipe from "../components/AddNewReceipt";
 import SeeRecipe from "../components/SeeRecipe";
+const urlSchema = require("../SizzleUrls").default;
 
 export default {
   name: "PageIndex",
@@ -92,7 +93,6 @@ export default {
   },
   data() {
     return {
-      baseUrl: "http://localhost:8181/api/recipes/get",
       recipes: {},
       slide: 0,
       card: false,
@@ -102,7 +102,7 @@ export default {
   },
   methods: {
     getRecipes() {
-      Axios.get(this.baseUrl)
+      Axios.get(`${urlSchema.recipeUrl}get`)
         .then((res) => {
           this.recipes = res.data;
           console.log("res.data", res.data);

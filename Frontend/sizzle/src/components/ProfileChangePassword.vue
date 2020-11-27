@@ -63,11 +63,12 @@
 
 <script>
 import Axios from "axios";
+const urlSchema = require("../SizzleUrls").default;
+
 export default {
   name: "ProfileChangePassword",
   data() {
     return {
-      baseUrl: "http://localhost:8181/profile/",
       isCurrentPwd: true,
       isNewPwd: true,
       isConfirmNewPwd: true,

@@ -31,12 +31,13 @@
 
 <script>
 import Axios from "axios";
+const urlSchema = require("../SizzleUrls").default;
+
 export default {
   name: "ProfileDeleteAccount",
   data() {
     return {
       understand: false,
-      baseUrl: "http://localhost:8181/profile",
     };
   },
   methods: {

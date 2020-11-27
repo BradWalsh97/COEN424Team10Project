@@ -35,6 +35,8 @@
 </template>
 
 <script>
+const urlSchema = require("../SizzleUrls").default;
+
 export default {
   name: "SeeRecipe",
   // data() {},

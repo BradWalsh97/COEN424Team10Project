@@ -26,6 +26,8 @@
 
 <script>
 import Axios from "axios";
+const urlSchema = require("../SizzleUrls").default;
+
 export default {
   name: "ProfileChangeEmail",
   data() {
@@ -35,7 +37,10 @@ export default {
     };
   },
   methods: {
-    changeEmail() {},
+    changeEmail() {
+      //TODO Fix this url
+      Axios.post(`${urlSchema.profileUrl}changeEmail/${this.newEmail}`);
+    },
   },
 };
 </script>
