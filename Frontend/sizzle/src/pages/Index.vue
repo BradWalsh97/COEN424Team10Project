@@ -95,6 +95,7 @@ export default {
     return {
       recipes: {},
       slide: 0,
+      user: "",
       card: false,
       layout: false,
       chosenRecipe: {},
@@ -124,7 +125,14 @@ export default {
   },
 
   beforeMount() {
-    this.getRecipes();
+    console.log("Before mount index");
+    console.log("vuex", this.$store.getters["example/isAuthenticated"]);
+    if (!this.$store.getters["example/isAuthenticated"]) {
+      this.$router.push("/login");
+    } else {
+      this.getRecipes();
+      this.user = this.$store.getters["example/isAuthenticated"];
+    }
   },
 };
 </script>

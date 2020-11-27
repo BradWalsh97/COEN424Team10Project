@@ -26,7 +26,7 @@
 
       <div style="padding-top: 5%" class="row justify-between">
         <div>
-          <q-btn label="Login" outline color="primary" />
+          <q-btn label="Login" outline color="primary" @click="login()" />
         </div>
         <div>
           <q-btn label="Sign Up" color="primary" @click="signUp()" flat />
@@ -57,14 +57,22 @@ export default {
       this.$router.push("/register");
     },
     login() {
-      Axios.post(urlSchema.profileUrl, this.account)
+      Axios.post(`${urlSchema.profileUrl}authenticate`, this.account)
         .then((res) => this.checkResult(res.data))
         .catch((err) => console.log("Login", err));
     },
     checkResult(result) {
       if (result) {
+        console.log("checking result", result);
+        console.log("store", this.$store);
+        this.$store.commit("example/LOGGED_IN", this.account.username);
+        this.$router.push("/");
       }
     },
+  },
+  beforeMount() {
+    console.log("Before mount login");
+    console.log("vuex", this.$store.isAuthenticated);
   },
 };
 </script>
