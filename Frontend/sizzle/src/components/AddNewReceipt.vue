@@ -101,7 +101,27 @@
           </q-file>
         </div>
 
-        <div class="q-pa-md q-gutter-sm" style="padding-top: 1%">
+        <div class="q-pa-md">
+          <q-select
+            outlined
+            v-model="cookbook"
+            :options="cookBooks"
+            label="Cookbook"
+          />
+        </div>
+
+        <div class="q-pa-md" style="">
+          <!-- <div class="q-gutter-sm"> -->
+          <div>
+            Your recipe's privacy:
+
+            <!-- </div> -->
+            <q-radio v-model="recipe.isPublic" :val="true" label="Public" />
+            <q-radio v-model="recipe.isPublic" :val="false" label="Private" />
+          </div>
+        </div>
+
+        <div class="q-pa-md q-gutter-sm" style="padding-top: 2%">
           <q-btn label="Save" outline color="primary" />
         </div>
       </q-page>
@@ -110,6 +130,7 @@
 </template>
 
 <script>
+import Axios from "axios";
 const urlSchema = require("../SizzleUrls").default;
 
 export default {
