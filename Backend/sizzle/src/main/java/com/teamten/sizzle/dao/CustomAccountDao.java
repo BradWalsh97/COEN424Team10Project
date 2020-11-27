@@ -16,4 +16,6 @@ public interface CustomAccountDao {
     void updateUserEmail(String user, String email);
 
     void updateUserPassword(String user, String password);
+
+    boolean userExistsWithUsername(String username);
 }

@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin
+@CrossOrigin("*")
 @RequestMapping("/profile")
 public class AccountController {
 
@@ -63,5 +63,10 @@ public class AccountController {
     @PostMapping("updateEmail/{user}/{email}")
     public void updateEmailForUser(@PathVariable String user, @PathVariable String email) {
         accountService.updateUserEmail(user, email);
+    }
+
+    @GetMapping("checkUser/{user}")
+    public boolean checkUserExist(@PathVariable String user){
+        return accountService.checkUserExist(user);
     }
 }

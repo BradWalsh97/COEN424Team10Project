@@ -91,4 +91,13 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         update.set("password", password);
         mongoOperations.findAndModify(query, update, Account.class);
     }
+
+    @Override
+    public boolean userExistsWithUsername(String username) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("username").is(username));
+        query.limit(1);
+        return mongoOperations.exists(query, Account.class);
+
+    }
 }
