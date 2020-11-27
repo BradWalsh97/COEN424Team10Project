@@ -53,6 +53,7 @@ import Axios from "axios";
 import ProfileChangeEmail from "../components/ProfileChangeName";
 import ProfileChangePassword from "../components/ProfileChangePassword";
 import ProfileDeleteAccount from "../components/ProfileDeleteAccount";
+const urlSchema = require("../SizzleUrls").default;
 
 export default {
   name: "Profile",
@@ -63,7 +64,6 @@ export default {
   },
   data() {
     return {
-      baseUrl: "http://localhost:8181/profile/",
       innerTab: "name",
       splitterModel: 20,
     };
