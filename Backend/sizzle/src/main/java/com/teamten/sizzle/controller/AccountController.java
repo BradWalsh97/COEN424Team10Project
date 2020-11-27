@@ -59,4 +59,9 @@ public class AccountController {
     public void updatePasswordForUser(@PathVariable String user, @PathVariable String currentPassword, @PathVariable String newPassword) {
         accountService.updateUserPassword(user, currentPassword, newPassword);
     }
+
+    @PostMapping("updateEmail/{user}/{email}")
+    public void updateEmailForUser(@PathVariable String user, @PathVariable String email) {
+        accountService.updateUserEmail(user, email);
+    }
 }

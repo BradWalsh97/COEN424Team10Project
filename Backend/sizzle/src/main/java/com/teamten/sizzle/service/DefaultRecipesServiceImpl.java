@@ -1,5 +1,6 @@
 package com.teamten.sizzle.service;
 
+import com.teamten.sizzle.dao.AccountDao;
 import com.teamten.sizzle.dao.RecipeDao;
 import com.teamten.sizzle.facade.RecipesFacade;
 import com.teamten.sizzle.model.Recipe;
@@ -16,6 +17,10 @@ public class DefaultRecipesServiceImpl implements RecipesService {
     private RecipesFacade recipesFacade;
     @Autowired
     private RecipeDao recipeDao;
+
+    @Autowired
+    private AccountDao accountDao;
+
     private int latestRecipeId = -1;
 
     public ArrayList<Recipe> getRecipes(Integer amount) {
@@ -43,10 +48,10 @@ public class DefaultRecipesServiceImpl implements RecipesService {
         return ++latestRecipeId;
     }
 
-    public void addNewRecipe(String username, Recipe recipe){
+    public void addNewRecipe(String username, int cookBookId, Recipe recipe) {
         recipe.setId(getNextRecipeIndex());
         recipeDao.save(recipe);
-
+        accountDao.addNewRecipeToUser(username, cookBookId, recipe.getId());
     }
 
 }
