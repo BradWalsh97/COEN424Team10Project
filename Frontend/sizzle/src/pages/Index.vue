@@ -74,7 +74,7 @@
     </q-dialog>
 
     <q-dialog v-model="card">
-      <SeeRecipe v-bind:recipe="chosenRecipe" />
+      <SeeRecipe :recipe="chosenRecipe" :user="user" />
     </q-dialog>
   </q-page>
 </template>
@@ -126,12 +126,11 @@ export default {
 
   beforeMount() {
     console.log("Before mount index");
-    console.log("vuex", this.$store.getters["example/isAuthenticated"]);
     if (!this.$store.getters["example/isAuthenticated"]) {
       this.$router.push("/login");
     } else {
       this.getRecipes();
-      this.user = this.$store.getters["example/isAuthenticated"];
+      this.user = this.$store.getters["example/getUser"];
     }
   },
 };

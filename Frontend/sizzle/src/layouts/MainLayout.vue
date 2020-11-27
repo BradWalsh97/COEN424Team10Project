@@ -22,7 +22,7 @@
           </div>
 
           <div class="column justify-center">
-            <q-btn-dropdown label="Admin" flat color="primary">
+            <q-btn-dropdown :label="user" flat color="primary">
               <q-list anchor="bottom right" self="top right">
                 <q-item clickable>
                   <q-item-section @click="goToAccountSettings"
@@ -73,6 +73,7 @@ export default {
   data() {
     return {
       tab: "home",
+      user: "",
     };
   },
   methods: {
@@ -83,8 +84,14 @@ export default {
       this.$router.push("/profile");
     },
     logOut() {
+      this.$store.commit("example/LOGGED_OUT");
       this.$router.push("/login");
     },
+  },
+  beforeMount() {
+    if (this.$store.getters["example/isAuthenticated"]) {
+      this.user = this.$store.getters["example/getUser"];
+    }
   },
   computed: {
     headerBackground: function () {

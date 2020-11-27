@@ -73,6 +73,12 @@ export default {
       right: true,
     };
   },
+  beforeMount() {
+    console.log("Before mount CookBook");
+    if (!this.$store.getters["example/isAuthenticated"]) {
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
 

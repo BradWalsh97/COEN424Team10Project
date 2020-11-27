@@ -8,7 +8,7 @@
               <q-toolbar-title class="text-h4"> Sizzle </q-toolbar-title>
             </div>
             <div>
-              <q-btn label="Log out" flat color="primary" />
+              <q-btn label="Log out" flat color="primary" @click="logOut()" />
             </div>
           </div>
         </q-toolbar>
@@ -33,6 +33,10 @@ export default {
   methods: {
     reach(path) {
       if (this.$router.currentRoute.fullPath !== path) this.$router.push(path);
+    },
+    logOut() {
+      this.$store.commit("example/LOGGED_OUT");
+      this.$router.push("/");
     },
   },
 };

@@ -34,6 +34,7 @@ export default {
     return {
       currentEmail: "",
       newEmail: "",
+      user: "",
     };
   },
   methods: {
@@ -41,6 +42,9 @@ export default {
       //TODO Fix this url
       Axios.post(`${urlSchema.profileUrl}changeEmail/${this.newEmail}`);
     },
+  },
+  mounted() {
+    this.user = this.$store.getters["example/getUser"];
   },
 };
 </script>

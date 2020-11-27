@@ -72,7 +72,6 @@ export default {
   },
   beforeMount() {
     console.log("Before mount login");
-    console.log("vuex", this.$store.isAuthenticated);
   },
 };
 </script>

@@ -56,6 +56,7 @@ export default {
       Axios.put(`${urlSchema.profileUrl}new`, this.account)
         .then((res) => {
           this.$router.push("/");
+          this.$store.commit("example/LOGGED_IN", this.account.username);
         })
         .catch((err) => console.log("Register", err));
     },

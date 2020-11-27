@@ -121,7 +121,11 @@ export default {
         summary: "",
         instructions: "",
         image: null,
+        isPublic: true,
       },
+      user: "",
+      cookBook: -1,
+      cookBooks: {},
     };
   },
   computed: {
@@ -132,11 +136,16 @@ export default {
         return "bg-white";
       }
     },
-    methods: {},
-    // watch: {
-    // 	this.$q.dark.isActive() :
-    // },
   },
+  methods: {
+    addNewRecipe: function () {},
+  },
+  mounted() {
+    this.user = this.$store.getters["example/getUser"];
+  },
+  // watch: {
+  // 	this.$q.dark.isActive() :
+  // },
 };
 </script>
 

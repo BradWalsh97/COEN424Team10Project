@@ -75,11 +75,16 @@ export default {
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
+      user: "",
     };
   },
   methods: {
     checkNewPasswords() {},
     changePassword() {},
+  },
+
+  mounted() {
+    this.user = this.$store.getters["example/getUser"];
   },
 };
 </script>

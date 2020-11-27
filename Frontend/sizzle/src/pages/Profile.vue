@@ -73,6 +73,12 @@ export default {
       this.$router.push("/");
     },
   },
+  beforeMount() {
+    console.log("Before mount Profile");
+    if (!this.$store.getters["example/isAuthenticated"]) {
+      this.$router.push("/login");
+    }
+  },
 };
 </script>
 

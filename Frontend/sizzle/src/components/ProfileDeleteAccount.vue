@@ -38,10 +38,14 @@ export default {
   data() {
     return {
       understand: false,
+      user: "",
     };
   },
   methods: {
     deleteProfile() {},
+  },
+  mounted() {
+    this.user = this.$store.getters["example/getUser"];
   },
 };
 </script>
