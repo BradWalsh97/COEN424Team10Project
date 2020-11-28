@@ -1,5 +1,6 @@
 package com.teamten.sizzle.service;
 
+import com.teamten.sizzle.dao.AccountDao;
 import com.teamten.sizzle.dao.RecipeDao;
 import com.teamten.sizzle.facade.RecipesFacade;
 import com.teamten.sizzle.model.Recipe;
@@ -17,6 +18,11 @@ public class DefaultRecipesServiceImpl implements RecipesService {
     @Autowired
     private RecipeDao recipeDao;
 
+    @Autowired
+    private AccountDao accountDao;
+
+    private int latestRecipeId = -1;
+
     public ArrayList<Recipe> getRecipes(Integer amount) {
         return recipesFacade.getRecipesByIngredients(amount);
     }
@@ -24,14 +30,28 @@ public class DefaultRecipesServiceImpl implements RecipesService {
     public void storeABunchOfRecipesInDb() {
         ArrayList<Recipe> recipes = recipesFacade.getRecipesByIngredients(10);
         Recipe recipe;
-        for (int i = 0; i <= recipes.toArray().length; i++) {
+        for (int i = 0; i < recipes.toArray().length; i++) {
             recipe = recipes.get(i);
             recipe.setId(i + 1);
             recipeDao.save(recipe);
         }
     }
 
-    public List<Recipe> getAllSavedRecipes(){
+    public List<Recipe> getAllSavedRecipes() {
         return recipeDao.findAll();
     }
+
+    public int getNextRecipeIndex() {
+        if (latestRecipeId == -1) {
+            latestRecipeId = recipeDao.findIds().get(0).getId();
+        }
+        return ++latestRecipeId;
+    }
+
+    public void addNewRecipe(String username, int cookBookId, Recipe recipe) {
+        recipe.setId(getNextRecipeIndex());
+        recipeDao.save(recipe);
+        accountDao.addNewRecipeToUser(username, cookBookId, recipe.getId());
+    }
+
 }

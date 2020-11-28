@@ -9,6 +9,7 @@ public class Recipe {
     private String image;
     @Id
     private int id;
+    private boolean isPublic;
 
     public Recipe(String title, String summary, String instructions, String image) {
         this.title = title;
@@ -65,5 +66,13 @@ public class Recipe {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean isPublic() {
+        return isPublic;
+    }
+
+    public void setPublic(boolean aPublic) {
+        isPublic = aPublic;
     }
 }

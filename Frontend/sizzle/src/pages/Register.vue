@@ -4,7 +4,7 @@
       <!-- The inputs -->
       <h3>Register your new Sizzle account</h3>
       <div>
-        <q-input outlined v-model="account.name" label="Name" />
+        <q-input outlined v-model="account.email" label="Email" />
       </div>
 
       <div style="padding-top: 5%">
@@ -33,7 +33,7 @@
         </div>
 
         <div>
-          <q-btn label="Sign Up" color="primary" outline />
+          <q-btn label="Sign Up" color="primary" outline @click="signUp()" />
         </div>
       </div>
     </div>
@@ -42,21 +42,21 @@
 
 <script>
 import Axios from "axios";
-
+const urlSchema = require("../SizzleUrls").default;
 export default {
   name: "Register",
   data() {
     return {
-      baseUrl: "http://localhost:8181/",
-      account: { name: "", username: "", password: "" },
+      account: { email: "", username: "", password: "" },
       isPwd: true,
     };
   },
   methods: {
     signUp() {
-      Axios.put(this.baseUrl + "profile/new", this.account)
+      Axios.put(`${urlSchema.profileUrl}new`, this.account)
         .then((res) => {
           this.$router.push("/");
+          this.$store.commit("example/LOGGED_IN", this.account.username);
         })
         .catch((err) => console.log("Register", err));
     },

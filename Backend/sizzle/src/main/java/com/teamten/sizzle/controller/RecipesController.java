@@ -35,4 +35,15 @@ public class RecipesController {
         return recipesService.getAllSavedRecipes();
     }
 
+
+    @GetMapping("/getIndex")
+    public int getBigRecipeIndex() {
+        return recipesService.getNextRecipeIndex();
+    }
+
+    @PostMapping("/newRecipe/{user}/{cookBook}")
+    public void addNewRecipe(@PathVariable String user, @PathVariable int cookBook, @RequestBody Recipe newRecipe) {
+
+    }
+
 }

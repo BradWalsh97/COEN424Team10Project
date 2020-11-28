@@ -42,3 +42,5 @@ hs_err_pid*
 .env
 
 Frontend/sizzle/.nova/
+
+*.Backend/sizzle/target/

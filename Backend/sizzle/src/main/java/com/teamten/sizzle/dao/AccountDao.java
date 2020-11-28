@@ -5,7 +5,10 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AccountDao extends MongoRepository<Account, String> {
+public interface AccountDao extends MongoRepository<Account, String>, CustomAccountDao {
+    Account findAccountByUsername(String username);
 
-    public Account findAccountByUsername(String username);
+//    public default void addRecipeToAccount(String username, int recipeId){
+
+
 }
