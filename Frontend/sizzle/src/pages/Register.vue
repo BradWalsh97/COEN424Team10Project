@@ -61,7 +61,7 @@ export default {
         .catch((err) => console.log("Register", err));
     },
     cancel() {
-      this.$router.push("/login");
+      this.$router.push("/");
     },
   },
 };
