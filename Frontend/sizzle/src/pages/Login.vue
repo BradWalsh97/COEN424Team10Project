@@ -62,14 +62,13 @@ export default {
       Axios.post(`${urlSchema.profileUrl}authenticate`, this.account)
         .then((res) => this.checkResult(res.data))
         .catch((err) => console.log("Login", err));
-      this.$router.push("/home");
     },
     checkResult(result) {
       if (result) {
         console.log("checking result", result);
         console.log("store", this.$store);
         this.$store.commit("example/LOGGED_IN", this.account.username);
-        this.$router.push("/");
+        this.$router.push("/home");
       }
     },
   },
