@@ -2,6 +2,7 @@ package com.teamten.sizzle.controller;
 
 import com.teamten.sizzle.model.Recipe;
 import com.teamten.sizzle.service.DefaultRecipesServiceImpl;
+import com.teamten.sizzle.service.RecipesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,7 +16,7 @@ import java.util.List;
 public class RecipesController {
 
     @Autowired
-    private DefaultRecipesServiceImpl recipesService;
+    private RecipesService recipesService;
 
     @GetMapping("random/{amount}")
     public ResponseEntity<ArrayList<Recipe>> getRecipes(@PathVariable Integer amount) {
@@ -43,7 +44,6 @@ public class RecipesController {
 
     @PostMapping("/newRecipe/{user}/{cookBook}")
     public void addNewRecipe(@PathVariable String user, @PathVariable int cookBook, @RequestBody Recipe newRecipe) {
-
     }
 
 }
