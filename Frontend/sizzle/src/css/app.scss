@@ -1,1 +1,11 @@
 // app global css in SCSS form
+.q-header, .q-tab-panels {
+    background-color: transparent !important;
+}
+
+// .q-layout {
+//     z-index: -1;
+//     background-image: url(~@/src/assets/cookbooks-img.jpg);
+//     background-repeat: no-repeat;
+//     background-size: contain;
+// }

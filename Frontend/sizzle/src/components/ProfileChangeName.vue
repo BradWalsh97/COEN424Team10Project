@@ -1,5 +1,5 @@
 <template>
-  <div style="width: 50%">
+  <div style="width: 50%" class="text-primary">
     <div>First enter your current email.</div>
     <div style="padding-top: 1%">
       <q-input

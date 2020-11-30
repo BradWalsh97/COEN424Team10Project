@@ -1,38 +1,31 @@
 <template>
-  <q-page-container style="padding-right: 0 !important">
+  <div style="padding-right: 0 !important">
     <q-drawer
       show-if-above
       v-model="right"
-      side="right"
+      overlay
+      side="left"
       behavior="desktop"
       class="cookbook-drawer"
     >
       <div class="text-h5 text-capitalize cookbook-header">
-        Your cookbooks
-        <q-btn class="cookbook-add" flat round icon="add"> </q-btn>
+        Your cookbooks <q-btn class="cookbook-add" flat round icon="add" @click="showAddCookbook = true"></q-btn>
       </div>
       <q-scroll-area style="height: calc(100% - 50px); margin-top: 50px">
-        <q-list style="padding: 0 1rem">
-          <q-card
-            v-for="index in (0, 10)"
-            :key="index"
-            class="my-card text-white"
-            style="
-              background: radial-gradient(circle, #35a2ff 0%, #014a88 100%);
-              margin: 0.8rem 0;
-            "
-          >
-            <q-card-section>
-              <div class="text-h6">Our Changing Planet</div>
-              <div class="text-subtitle2">by John Doe</div>
-            </q-card-section>
-          </q-card>
-        </q-list>
+         <q-tabs
+            :value="selectedCookbookTab"
+            vertical
+            align="right"
+            inline-label
+            class="text-primary">
+            <q-tab :key="cookbook.id" v-for="cookbook in userCookbooks" 
+              icon="book" :name="`cookbook${cookbook.id}`" :label="cookbook.name" @click="selectedCookbook = cookbook"></q-tab>
+          </q-tabs>
       </q-scroll-area>
     </q-drawer>
 
     <div class="col-1 q-pb-md">
-      <div class="column items-center text-h2">"Current Cookbook Name"</div>
+      <div class="column items-center text-h2">{{selectedCookbook ? selectedCookbook.name : 'Add Cookbook to Start'}}</div>
     </div>
 
     <div class="column items-center" style="height: 500pt; width: 100%">
@@ -62,15 +55,24 @@
 
             </q-carousel> -->
     </div>
-  </q-page-container>
+
+    <AddCookBook v-model="showAddCookbook"/>
+    
+  </div>
 </template>
 
 <script>
+import AddCookBook from '../components/AddCookBook';
+import Axios from 'axios';
 const urlSchema = require("../SizzleUrls").default;
 export default {
+  components: { AddCookBook },
   data() {
     return {
+      selectedCookbook: null,
       right: true,
+      showAddCookbook: false,
+      userCookbooks: []
     };
   },
   beforeMount() {
@@ -79,6 +81,25 @@ export default {
       this.$router.push("/login");
     }
   },
+  activated() {
+    this.getCookbooks().then(_ => {
+      if (this.userCookbooks.length > 0)
+        this.selectedCookbook = this.userCookbooks[0];
+    });
+  },
+  computed: {
+    selectedCookbookTab() {
+      if (this.selectedCookbook)
+        return `cookbook${this.selectedCookbook.id}`;
+      return null;
+    }
+  },
+  methods: {
+    getCookbooks() {
+      return Axios.get(`${urlSchema.profileUrl}getCookBooksFor/${this.$store.getters["example/getUser"]}`)
+      .then(res => this.userCookbooks = res.data.cookBooks);
+    },
+  }
 };
 </script>
 
@@ -92,14 +113,18 @@ export default {
 }
 
 .cookbook-drawer {
+
   .q-drawer {
-    background-color: rgba(255, 224, 188, 0.5);
+    background-color: rgba(197, 135, 64, 0.5);
     backdrop-filter: blur(5px);
+    margin-top: -50px;
+    padding-top: 50px;
+    z-index: 0;
   }
 
   .cookbook-header {
     position: absolute;
-    top: 0;
+    top: 50px;
     left: 0;
     right: 0;
     padding: 0 1rem;

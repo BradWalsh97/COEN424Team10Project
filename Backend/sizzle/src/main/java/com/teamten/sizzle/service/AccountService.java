@@ -42,7 +42,7 @@ public class AccountService {
         }
     }
 
-    public void addNewCookBook(String user, CookBook cookBook) {
+    public CookBook addNewCookBook(String user, CookBook cookBook) {
         Account account = accountDao.findAccountByUsername(user);
         cookBook.setRecipeIds(new int[0]);
         List<CookBook> cookBookList = account.getCookBooks();
@@ -53,6 +53,7 @@ public class AccountService {
             cookBook.setId(cookBookList.get(0).getId() + 1);
         }
         accountDao.addNewCookBook(user, cookBook);
+        return cookBook;
     }
 
     public void removeCookBook(String user, int cookBookId) {
