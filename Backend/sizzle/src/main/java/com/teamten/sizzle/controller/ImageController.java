@@ -8,15 +8,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 
-@RestController("image/")
+@RestController("/image")
 public class ImageController {
 
     @Autowired
     private ImageService imageService;
 
     @PostMapping("/analyse")
-    public void analyseImage(@RequestPart(value = "file") final MultipartFile file) {
-        imageService.analyse(file);
+    public String analyseImage(@RequestPart(value = "file") final MultipartFile file) {
+        return imageService.analyse(file);
     }
 
 }
