@@ -10,6 +10,7 @@ import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 
@@ -24,7 +25,7 @@ public class ImageService {
             "https://upload.wikimedia.org/wikipedia/commons/" +
                     "1/12/Broadway_and_Times_Square_by_night.jpg"; //TODO: Get that image
 
-    public void analyse() {
+    public void analyse(final MultipartFile image) {
         // **********************************************
         // *** Update or verify the following values. ***
         // **********************************************
@@ -68,5 +69,9 @@ public class ImageService {
             // Display error message.
             System.out.println(e.getMessage());
         }
+    }
+
+    public void extractResult(){
+
     }
 }
