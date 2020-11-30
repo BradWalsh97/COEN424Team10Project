@@ -1,29 +1,37 @@
 package com.teamten.sizzle.service;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.reflect.TypeToken;
+import com.teamten.sizzle.model.Tag;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.FileEntity;
-import org.apache.http.entity.StringEntity;
-import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.bson.types.Binary;
-import org.json.JSONObject;
-import org.springframework.http.RequestEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ImageService {
 
-    String jsonString ="Did not get anything";
-    JSONObject json = null;
+    String[] namesToFilter = {"recipe", "plate", "dish", "meat", "meal", "white", "black", "red", "yellow",
+            "table", "food", "sauce", "topped", "hot", "sitting", "side", "filled", "covered", "fast food",
+            "indoor"};
+    String jsonString = "Did not get anything";
+    //JSONObject json = null;
+    JsonObject json = null;
     private String subscriptionKey = "c239da7f647f418288b7cd97cf05656c";
     private String endpoint = "https://sizzlecomputervision.cognitiveservices.azure.com/";
     //private String subscriptionKey = System.getenv("COMPUTER_VISION_SUBSCRIPTION_KEY"); //TODO: put our key
@@ -34,7 +42,8 @@ public class ImageService {
             "https://upload.wikimedia.org/wikipedia/commons/" +
                     "1/12/Broadway_and_Times_Square_by_night.jpg"; //TODO: Get that image
 
-    public String analyse(final MultipartFile image) {
+    //public String analyse(final MultipartFile image) {
+    public List<Tag> analyse(final File image) {
 
         // **********************************************
         // *** Update or verify the following values. ***
@@ -60,10 +69,11 @@ public class ImageService {
             request.setHeader("Ocp-Apim-Subscription-Key", subscriptionKey);
 
             // Request body.
-            File tmpFile = new File("image.tmp");
-            image.transferTo(tmpFile);
+            //File tmpFile = new File("image.tmp");
+            // image.transferTo(tmpFile);
 
-            request.setEntity(new FileEntity(tmpFile));
+            //request.setEntity(new FileEntity(tmpFile));
+            request.setEntity(new FileEntity(image));
 //            HttpEntity imageToProcess = MultipartEntityBuilder.create().addPart("")
 //            StringEntity requestEntity =
 //                    MultipartEntityBuilder.create().addPart();
@@ -76,18 +86,42 @@ public class ImageService {
             if (entity != null) {
                 // Format and display the JSON response.
                 jsonString = EntityUtils.toString(entity);
-                json = new JSONObject(jsonString);
-                System.out.println("REST Response:\n");
-                System.out.println(json.toString(2));
+                json = new JsonObject();
+                json = new JsonParser().parse(jsonString).getAsJsonObject();
+                //json = new JSONObject(jsonString);
+//                System.out.println("REST Response:\n");
+//                System.out.println(json.toString(2));
+                return extractResult(json);
             }
         } catch (Exception e) {
             // Display error message.
             System.out.println(e.getMessage());
         }
-        return jsonString;
+        return null;
     }
 
-    public void extractResult() {
+    public List<Tag> extractResult(JsonObject json) {
+        Gson gson = new Gson();
+        JsonArray array = json.getAsJsonArray("tags");
+        Type type = new TypeToken<List<Tag>>() {
+        }.getType();
+        List<Tag> tags = gson.fromJson(array, type);
+//        List<Tag> filteredTags = new ArrayList<>();
+//        for (Tag tag: tags){
+//            if(checkName(tag.getName()) && tag.getHint() == null && tag.getConfidence() )
+//        }
+        tags = tags.parallelStream().filter(tag -> (tag.getConfidence() > 0.80
+                //&& tag.getHint() != null
+                && checkName(tag.getName())
+        )).collect(Collectors.toList());
+        return tags;
+    }
 
+    private boolean checkName(String nameToCheck) {
+        for (String name : namesToFilter) {
+            if (nameToCheck.equals(name))
+                return false;
+        }
+        return true;
     }
 }
