@@ -5,6 +5,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
@@ -51,7 +52,7 @@ public class ImageService {
 
             // Request body.
             StringEntity requestEntity =
-                    new StringEntity("{\"url\":\"" + imageToAnalyze + "\"}");
+                    MultipartEntityBuilder.create().addPart();
             request.setEntity(requestEntity);
 
             // Call the REST API method and get the response entity.
@@ -71,7 +72,7 @@ public class ImageService {
         }
     }
 
-    public void extractResult(){
+    public void extractResult() {
 
     }
 }
