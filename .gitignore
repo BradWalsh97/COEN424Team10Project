@@ -48,3 +48,5 @@ Frontend/sizzle/.nova/
 Backend/sizzle/target/
 
 mongo-volume/
+
+Backend/sizzle/tmpByteFile
