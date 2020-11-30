@@ -42,3 +42,11 @@ hs_err_pid*
 .env
 
 Frontend/sizzle/.nova/
+
+*.Backend/sizzle/target/
+
+Backend/sizzle/target/
+
+mongo-volume/
+
+Backend/sizzle/tmpByteFile
