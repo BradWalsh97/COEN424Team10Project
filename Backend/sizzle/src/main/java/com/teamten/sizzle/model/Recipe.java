@@ -1,7 +1,15 @@
 package com.teamten.sizzle.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.Id;
 
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class Recipe {
     private String title;
     private String summary;
@@ -10,69 +18,15 @@ public class Recipe {
     @Id
     private int id;
     private boolean isPublic;
+    private boolean isFromCookbook;
 
-    public Recipe(String title, String summary, String instructions, String image) {
-        this.title = title;
-        this.summary = summary;
-        this.instructions = instructions;
-        this.image = image;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getSummary() {
-        return summary;
-    }
-
-    public void setSummary(String summary) {
-        this.summary = summary;
-    }
-
-    public String getInstructions() {
-        return instructions;
-    }
-
-    public void setInstructions(String instructions) {
-        this.instructions = instructions;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
-
-    @Override
-    public String toString() {
-        return "Recipe{" +
-                "title='" + title + '\'' +
-                ", summary='" + summary + '\'' +
-                ", instructions='" + instructions + '\'' +
-                ", image='" + image + '\'' +
-                '}';
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
+    public Recipe(int id, String title, String summary, String instructions, String image, boolean isFromCookbook, boolean isPublic) {
         this.id = id;
-    }
-
-    public boolean isPublic() {
-        return isPublic;
-    }
-
-    public void setPublic(boolean aPublic) {
-        isPublic = aPublic;
+        this.title = title;
+        this.summary = summary;
+        this.instructions = instructions;
+        this.image = image;
+        this.isFromCookbook = isFromCookbook;
+        this.isPublic = isPublic;
     }
 }

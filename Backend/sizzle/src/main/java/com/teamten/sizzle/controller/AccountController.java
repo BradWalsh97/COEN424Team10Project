@@ -2,9 +2,13 @@ package com.teamten.sizzle.controller;
 
 import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
+import com.teamten.sizzle.model.Recipe;
 import com.teamten.sizzle.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -32,6 +36,7 @@ public class AccountController {
 
     @PutMapping("/newCookBook/{user}")
     public void addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
+        System.out.println(cookBook.toString());
         accountService.addNewCookBook(user, cookBook);
     }
 
@@ -74,4 +79,5 @@ public class AccountController {
     public Account getCookBooks(@PathVariable String user){
         return accountService.getCookBooksForUser(user);
     }
+
 }
