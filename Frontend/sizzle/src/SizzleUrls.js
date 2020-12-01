@@ -12,7 +12,7 @@
 //   recipeUrl: "http://18.188.119.141:8181/recipes/",
 // };
 const urls = {
-  profileUrl: "http://18.188.119.141:8181/api/profile/",
-  recipeUrl: "http://18.188.119.141:8181/api/recipes/",
+  profileUrl: "http://3.131.85.201:80/api/profile/",
+  recipeUrl: "http://3.131.85.201:80/api/recipes/",
 };
 export default urls;
