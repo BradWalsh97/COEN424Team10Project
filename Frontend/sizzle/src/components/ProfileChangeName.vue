@@ -1,9 +1,10 @@
 <template>
   <div style="width: 50%" class="text-primary">
-    <div>First enter your current email.</div>
     <div style="padding-top: 1%">
       <q-input
         outlined
+        class="fill-input"
+        color="dark"
         v-model="currentEmail"
         label="Current Email"
         :rules="[(val) => !!val || 'Field is required']"
@@ -12,6 +13,8 @@
     <div style="padding-top: 1%">
       <q-input
         outlined
+        class="fill-input"
+        color="dark"
         v-model="newEmail"
         label="New Email"
         :rules="[(val) => !!val || 'Field is required']"
@@ -19,7 +22,7 @@
     </div>
 
     <div style="padding-top: 2%">
-      <q-btn outline label="Change Email" />
+      <q-btn color="primary" outline label="Change Email" />
     </div>
   </div>
 </template>

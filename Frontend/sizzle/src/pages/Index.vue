@@ -20,7 +20,7 @@
           Recipes you might like
         </div>
         <div style="padding-top: 1%; padding-bottom: 1%">
-          <q-btn label="Refresh" @click="getRecipes()" style="width: 100px" />
+          
         </div>
       </div>
 
@@ -50,6 +50,7 @@
               :style="customHeight"
             />
           </q-carousel>
+          <q-btn color="primary" outline label="Refresh" @click="getRecipes()" style="margin-top: 2em; padding: 0 2em;" />
         </div>
       </div>
       <!-- </div> -->
@@ -73,9 +74,7 @@
       <AddNewRecipe />
     </q-dialog>
 
-    <q-dialog v-model="card">
-      <SeeRecipe :recipe="chosenRecipe" :user="user" />
-    </q-dialog>
+    <SeeRecipe v-model="card" :recipe="chosenRecipe" />
   </q-page>
 </template>
 

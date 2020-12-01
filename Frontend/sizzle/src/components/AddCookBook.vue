@@ -36,7 +36,10 @@ export default {
     methods: {
         addCookbook() {
             Axios.put(`${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`, { name: this.name })
-            .then(res => console.log(res))
+            .then(res => { 
+                this.$emit('input', false);
+                this.$emit('refresh');
+            })
             .catch(err => console.error(err));
         }
     }

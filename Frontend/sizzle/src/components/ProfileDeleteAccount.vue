@@ -1,6 +1,7 @@
 <template>
-  <div>
-    <div class="text-balck">
+  <div style="margin-right: 300px; display: flex; flex-direction: column; align-items: center;">
+    <h3 class="q-mb-md text-primary">Delete Your Account</h3>
+    <div class="text-primary">
       <p>
         Deleting your account will result in you losing your cookbooks and your
         saved
@@ -10,22 +11,20 @@
         else.
       </p>
     </div>
-    <div class="column">
       <q-checkbox
         keep-color
         v-model="understand"
-        label="I understand, delete my account"
+        color="dark"
+      >
+        <label class="text-primary">I understand, delete my account</label>
+      </q-checkbox>
+      <q-btn
+        outline
         color="primary"
+        label="Delete"
+        style="width: 75pt: padding-top: 1%"
+        :disable="!understand"
       />
-      <div style="padding-top: 1%">
-        <q-btn
-          outline
-          label="Delete"
-          style="width: 75pt"
-          :disable="!understand"
-        />
-      </div>
-    </div>
   </div>
 </template>
 

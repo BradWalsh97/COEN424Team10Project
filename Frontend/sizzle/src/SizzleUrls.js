@@ -1,6 +1,9 @@
 //Use for local deployment
- const urls = {   profileUrl: "http://localhost:8181/profile/",
-   recipeUrl: "http://localhost:8181/recipes/", };
+const urls = { 
+   profileUrl: "http://localhost:8181/profile/",
+   recipeUrl: "http://localhost:8181/recipes/",
+   searchUrl: "http://localhost:8181/search/"
+};
 // export default urls;
 
 

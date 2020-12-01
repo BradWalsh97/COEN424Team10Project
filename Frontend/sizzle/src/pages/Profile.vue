@@ -1,51 +1,57 @@
 <template>
-  <q-page class="full-height" style="padding-top: 1%">
-    <div>
-      <div style="padding-left: 5%; padding-bottom: 2%">
-        <q-btn label="DONE" icon="keyboard_backspace" @click="goBackHome" />
+  <div>
+    <q-drawer
+    show-if-above
+    :value="true"
+    side="left"
+    behavior="desktop"
+    class="profile-drawer"
+    >
+      <div class="h-100" style="display: flex; flex-direction: column; align-items: stretch">
+        <q-btn color="primary" outline label="DONE" icon="keyboard_backspace" 
+        style="align-self: flex-start; margin: 0.5em 1em;" @click="goBackHome" />
+      
+        <div class="text-h5 profile-header">
+          Account Settings
+        </div>
+        
+        <q-tabs
+          v-model="innerTab"
+          vertical
+          align="right"
+          inline-label
+          class="text-primary" style="flex: 1">
+          <q-tab name="name" icon="account_box" label="Change name" />
+          <q-tab name="password" icon="vpn_key" label="Change Password" />
+          <q-tab name="delete" icon="delete" label="Delete Account" />
+        </q-tabs>
+
+        <div class="text-h4 text-primary" style="padding: 0.5em 0.5em 0 0.5em; margin-bottom: 0.5em">Sizzle</div>
+
       </div>
-      <q-splitter v-model="splitterModel" style="height: 60%">
-        <template v-slot:before>
-          <q-tabs
-            v-model="innerTab"
-            vertical
-            align="left"
-            inline-label
-            class="text-primary"
-          >
-            <q-tab name="name" icon="account_box" label="Change name" />
-            <q-tab name="password" icon="vpn_key" label="Change Password" />
-            <q-tab name="delete" icon="delete" label="Delete Account" />
-          </q-tabs>
-        </template>
+    </q-drawer>
+    <q-tab-panels
+      v-model="innerTab"
+      animated
+      keep-alive
+      transition-prev="slide-down"
+      transition-next="slide-up"
+      >
+      <q-tab-panel name="name">
+      <div class="q-mb-md text-primary"><h3>Change Email</h3></div>
+      <ProfileChangeEmail />
+      </q-tab-panel>
 
-        <template v-slot:after>
-          <q-tab-panels
-            v-model="innerTab"
-            animated
-            keep-alive
-            transition-prev="slide-down"
-            transition-next="slide-up"
-          >
-            <q-tab-panel name="name">
-              <div class="q-mb-md"><h3>Change Email</h3></div>
-              <ProfileChangeEmail />
-            </q-tab-panel>
+      <q-tab-panel name="password">
+      <div class="q-mb-md text-primary"><h3>Change Password</h3></div>
+      <ProfileChangePassword />
+      </q-tab-panel>
 
-            <q-tab-panel name="password">
-              <div class="q-mb-md"><h3>Change Password</h3></div>
-              <ProfileChangePassword />
-            </q-tab-panel>
-
-            <q-tab-panel name="delete">
-              <div class="q-mb-md"><h3>Delete Your Account</h3></div>
-              <ProfileDeleteAccount />
-            </q-tab-panel>
-          </q-tab-panels>
-        </template>
-      </q-splitter>
-    </div>
-  </q-page>
+      <q-tab-panel name="delete">
+      <ProfileDeleteAccount />
+      </q-tab-panel>
+    </q-tab-panels>
+  </div>
 </template>
 
 <script>
@@ -82,4 +88,25 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style lang="scss">
+.profile-drawer {
+
+  .q-drawer {
+    background-color: rgba(197, 135, 64, 0.5);
+    backdrop-filter: blur(5px);
+    margin-top: -50px;
+    padding-top: 50px;
+    z-index: 0;
+  }
+
+  .profile-header {
+    padding: 0 1rem;
+    height: 50px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: white !important;
+    font-weight: 400;
+  }
+}
+</style>

@@ -46,7 +46,7 @@
         </q-tab-panel>
 
         <q-tab-panel name="search">
-          <PageIndex />
+          <Search />
         </q-tab-panel>
 
         <q-tab-panel name="cookbook">
@@ -66,11 +66,13 @@
 <script>
 import PageIndex from "../pages/Index";
 import CookBooks from "../pages/Cookbooks";
+import Search from "../pages/Search";
 export default {
   name: "MainLayout",
   components: {
     PageIndex,
     CookBooks,
+    Search
   },
   data() {
     return {
