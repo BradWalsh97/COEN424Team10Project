@@ -21,11 +21,17 @@ public class RecipesFacade {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${spoonacularApi}")
-    private String apiKey;
+    @Value("${spoonacularApiRandom}")
+    private String spoonacularApiRandom;
+
+    @Value("${spoonacularApiSearchQuery}")
+    private String spoonacularApiSearchQuery;
+
+    @Value("${spoonacularApiSearchIngredients}")
+    private String spoonacularApiSearchIngredients;
 
     public ArrayList<Recipe> getRandomRecipe(Integer amount) {
-        String url = "https://api.spoonacular.com/recipes/random?apiKey="+apiKey+"&number="+amount;
+        String url = "https://api.spoonacular.com/recipes/random?apiKey="+spoonacularApiRandom+"&number="+amount;
         System.out.println(url);
         String results = restTemplate.getForObject(url, String.class);
         JsonObject jsonObject = new JsonParser().parse(results).getAsJsonObject();
@@ -49,7 +55,7 @@ public class RecipesFacade {
 
 
     public ArrayList<Recipe> getRecipeByQuery(String query) {
-        String url = "https://api.spoonacular.com/recipes/complexSearch?apiKey="+apiKey+"&query="+query+"&addRecipeInformation=true&number=3";
+        String url = "https://api.spoonacular.com/recipes/complexSearch?apiKey="+ spoonacularApiSearchQuery +"&query="+query+"&addRecipeInformation=true&number=3";
         String results = restTemplate.getForObject(url, String.class);
         JsonObject jsonObject = new JsonParser().parse(results).getAsJsonObject();
         JsonArray jsonResultsArray = jsonObject.getAsJsonArray("results");
@@ -72,7 +78,7 @@ public class RecipesFacade {
         if (!rIds.isEmpty()) {
             rIds = rIds.substring(0, rIds.length() - 1);
             System.out.println("rIds " + rIds);
-            String url = "https://api.spoonacular.com/recipes/informationBulk?apiKey="+apiKey+"&ids="+rIds;
+            String url = "https://api.spoonacular.com/recipes/informationBulk?apiKey="+spoonacularApiSearchIngredients+"&ids="+rIds;
             String results = restTemplate.getForObject(url, String.class);
             JsonArray jsonResults = new JsonParser().parse(results).getAsJsonArray();
             ArrayList<Recipe> recipes = this.getRecipesByJsonResultsArray(jsonResults);
@@ -84,7 +90,7 @@ public class RecipesFacade {
     }
 
     private ArrayList<Integer> getRecipeIdsByIngredients(String ingredients, String badIngredients) {
-        String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + apiKey + "&ingredients=" + ingredients + "&number=15";
+        String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + spoonacularApiSearchIngredients + "&ingredients=" + ingredients + "&number=15";
         String results = restTemplate.getForObject(url, String.class);
         JsonArray recipes = new JsonParser().parse(results).getAsJsonArray();
 

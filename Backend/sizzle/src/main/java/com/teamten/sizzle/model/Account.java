@@ -24,6 +24,5 @@ public class Account {
     private String password;
     @Id
     private String username;
-//    @ManyToMany
     private List<CookBook> cookBooks;
 }

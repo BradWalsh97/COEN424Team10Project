@@ -121,4 +121,15 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         ArrayList<Recipe> recipes = (ArrayList<Recipe>) mongoOperations.find(query, Recipe.class);
         return recipes;
     }
+
+    @Override
+    public ArrayList<Recipe> getRecipesByIds(int[] recipeIds) {
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        for (int recipeId:recipeIds) {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("id").is(recipeId));
+            recipes.add(mongoOperations.find(query, Recipe.class).get(0));
+        }
+        return recipes;
+    }
 }

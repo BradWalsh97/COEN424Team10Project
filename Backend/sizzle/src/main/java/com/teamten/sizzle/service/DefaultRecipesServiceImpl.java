@@ -2,10 +2,16 @@ package com.teamten.sizzle.service;
 
 import com.teamten.sizzle.dao.AccountDao;
 import com.teamten.sizzle.dao.RecipeDao;
+import com.teamten.sizzle.exceptions.CookbookNotFoundException;
+import com.teamten.sizzle.facade.AmazonS3Facade;
 import com.teamten.sizzle.facade.RecipesFacade;
+import com.teamten.sizzle.model.Account;
+import com.teamten.sizzle.model.CookBook;
 import com.teamten.sizzle.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
@@ -20,6 +26,10 @@ public class DefaultRecipesServiceImpl implements RecipesService {
     private RecipeDao recipeDao;
     @Autowired
     private AccountDao accountDao;
+    @Autowired
+    private AmazonS3Facade amazonS3Facade;
+    @Value("${aws.bucket}")
+    private String bucket;
 
     private int latestRecipeId = -1;
 
@@ -48,10 +58,13 @@ public class DefaultRecipesServiceImpl implements RecipesService {
         return ++latestRecipeId;
     }
 
-    public void addNewRecipe(String username, int cookBookId, Recipe recipe) {
+    public Recipe addNewRecipe(String username, int cookBookId, Recipe recipe, MultipartFile image) {
         recipe.setId(getNextRecipeIndex());
+        String imageUrl = amazonS3Facade.uploadImageToS3Bucket(image, bucket);
+        recipe.setImage(imageUrl);
         recipeDao.save(recipe);
         accountDao.addNewRecipeToUser(username, cookBookId, recipe.getId());
+        return recipe;
     }
 
     public ArrayList<Recipe> getRecipeByQuery(String query) {
@@ -67,6 +80,25 @@ public class DefaultRecipesServiceImpl implements RecipesService {
     @Override
     public ArrayList<Recipe> getRecipesByIngredients(String ingredients, String badIngredients) {
         return recipesFacade.getRecipesByIngredients(ingredients, badIngredients);
+    }
+
+    public List<Recipe> getRecipesByCookbookId(String user, int cookbookId) {
+        Account account = accountDao.findAccountByUsername(user);
+        CookBook cookBook = null;
+        ArrayList<Recipe> recipes = null;
+        for (CookBook c:account.getCookBooks()) {
+            if (c.getId() == cookbookId) {
+                cookBook = c;
+                break;
+            }
+        }
+        if (cookBook != null) {
+            recipes = accountDao.getRecipesByIds(cookBook.getRecipeIds());
+        }
+        else {
+            throw new CookbookNotFoundException("Cookbook of id " + cookbookId + " was not found");
+        }
+        return recipes;
     }
 
 }

@@ -27,4 +27,6 @@ public interface CustomAccountDao {
     Account getCookBooksForUser(String user);
 
     ArrayList<Recipe> getRecipeByTitleMatch(String query);
+
+    ArrayList<Recipe> getRecipesByIds(int[] recipeIds);
 }

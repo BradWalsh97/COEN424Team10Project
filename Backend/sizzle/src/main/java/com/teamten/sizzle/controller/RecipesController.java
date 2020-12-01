@@ -6,6 +6,7 @@ import com.teamten.sizzle.service.RecipesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,8 +43,17 @@ public class RecipesController {
         return recipesService.getNextRecipeIndex();
     }
 
-    @PostMapping("/newRecipe/{user}/{cookBook}")
-    public void addNewRecipe(@PathVariable String user, @PathVariable int cookBook, @RequestBody Recipe newRecipe) {
+    @PutMapping("/newRecipe/{user}/{cookBook}")
+    public ResponseEntity<Recipe> addNewRecipe(@PathVariable String user, @PathVariable int cookBook, @RequestParam MultipartFile imageFile,
+                             @RequestParam String title, @RequestParam String summary, @RequestParam String instructions, @RequestParam Boolean isPublic) {
+        Recipe recipe = new Recipe(title, summary, instructions, "", 0, isPublic, true);
+        recipe = recipesService.addNewRecipe(user, cookBook, recipe, imageFile);
+        return ResponseEntity.ok(recipe);
+    }
+
+    @GetMapping("/cookbook/{user}/{id}")
+    public List<Recipe> getRecipesByCookbookId(@PathVariable String user, @PathVariable int id) {
+        return recipesService.getRecipesByCookbookId(user, id);
     }
 
 }
