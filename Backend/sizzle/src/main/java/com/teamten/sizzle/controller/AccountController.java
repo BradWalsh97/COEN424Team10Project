@@ -35,14 +35,10 @@ public class AccountController {
 
 
     @PutMapping("/newCookBook/{user}")
-<<<<<<< HEAD
-    public CookBook addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
-        return accountService.addNewCookBook(user, cookBook);
-=======
+
     public void addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
         System.out.println(cookBook.toString());
         accountService.addNewCookBook(user, cookBook);
->>>>>>> master
     }
 
     @DeleteMapping("/cookBook/{user}/{cookBookId}")
