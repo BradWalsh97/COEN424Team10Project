@@ -15,7 +15,8 @@ COPY src src
 COPY pom.xml .
 RUN ls
 #RUN mvn -f pom.xml clean package
-RUN mvn clean install
+#RUN mvn clean install
+RUN mvn clean package
 
 #
 # Package stage
