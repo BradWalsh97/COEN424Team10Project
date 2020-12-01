@@ -1,12 +1,17 @@
 package com.teamten.sizzle.service;
 
 import com.teamten.sizzle.dao.AccountDao;
+import com.teamten.sizzle.facade.AmazonS3Facade;
 import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
+import com.teamten.sizzle.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -44,7 +49,6 @@ public class AccountService {
 
     public CookBook addNewCookBook(String user, CookBook cookBook) {
         Account account = accountDao.findAccountByUsername(user);
-        cookBook.setRecipeIds(new int[0]);
         List<CookBook> cookBookList = account.getCookBooks();
         if (cookBookList == null || cookBookList.size() == 0) {
             cookBook.setId(0);
@@ -63,8 +67,9 @@ public class AccountService {
 
     public void addRecipeToUser(String user, int cookBookId, int recipe) {
         if (!accountDao.userExistsWithUsername(user)) return;
-        if (!accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipe))
+        if (!accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipe)) {
             accountDao.addNewRecipeToUser(user, cookBookId, recipe);
+        }
     }
 
 
@@ -98,6 +103,8 @@ public class AccountService {
     public Account getCookBooksForUser(String user){
         return accountDao.getCookBooksForUser(user);
     }
+
+
 }
 
 
