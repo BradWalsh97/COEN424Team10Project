@@ -2,6 +2,7 @@ package com.teamten.sizzle.dao;
 
 import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
+import com.teamten.sizzle.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.FindAndModifyOptions;
 import org.springframework.data.mongodb.core.MongoOperations;
@@ -9,6 +10,9 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Field;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CustomAccountDaoImpl implements CustomAccountDao {
     private final MongoOperations mongoOperations;
@@ -108,5 +112,24 @@ public class CustomAccountDaoImpl implements CustomAccountDao {
         query.addCriteria(Criteria.where("username").is(user));
         query.fields().include("cookBooks");
         return mongoOperations.findOne(query, Account.class);
+    }
+
+    @Override
+    public ArrayList<Recipe> getRecipeByTitleMatch(String q) {
+        Query query = new Query();
+        query.addCriteria(Criteria.where("title").regex("(?i).*" + q + ".*"));
+        ArrayList<Recipe> recipes = (ArrayList<Recipe>) mongoOperations.find(query, Recipe.class);
+        return recipes;
+    }
+
+    @Override
+    public ArrayList<Recipe> getRecipesByIds(int[] recipeIds) {
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        for (int recipeId:recipeIds) {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("id").is(recipeId));
+            recipes.add(mongoOperations.find(query, Recipe.class).get(0));
+        }
+        return recipes;
     }
 }
