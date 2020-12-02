@@ -306,9 +306,7 @@ export default {
       this.searchWords = [];
       data.forEach(this.appendWord);
       if (this.searchWords.length == 0) {
-        this.searchWords.push(
-          "Could not analyze image with high confidence, try another"
-        );
+        this.searchWords.push("Could not analyze image with high confidence, try another");
       }
     },
     appendWord(word) {
