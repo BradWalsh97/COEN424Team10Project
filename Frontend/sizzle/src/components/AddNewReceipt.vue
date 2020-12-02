@@ -12,13 +12,19 @@
       <q-page padding>
         <!-- <div>Title</div> -->
         <div class="q-pa-md q-gutter-sm">
-          <q-input v-model="recipe.title" label="Title" outlined />
+          <q-input
+            v-model="recipe.title"
+            label="Title"
+            bg-color="brown-5"
+            outlined
+          />
         </div>
         <div class="q-pa-md q-gutter-sm" style="padding-top: 1%">
           <div class="text-h5">Summary</div>
           <div>
             <q-editor
               v-model="recipe.summary"
+              toolbar-bg="brown-6"
               :dense="$q.screen.lt.md"
               :toolbar="[
                 ['undo', 'redo'],
@@ -61,6 +67,7 @@
             <q-editor
               v-model="recipe.instructions"
               :dense="$q.screen.lt.md"
+              toolbar-bg="brown-6"
               :toolbar="[
                 ['undo', 'redo'],
                 [

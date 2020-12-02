@@ -53,14 +53,10 @@
           <CookBooks />
         </q-tab-panel>
       </q-tab-panels>
-      
     </q-page-container>
     <!-- </div> -->
-
-    
   </q-layout>
   <!-- </div> -->
-  
 </template>
 
 <script>
@@ -72,7 +68,7 @@ export default {
   components: {
     PageIndex,
     CookBooks,
-    Search
+    Search,
   },
   data() {
     return {
@@ -110,7 +106,6 @@ export default {
 </script>
 
 <style scoped>
-
 .text-h4 {
   /* text-shadow: 2px 2px rgb(49, 49, 49); */
 }
