@@ -67,7 +67,6 @@ export default {
                     
                     // Create cookbook
                     let newCookbook = (await Axios.put(`${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`, { name: this.newCookbookName })).data;
-                    console.log(newCookbook);
 
                     // Add recipe to cookbook
                     await Axios.post(`${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${newCookbook.id}/${this.recipe.id}`);

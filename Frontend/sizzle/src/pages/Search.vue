@@ -300,12 +300,15 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       }).then((res) => this.retrieveKeywords(res.data));
-      this.hideLoading();
+
     },
 
     retrieveKeywords(data) {
       this.searchWords = [];
       data.forEach(this.appendWord);
+      if (this.searchWords.length == 0) {
+        this.searchWords.push("Could not analyze image with high confidence, try another");
+      }
     },
     appendWord(word) {
       this.searchWords.push(word.name);
