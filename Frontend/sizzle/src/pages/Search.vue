@@ -150,7 +150,7 @@
           </div>
           <q-uploader
             color="dark"
-            :url="`${urlSchema}analyseByte`"
+            :factory="searchByImage"
             label="Upload an image"
             style="margin-bottom: 2rem"
           >
@@ -182,10 +182,10 @@
                 />
                 <div class="col">
                   <div class="q-uploader__title">Upload your files</div>
-                  <div class="q-uploader__subtitle">
+                  <!-- <div class="q-uploader__subtitle">
                     {{ scope.uploadSizeLabel }} /
                     {{ scope.uploadProgressLabel }}
-                  </div>
+                  </div> -->
                 </div>
                 <q-btn
                   v-if="scope.canAddFiles"
@@ -269,7 +269,6 @@ export default {
       showRecipe: false,
       ingredients: "",
       badIngredients: "",
-      urlSchema,
     };
   },
   methods: {
@@ -286,13 +285,40 @@ export default {
         },
       }).then((res) => (this.searchRecipes = res.data));
     },
-    searchByImage() {
-      return Axios.get(`${urlSchema.searchUrl}ingredients`, {
-        params: {
-          ingredients: this.ingredients,
-          badIngredients: this.badIngredients,
-        },
-      }).then((res) => (this.searchRecipes = res.data));
+    searchByImage(file) {
+      var image = file[0];
+      console.log("image", image);
+      console.log("url", urlSchema.imageUrl);
+
+      var formData = new FormData();
+      //
+      formData.append("file", image);
+      // axios.post('upload_file', formData, {
+      //     headers: {
+      //       'Content-Type': 'multipart/form-data'
+      //     }
+      // })
+
+      // return new Promise((resolve) => {
+      // simulating a delay of 2 seconds
+      Axios.post(
+        `${urlSchema.imageUrl}analyseMultiFile`,
+
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+        //     // ingredients: this.ingredients,
+        //     // badIngredients: this.badIngredients,
+
+        // });
+        // .then((res) => (this.searchRecipes = res.data));   })
+      );
+    },
+    upload() {
+      console.log("uploading");
     },
   },
 };

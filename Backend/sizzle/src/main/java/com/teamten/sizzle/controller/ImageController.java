@@ -31,9 +31,10 @@ public class ImageController {
         return imageService.analyse(tmpByteFile);
     }
     @PostMapping("/analyseMultiFile")
-    public List<Tag> analyseImage(@RequestBody final MultipartFile file) throws IOException {
-        File tmpFile = new File("image.tmp");
-        file.transferTo(tmpFile);
+    public List<Tag> analyseImage(@RequestPart("file") final MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        File tmpFile = new File("image.jpeg");
+        FileUtils.writeByteArrayToFile(tmpFile, bytes);
         return imageService.analyse(tmpFile);
     }
 
