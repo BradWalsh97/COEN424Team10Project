@@ -7,7 +7,7 @@
       <q-card-section>
         <q-btn
           fab
-          color="dark"
+          color="blue"
           icon="bookmark"
           class="absolute"
           style="top: 0; right: 12px; transform: translateY(-50%)"
@@ -41,7 +41,7 @@
 </template>
 
 <script>
-import SelectCookBook from './SelectCookBook';
+import SelectCookBook from "./SelectCookBook";
 const urlSchema = require("../SizzleUrls").default;
 
 export default {
@@ -49,19 +49,19 @@ export default {
   components: { SelectCookBook },
   data() {
     return {
-      showSelectCookbook: false
+      showSelectCookbook: false,
     };
   },
   props: {
     value: {
       type: Boolean,
-      required: true
+      required: true,
     },
     recipe: {
       type: Object,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 };
 </script>
 

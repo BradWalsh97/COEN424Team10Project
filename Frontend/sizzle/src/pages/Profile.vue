@@ -1,33 +1,47 @@
 <template>
   <div>
     <q-drawer
-    show-if-above
-    :value="true"
-    side="left"
-    behavior="desktop"
-    class="profile-drawer"
+      :value="true"
+      side="left"
+      behavior="default"
+      class="profile-drawer"
     >
-      <div class="h-100" style="display: flex; flex-direction: column; align-items: stretch">
-        <q-btn color="primary" outline label="DONE" icon="keyboard_backspace" 
-        style="align-self: flex-start; margin: 0.5em 1em;" @click="goBackHome" />
-      
-        <div class="text-h5 profile-header">
+      <div class="text-h4 text-primary" style="padding: 0.5em 0.5em 1em 0.5em">
+        Sizzle
+      </div>
+
+      <div class="" style="">
+        <div style="padding: 0em 10em 1em 1em">
+          <q-btn
+            color="primary"
+            outline
+            label="DONE"
+            icon="keyboard_backspace"
+            style=""
+            @click="goBackHome"
+          />
+        </div>
+        <div
+          class="text-h5 profile-header"
+          style="padding-top: 1em; padding-bottom: 1em"
+        >
           Account Settings
         </div>
-        
-        <q-tabs
-          v-model="innerTab"
-          vertical
-          align="right"
-          inline-label
-          class="text-primary" style="flex: 1">
-          <q-tab name="name" icon="account_box" label="Change name" />
-          <q-tab name="password" icon="vpn_key" label="Change Password" />
-          <q-tab name="delete" icon="delete" label="Delete Account" />
-        </q-tabs>
 
-        <div class="text-h4 text-primary" style="padding: 0.5em 0.5em 0 0.5em; margin-bottom: 0.5em">Sizzle</div>
-
+        <div>
+          <q-tabs
+            v-model="innerTab"
+            vertical
+            align="right"
+            inline-label
+            class="text-primary"
+            style="flex: 1"
+          >
+            <q-tab name="name" icon="account_box" label="Change Email" />
+            <q-tab name="password" icon="vpn_key" label="Change Password" />
+            <q-tab name="delete" icon="delete" label="Delete Account" />
+          </q-tabs>
+        </div>
       </div>
     </q-drawer>
     <q-tab-panels
@@ -36,19 +50,19 @@
       keep-alive
       transition-prev="slide-down"
       transition-next="slide-up"
-      >
+    >
       <q-tab-panel name="name">
-      <div class="q-mb-md text-primary"><h3>Change Email</h3></div>
-      <ProfileChangeEmail />
+        <div class="q-mb-md text-primary"><h3>Change Email</h3></div>
+        <ProfileChangeEmail />
       </q-tab-panel>
 
       <q-tab-panel name="password">
-      <div class="q-mb-md text-primary"><h3>Change Password</h3></div>
-      <ProfileChangePassword />
+        <div class="q-mb-md text-primary"><h3>Change Password</h3></div>
+        <ProfileChangePassword />
       </q-tab-panel>
 
       <q-tab-panel name="delete">
-      <ProfileDeleteAccount />
+        <ProfileDeleteAccount />
       </q-tab-panel>
     </q-tab-panels>
   </div>
@@ -76,7 +90,7 @@ export default {
   },
   methods: {
     goBackHome() {
-      this.$router.push("/");
+      this.$router.push("/home");
     },
   },
   beforeMount() {
@@ -90,12 +104,10 @@ export default {
 
 <style lang="scss">
 .profile-drawer {
-
   .q-drawer {
     background-color: rgba(197, 135, 64, 0.5);
     backdrop-filter: blur(5px);
-    margin-top: -50px;
-    padding-top: 50px;
+
     z-index: 0;
   }
 

@@ -5,6 +5,7 @@
         outlined
         class="fill-input"
         color="dark"
+        bg-color="brown-5"
         v-model="currentEmail"
         label="Current Email"
         :rules="[(val) => !!val || 'Field is required']"
@@ -14,6 +15,7 @@
       <q-input
         outlined
         class="fill-input"
+        bg-color="brown-5"
         color="dark"
         v-model="newEmail"
         label="New Email"
@@ -22,7 +24,7 @@
     </div>
 
     <div style="padding-top: 2%">
-      <q-btn color="primary" outline label="Change Email" />
+      <q-btn color="brown-5" label="Change Email" />
     </div>
   </div>
 </template>

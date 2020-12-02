@@ -1,5 +1,12 @@
 <template>
-  <div style="margin-right: 300px; display: flex; flex-direction: column; align-items: center;">
+  <div
+    style="
+      margin-right: 300px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    "
+  >
     <h3 class="q-mb-md text-primary">Delete Your Account</h3>
     <div class="text-primary">
       <p>
@@ -11,20 +18,15 @@
         else.
       </p>
     </div>
-      <q-checkbox
-        keep-color
-        v-model="understand"
-        color="dark"
-      >
-        <label class="text-primary">I understand, delete my account</label>
-      </q-checkbox>
-      <q-btn
-        outline
-        color="primary"
-        label="Delete"
-        style="width: 75pt: padding-top: 1%"
-        :disable="!understand"
-      />
+    <q-checkbox keep-color v-model="understand" color="white">
+      <label class="text-primary">I understand, delete my account</label>
+    </q-checkbox>
+    <q-btn
+      color="brown-5"
+      label="Delete"
+      style="width: 75pt: padding-top: 1%"
+      :disable="!understand"
+    />
   </div>
 </template>
 

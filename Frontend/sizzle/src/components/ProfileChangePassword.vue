@@ -6,6 +6,7 @@
         outlined
         class="fill-input"
         color="dark"
+        bg-color="brown-5"
         :type="isCurrentPwd ? 'password' : 'text'"
         label="Current Password"
         :rules="[(val) => !!val || 'Field is required']"
@@ -24,6 +25,7 @@
         v-model="newPassword"
         outlined
         class="fill-input"
+        bg-color="brown-5"
         color="dark"
         :type="isNewPwd ? 'password' : 'text'"
         label="New Password"
@@ -43,6 +45,7 @@
         v-model="confirmNewPassword"
         outlined
         class="fill-input"
+        bg-color="brown-5"
         color="dark"
         :type="isConfirmNewPwd ? 'password' : 'text'"
         label="Confirm New Password"
@@ -61,7 +64,11 @@
     </div>
 
     <div style="padding-top: 3%">
-      <q-btn color="primary" outline label="Change Password" @click="changePassword()" />
+      <q-btn
+        color="brown-5"
+        label="Change Password"
+        @click="changePassword()"
+      />
     </div>
   </div>
 </template>
