@@ -19,19 +19,19 @@
             name="keyword"
             icon="search"
             label="Keyword"
-            @click="searchRecipes = []"
+            @click="resetWordsAndResult"
           ></q-tab>
           <q-tab
             name="ingredients"
             icon="list"
             label="Ingredients"
-            @click="searchRecipes = []"
+            @click="resetWordsAndResult"
           ></q-tab>
           <q-tab
             name="image"
             icon="image"
             label="Image"
-            @click="searchRecipes = []"
+            @click="resetWordsAndResult"
           ></q-tab>
         </q-tabs>
       </q-scroll-area>
@@ -252,6 +252,7 @@
 
 <script>
 import Axios from "axios";
+import QSpinnerBall from "quasar";
 import SeeRecipe from "../components/SeeRecipe";
 
 const urlSchema = require("../SizzleUrls").default;
@@ -264,7 +265,7 @@ export default {
       selectedSearchTab: "keyword",
       keywordSearch: "",
       searchRecipes: [],
-      searchWords: ["Search", "Results", "Here"],
+      searchWords: [],
       selectedRecipe: null,
       showRecipe: false,
       ingredients: "",
@@ -272,6 +273,10 @@ export default {
     };
   },
   methods: {
+    resetWordsAndResult() {
+      this.searchRecipes = [];
+      this.searchWords = [];
+    },
     searchByKeyword() {
       return Axios.get(`${urlSchema.searchUrl}${this.keywordSearch}`).then(
         (res) => (this.searchRecipes = res.data)
@@ -287,9 +292,6 @@ export default {
     },
     searchByImage(file) {
       var image = file[0];
-      console.log("image", image);
-      console.log("url", urlSchema.imageUrl);
-
       var formData = new FormData();
 
       formData.append("file", image);
@@ -298,10 +300,9 @@ export default {
           "Content-Type": "multipart/form-data",
         },
       }).then((res) => this.retrieveKeywords(res.data));
+      this.hideLoading();
     },
-    upload() {
-      console.log("uploading");
-    },
+
     retrieveKeywords(data) {
       this.searchWords = [];
       data.forEach(this.appendWord);
