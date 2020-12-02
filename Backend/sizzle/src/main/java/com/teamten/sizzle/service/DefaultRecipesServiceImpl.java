@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -86,16 +85,16 @@ public class DefaultRecipesServiceImpl implements RecipesService {
         Account account = accountDao.findAccountByUsername(user);
         CookBook cookBook = null;
         ArrayList<Recipe> recipes = null;
-        for (CookBook c:account.getCookBooks()) {
+        for (CookBook c : account.getCookBooks()) {
             if (c.getId() == cookbookId) {
                 cookBook = c;
                 break;
             }
         }
         if (cookBook != null) {
-            recipes = accountDao.getRecipesByIds(cookBook.getRecipeIds());
-        }
-        else {
+            if (cookBook.getRecipeIds() != null) recipes = accountDao.getRecipesByIds(cookBook.getRecipeIds());
+
+        } else {
             throw new CookbookNotFoundException("Cookbook of id " + cookbookId + " was not found");
         }
         return recipes;
