@@ -85,7 +85,7 @@ export default {
     },
     logOut() {
       this.$store.commit("example/LOGGED_OUT");
-      this.$router.push("/login");
+      this.$router.push("/");
     },
   },
   beforeMount() {
