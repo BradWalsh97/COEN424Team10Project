@@ -225,7 +225,7 @@
           <template v-if="searchWords.length > 0">
             <div class="text-h6 text-primary" style="margin-bottom: 0.5rem">
               <q-icon class="text-h4" name="info"></q-icon>
-              Click on a keyword to search for related recipes
+              Elements from image above
             </div>
             <div>
               <q-chip
@@ -291,34 +291,23 @@ export default {
       console.log("url", urlSchema.imageUrl);
 
       var formData = new FormData();
-      //
+
       formData.append("file", image);
-      // axios.post('upload_file', formData, {
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data'
-      //     }
-      // })
-
-      // return new Promise((resolve) => {
-      // simulating a delay of 2 seconds
-      Axios.post(
-        `${urlSchema.imageUrl}analyseMultiFile`,
-
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        }
-        //     // ingredients: this.ingredients,
-        //     // badIngredients: this.badIngredients,
-
-        // });
-        // .then((res) => (this.searchRecipes = res.data));   })
-      );
+      Axios.post(`${urlSchema.imageUrl}analyseMultiFile`, formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }).then((res) => this.retrieveKeywords(res.data));
     },
     upload() {
       console.log("uploading");
+    },
+    retrieveKeywords(data) {
+      this.searchWords = [];
+      data.forEach(this.appendWord);
+    },
+    appendWord(word) {
+      this.searchWords.push(word.name);
     },
   },
 };
