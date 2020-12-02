@@ -5,6 +5,7 @@
         outlined
         class="fill-input"
         color="dark"
+        ref="curE"
         bg-color="brown-5"
         v-model="currentEmail"
         label="Current Email"
@@ -14,6 +15,7 @@
     <div style="padding-top: 1%">
       <q-input
         outlined
+        ref="newE"
         class="fill-input"
         bg-color="brown-5"
         color="dark"
@@ -24,7 +26,7 @@
     </div>
 
     <div style="padding-top: 2%">
-      <q-btn color="brown-5" label="Change Email" />
+      <q-btn color="brown-5" label="Change Email" @click="changeEmail()" />
     </div>
   </div>
 </template>
@@ -45,7 +47,15 @@ export default {
   methods: {
     changeEmail() {
       //TODO Fix this url
-      Axios.post(`${urlSchema.profileUrl}changeEmail/${this.newEmail}`);
+      Axios.post(
+        `${urlSchema.profileUrl}updateEmail/${this.user}/${this.newEmail}`
+      ).then(this.resetF());
+    },
+    resetF() {
+      this.$refs.curE.resetValidation();
+      this.$refs.newE.resetValidation();
+      this.currentEmail = "";
+      this.newEmail = "";
     },
   },
   mounted() {

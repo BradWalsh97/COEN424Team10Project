@@ -3,6 +3,7 @@
     <div style="padding-top: 1%">
       <q-input
         v-model="currentPassword"
+        ref="current"
         outlined
         class="fill-input"
         color="dark"
@@ -23,6 +24,7 @@
     <div style="padding-top: 1%">
       <q-input
         v-model="newPassword"
+        ref="new"
         outlined
         class="fill-input"
         bg-color="brown-5"
@@ -43,6 +45,7 @@
     <div style="padding-top: 1%">
       <q-input
         v-model="confirmNewPassword"
+        ref="confirm"
         outlined
         class="fill-input"
         bg-color="brown-5"
@@ -91,8 +94,24 @@ export default {
     };
   },
   methods: {
-    checkNewPasswords() {},
-    changePassword() {},
+    changePassword() {
+      if (this.newPassword === this.confirmNewPassword) {
+        Axios.post(
+          `${urlSchema.profileUrl}updatePassword/${this.user}/${this.currentPassword}/${this.newPassword}`
+        )
+          .then(this.resetFields())
+          .catch((error) => console.log("change password", error));
+      }
+    },
+    resetFields() {
+      console.log("trying to reset shit");
+      this.$refs.current.resetValidation();
+      this.$refs.new.resetValidation();
+      this.$refs.confirm.resetValidation();
+      this.currentPassword = "";
+      this.newPassword = "";
+      this.confirmNewPassword = "";
+    },
   },
 
   mounted() {
