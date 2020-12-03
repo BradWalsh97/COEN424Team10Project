@@ -3,6 +3,7 @@
     <q-drawer
       show-if-above
       :value="true"
+      :overlay="true"
       side="left"
       behavior="desktop"
       class="cookbook-drawer"
@@ -47,10 +48,12 @@
     </q-drawer>
     <div style="padding-left: 17%">
       <div class="col-1 q-pb-md">
-        <div class="column items-center text-h2">
-          {{
-            selectedCookbook ? selectedCookbook.name : "Add Cookbook to Start"
-          }}
+        <div class="row justify-center text-h2" style="padding-right: 300px">
+          <span class="bg-tint rounded-borders">
+            {{
+              selectedCookbook ? selectedCookbook.name : "Add Cookbook to Start"
+            }}</span
+          >
         </div>
       </div>
 
@@ -100,7 +103,7 @@
         transition-show="scale"
         transition-hide="scale"
       >
-        <AddNewRecipe />
+        <AddNewRecipe v-on:closedialog="layout = !layout" />
       </q-dialog>
 
       <q-dialog v-model="showConfirmRecipe" persistent>
@@ -220,7 +223,7 @@ export default {
         .then((_) => {
           this.getCookbooks().then((_) => {
             if (this.selectedCookbook.id === this.deleteCookbook.id) {
-                this.selectedCookbookRecipes = [];
+              this.selectedCookbookRecipes = [];
             }
             if (this.userCookbooks.length > 0)
               this.selectCookbook(this.userCookbooks[0]);

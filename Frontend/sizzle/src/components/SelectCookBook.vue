@@ -1,111 +1,180 @@
 <template>
-    <q-dialog :value="value" persistent @hide="$emit('input', false)">
-        <q-card style="min-width: 350px">
-            <q-card-section>
-            <div class="text-h6">Save To CookBook</div>
-            <div class="text-subtitle1">Select which cookbook you would like to add this recipe to</div>
-            </q-card-section>
+  <q-dialog :value="value" persistent @hide="$emit('input', false)">
+    <q-card style="min-width: 350px">
+      <q-card-section>
+        <div class="text-h6">Save To CookBook</div>
+        <div class="text-subtitle1">
+          Select which cookbook you would like to add this recipe to
+        </div>
+      </q-card-section>
 
-            <q-card-section class="q-pt-none">
-            <q-select color="accent" dense v-model="cookbook" label="Cookbook" :options="cookbookList" >
-            </q-select>
+      <q-card-section class="q-pt-none">
+        <q-select
+          color="accent"
+          dense
+          v-model="cookbook"
+          label="Cookbook"
+          :options="cookbookList"
+        >
+        </q-select>
 
-            <q-input color="accent" dense v-model="newCookbookName" label="New Cookbook Name" style="margin-top: 1rem;"
-            placeholder="Enter the name of the new cookbook" :rules="[v => !!v || 'Required']" v-if="!cookbook.value"/>
-            </q-card-section>
+        <q-input
+          color="accent"
+          dense
+          v-model="newCookbookName"
+          label="New Cookbook Name"
+          style="margin-top: 1rem"
+          placeholder="Enter the name of the new cookbook"
+          :rules="[(v) => !!v || 'Required']"
+          v-if="!cookbook.value"
+        />
+      </q-card-section>
 
-            <q-card-actions align="right" class="text-primary">
-            <q-btn color="accent" flat label="Cancel" v-close-popup />
-            <q-btn color="accent" flat label="Save" @click="saveToCookbook"/>
-            </q-card-actions>
-        </q-card>
-    </q-dialog>
+      <q-card-actions align="right" class="text-primary">
+        <q-btn color="accent" flat label="Cancel" v-close-popup />
+        <q-btn color="accent" flat label="Save" @click="save" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script>
-import Axios from 'axios';
+import Axios from "axios";
 const urlSchema = require("../SizzleUrls").default;
 export default {
-    name: 'add-cookbook',
-    props: {
-        value: {
-            type: Boolean,
-            required: true
-        },
-        recipe: {
-            type: Object,
-            required: true
-        }
+  name: "add-cookbook",
+  props: {
+    value: {
+      type: Boolean,
+      required: true,
     },
-    data() {
-        return {
-            userCookbooks: [],
-            cookbook: { label: 'New cookbook', value: null },
-            newCookbookName: ''
-        };
+    recipe: {
+      type: Object,
+      required: true,
     },
-    computed: {
-        cookbookList() {
-            return [{ label: 'New cookbook', value: null }, ...this.userCookbooks.map(c => ({ label: c.name, value: c }))];
-        } 
+    recipeFromApi: Boolean,
+  },
+  data() {
+    return {
+      userCookbooks: [],
+      cookbook: { label: "New cookbook", value: null },
+      newCookbookName: "",
+    };
+  },
+  computed: {
+    cookbookList() {
+      return [
+        { label: "New cookbook", value: null },
+        ...this.userCookbooks.map((c) => ({ label: c.name, value: c })),
+      ];
     },
-    mounted() {
+  },
+  mounted() {
+    this.getCookbooks();
+  },
+  methods: {
+    save() {
+      console.log("saving R", this.recipe);
+      if (!this.recipeFromApi) {
+        this.addRecipe();
+      } else {
+        this.saveToCookbook();
+      }
+    },
+
+    getCookbooks() {
+      Axios.get(
+        `${urlSchema.profileUrl}getCookBooksFor/${this.$store.getters["example/getUser"]}`
+      ).then((res) => (this.userCookbooks = res.data.cookBooks));
+    },
+    async saveToCookbook() {
+      console.log("Saving recipe to db and image to s3");
+
+      var bodyFormData = new FormData();
+      bodyFormData.append("title", this.recipe.title);
+      bodyFormData.append("summary", this.recipe.summary);
+      bodyFormData.append("instructions", this.recipe.instructions);
+      bodyFormData.append("imageFile", this.recipe.image);
+      bodyFormData.append("isPublic", this.recipe.isPublic);
+
+      var that = this;
+
+      var body = { ...this.recipe };
+      if (this.cookbook.value) {
+        Axios({
+          method: "put",
+          url: `${urlSchema.recipeUrl}newRecipe/${this.$store.getters["example/getUser"]}/${this.cookbook.value.id}`,
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
+        }).then((res) => {
+          console.log(res);
+          that.$emit("closedialog");
+        });
+      } else {
+        // Create cookbook
+        let newCookbook = (
+          await Axios.put(
+            `${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`,
+            { name: this.newCookbookName }
+          )
+        ).data;
+
+        Axios({
+          method: "put",
+          url: `${urlSchema.recipeUrl}newRecipe/${this.$store.getters["example/getUser"]}/${newCookbook.id}`,
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
+        })
+          .then((res) => {
+            console.log(res);
+            // Close dialog
+            that.$emit("closedialog");
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    },
+    async addRecipe() {
+      if (this.cookbook.value) {
+        Axios({
+          method: "post",
+          url: `${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${this.cookbook.value.id}`,
+          headers: { "Content-Type": "application/json" },
+        }).then((res) => {
+          console.log(res);
+          that.$emit("closedialog");
+        });
+      } else {
+        // Create cookbook
+        let newCookbook = (
+          await Axios.put(
+            `${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`,
+            { name: this.newCookbookName }
+          )
+        ).data;
+        Axios({
+          method: "post",
+          url: `${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${newCookbook.id}`,
+          headers: { "Content-Type": "application/json" },
+        })
+          .then((res) => {
+            console.log(res);
+            // Close dialog
+            that.$emit("closedialog");
+          })
+          .catch((err) => {
+            console.error(err);
+          });
+      }
+    },
+  },
+  watch: {
+    value(newValue) {
+      if (newValue) {
         this.getCookbooks();
+      }
     },
-    methods: {
-        getCookbooks() {
-            Axios.get(`${urlSchema.profileUrl}getCookBooksFor/${this.$store.getters["example/getUser"]}`)
-            .then(res => this.userCookbooks = res.data.cookBooks);
-        },
-        async saveToCookbook() {
-            console.log('Saving recipe to db and image to s3');
-
-            var bodyFormData = new FormData();
-            bodyFormData.append('title', this.recipe.title);
-            bodyFormData.append('summary', this.recipe.summary);
-            bodyFormData.append('instructions', this.recipe.instructions);
-            bodyFormData.append('imageFile', this.recipe.image);
-            bodyFormData.append('isPublic', this.recipe.isPublic);
-
-            var that = this;
-
-            var body = {...this.recipe}
-            if (this.cookbook.value) {
-                Axios({
-                    method: 'put',
-                    url: `${urlSchema.recipeUrl}newRecipe/${this.$store.getters["example/getUser"]}/${this.cookbook.value.id}`,
-                    data: bodyFormData,
-                    headers: {'Content-Type': 'multipart/form-data' }
-                })
-                .then((res) => {
-                    console.log(res);
-                    that.$emit('closedialog');
-                });
-            } else {
-                // Create cookbook
-                let newCookbook = (await Axios.put(`${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`, { name: this.newCookbookName })).data;
-                
-                Axios({
-                    method: 'put',
-                    url: `${urlSchema.recipeUrl}newRecipe/${this.$store.getters["example/getUser"]}/${newCookbook.id}`,
-                    data: bodyFormData,
-                    headers: {'Content-Type': 'multipart/form-data' }
-                }).then((res) => {
-                    console.log(res);
-                    // Close dialog
-                    that.$emit('closedialog');
-                }).catch((err) => {
-                    console.error(err);
-                });
-            }
-        }
-    },
-    watch: {
-        value(newValue) {
-            if (newValue) {
-                this.getCookbooks();
-            }
-        }
-    }
-}
+  },
+};
 </script>

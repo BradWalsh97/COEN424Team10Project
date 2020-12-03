@@ -1,7 +1,7 @@
 <template>
   <!-- <div> -->
   <q-dialog :value="value" @hide="$emit('input', false)">
-    <q-card class="my-card">
+    <q-card class="my-card" style="min-width: 400pt; min-height: 600pt">
       <q-img :src="recipe.image" />
       <q-separator />
       <q-card-section>
@@ -33,7 +33,11 @@
         <div class="text-grey" v-html="recipe.instructions"></div>
       </q-card-section>
 
-      <SelectCookBook :recipe="recipe" v-model="showSelectCookbook" />
+      <SelectCookBook
+        :recipe="recipe"
+        :recipeFromApi="recipe.isFromCookBook"
+        v-model="showSelectCookbook"
+      />
     </q-card>
   </q-dialog>
 
