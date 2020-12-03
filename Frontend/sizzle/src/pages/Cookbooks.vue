@@ -3,6 +3,7 @@
     <q-drawer
       show-if-above
       :value="true"
+      :overlay="true"
       side="left"
       behavior="desktop"
       class="cookbook-drawer"
@@ -45,103 +46,108 @@
         </q-tabs>
       </q-scroll-area>
     </q-drawer>
-
-    <div class="col-1 q-pb-md">
-      <div class="column items-center text-h2">
-        <span class="bg-tint rounded-borders" style="padding: 20px;">{{ selectedCookbook ? selectedCookbook.name : "Add Cookbook to Start" }}</span>
+    <div style="padding-left: 300px">
+      <div class="col-1 q-pb-md">
+        <div class="row justify-center text-h2" style="padding-right: 300px">
+          <span class="bg-tint rounded-borders">
+            {{
+              selectedCookbook ? selectedCookbook.name : "Add Cookbook to Start"
+            }}</span
+          >
+        </div>
       </div>
-    </div>
 
-    <div class="row" style="height: 500pt; width: 100%; padding-left:300px;">
-      <q-card
-        :key="recipe.id"
-        v-for="recipe in selectedCookbookRecipes"
-        style="width: 300px; margin-right: 15px; margin-bottom: 15px"
-        @click="(selectedRecipe = recipe), (showRecipe = true)"
-      >
-        <q-img :src="recipe.image" basic>
-          <div class="absolute-bottom text-subtitle2 text-center">
-            {{ recipe.title }}
-          </div>
-        </q-img>
-        <q-btn
-          flat
-          round
-          color="negative"
-          icon="delete"
-          class="card-btn"
-          @click.stop="(deleteRecipe = recipe), (showConfirmRecipe = true)"
-        />
-      </q-card>
-    </div>
+      <div class="row" style="height: 500pt; width: 100%">
+        <q-card
+          :key="recipe.id"
+          v-for="recipe in selectedCookbookRecipes"
+          style="width: 300px; margin-right: 15px; margin-bottom: 15px"
+          @click="(selectedRecipe = recipe), (showRecipe = true)"
+        >
+          <q-img :src="recipe.image" basic>
+            <div class="absolute-bottom text-subtitle2 text-center">
+              {{ recipe.title }}
+            </div>
+          </q-img>
+          <q-btn
+            flat
+            round
+            color="negative"
+            icon="delete"
+            class="card-btn"
+            @click.stop="(deleteRecipe = recipe), (showConfirmRecipe = true)"
+          />
+        </q-card>
+      </div>
 
-    <AddCookBook v-model="showAddCookbook" @refresh="getCookbooks" />
+      <AddCookBook v-model="showAddCookbook" @refresh="getCookbooks" />
 
-    <SeeRecipe
-      v-model="showRecipe"
-      v-if="selectedRecipe"
-      :recipe="selectedRecipe"
-    />
-
-    <q-page-sticky position="bottom-right" :offset="[40, 40]">
-      <q-fab
-        icon="add"
-        :value="layout"
-        color="green"
-        @click="layout = !layout"
+      <SeeRecipe
+        v-model="showRecipe"
+        v-if="selectedRecipe"
+        :recipe="selectedRecipe"
       />
-    </q-page-sticky>
 
-    <q-dialog
-      v-model="layout"
-      persistent
-      transition-show="scale"
-      transition-hide="scale"
-    >
-      <AddNewRecipe />
-    </q-dialog>
+      <q-page-sticky position="bottom-right" :offset="[40, 40]">
+        <q-fab
+          icon="add"
+          :value="layout"
+          color="accent"
+          @click="layout = !layout"
+        />
+      </q-page-sticky>
 
-    <q-dialog v-model="showConfirmRecipe" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="delete" color="negative" text-color="white" />
-          <span class="q-ml-sm"
-            >Are you sure you want to delete this recipe?</span
-          >
-        </q-card-section>
+      <q-dialog
+        v-model="layout"
+        persistent
+        transition-show="scale"
+        transition-hide="scale"
+      >
+        <AddNewRecipe v-on:closedialog="layout = !layout" />
+      </q-dialog>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="grey" v-close-popup />
-          <q-btn
-            flat
-            label="Delete"
-            color="negative"
-            @click="removeRecipeFromCookbook"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+      <q-dialog v-model="showConfirmRecipe" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="delete" color="negative" text-color="white" />
+            <span class="q-ml-sm"
+              >Are you sure you want to delete this recipe?</span
+            >
+          </q-card-section>
 
-    <q-dialog v-model="showConfirmCookbook" persistent>
-      <q-card>
-        <q-card-section class="row items-center">
-          <q-avatar icon="delete" color="negative" text-color="white" />
-          <span class="q-ml-sm"
-            >Are you sure you want to delete this cookbook?</span
-          >
-        </q-card-section>
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="grey" v-close-popup />
+            <q-btn
+              flat
+              label="Delete"
+              color="negative"
+              @click="removeRecipeFromCookbook"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
 
-        <q-card-actions align="right">
-          <q-btn flat label="Cancel" color="grey" v-close-popup />
-          <q-btn
-            flat
-            label="Delete"
-            color="negative"
-            @click="removeCookbookFromAccount"
-          />
-        </q-card-actions>
-      </q-card>
-    </q-dialog>
+      <q-dialog v-model="showConfirmCookbook" persistent>
+        <q-card>
+          <q-card-section class="row items-center">
+            <q-avatar icon="delete" color="negative" text-color="white" />
+            <span class="q-ml-sm"
+              >Are you sure you want to delete this cookbook?</span
+            >
+          </q-card-section>
+
+          <q-card-actions align="right">
+            <q-btn flat label="Cancel" color="grey" v-close-popup />
+            <q-btn
+              flat
+              label="Delete"
+              color="negative"
+              @click="removeCookbookFromAccount"
+            />
+          </q-card-actions>
+        </q-card>
+      </q-dialog>
+    </div>
   </div>
 </template>
 
@@ -174,10 +180,10 @@ export default {
       this.$router.push("/login");
     }
   },
-  activated() {
-    this.getCookbooks().then((_) => {
+  async activated() {
+    this.getCookbooks().then(async (_) => {
       if (this.userCookbooks.length > 0)
-        this.selectCookbook(this.userCookbooks[0]);
+        await this.selectCookbook(this.userCookbooks[0]);
     });
   },
   computed: {
@@ -193,9 +199,13 @@ export default {
       ).then((res) => (this.userCookbooks = res.data.cookBooks));
     },
     getCookbookRecipes() {
+      console.log('getting recipes');
       return Axios.get(
         `${urlSchema.recipeUrl}cookbook/${this.$store.getters["example/getUser"]}/${this.selectedCookbook.id}`
-      ).then((res) => (this.selectedCookbookRecipes = res.data));
+      ).then((res) =>  {
+        this.selectedCookbookRecipes = res.data;
+        console.log(this.selectedCookbookRecipes);
+      });
     },
     selectCookbook(cookbook) {
       console.log("clicked on tab", cookbook.id);
@@ -217,7 +227,7 @@ export default {
         .then((_) => {
           this.getCookbooks().then((_) => {
             if (this.selectedCookbook.id === this.deleteCookbook.id) {
-                this.selectedCookbookRecipes = [];
+              this.selectedCookbookRecipes = [];
             }
             if (this.userCookbooks.length > 0)
               this.selectCookbook(this.userCookbooks[0]);

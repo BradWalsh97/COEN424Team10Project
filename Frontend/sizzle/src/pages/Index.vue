@@ -81,7 +81,7 @@
       <AddNewRecipe v-on:closedialog="layout = !layout"/>
     </q-dialog>
 
-    <SeeRecipe v-model="card" :recipe="chosenRecipe" />
+    <SeeRecipe v-model="card" v-on:closeseerecipe="card = false" :recipe="chosenRecipe" />
     <!-- </q-page> -->
   </div>
 </template>
