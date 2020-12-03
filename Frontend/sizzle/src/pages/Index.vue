@@ -9,7 +9,15 @@
 </style> -->
 
 <template>
-  <q-page class="full-height">
+  <!-- <q-page class="full-height"> -->
+  <div>
+    <q-drawer
+      :value="false"
+      side="left"
+      behavior="desktop"
+      class="search-drawer"
+    />
+
     <div class="column" style="height: 100%">
       <!-- <div> -->
       <div class="col-1" style="min-height: 150px">
@@ -19,9 +27,7 @@
         >
           Recipes you might like
         </div>
-        <div style="padding-top: 1%; padding-bottom: 1%">
-          
-        </div>
+        <div style="padding-top: 1%; padding-bottom: 1%"></div>
       </div>
 
       <div class="col-10">
@@ -50,7 +56,13 @@
               :style="customHeight"
             />
           </q-carousel>
-          <q-btn color="primary" outline label="Refresh" @click="getRecipes()" style="margin-top: 2em; padding: 0 2em;" />
+          <q-btn
+            color="primary"
+            outline
+            label="Refresh"
+            @click="getRecipes()"
+            style="margin-top: 2em; padding: 0 2em"
+          />
         </div>
       </div>
       <!-- </div> -->
@@ -75,7 +87,8 @@
     </q-dialog>
 
     <SeeRecipe v-model="card" :recipe="chosenRecipe" />
-  </q-page>
+    <!-- </q-page> -->
+  </div>
 </template>
 
 <script>
