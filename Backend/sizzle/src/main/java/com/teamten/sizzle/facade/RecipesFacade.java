@@ -145,7 +145,7 @@ public class RecipesFacade {
             String summary = jsonRecipe.get("summary").getAsString();
             String image = jsonRecipe.get("image").getAsString();
             int id = jsonRecipe.get("id").getAsInt();
-            System.out.println(title);
+            //System.out.println(title);
 
             JsonArray instructions = jsonRecipe.get("analyzedInstructions").getAsJsonArray();
 
@@ -156,7 +156,7 @@ public class RecipesFacade {
                 for(JsonElement step:steps) {
                     JsonObject jsonStep = new JsonParser().parse(step.toString()).getAsJsonObject();
                     String s = "<li>" + jsonStep.get("step").getAsString() + "</li>";
-                    System.out.println(s);
+                    //System.out.println(s);
                     i += s;
                 }
             }

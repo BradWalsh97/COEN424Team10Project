@@ -35,9 +35,9 @@ public class AccountController {
 
 
     @PutMapping("/newCookBook/{user}")
-    public void addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
+    public CookBook addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
         System.out.println(cookBook.toString());
-        accountService.addNewCookBook(user, cookBook);
+        return accountService.addNewCookBook(user, cookBook);
     }
 
     @DeleteMapping("/cookBook/{user}/{cookBookId}")
@@ -45,9 +45,10 @@ public class AccountController {
         accountService.removeCookBook(user, cookBookId);
     }
 
-    @PostMapping("/saveRecipe/{user}/{cookBookId}/{recipeId}")
-    public void saveRecipeForUser(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
-        accountService.addRecipeToUser(user, cookBookId, recipeId);
+    @PostMapping("/saveRecipe/{user}/{cookBookId}")
+    public void saveRecipeForUser(@PathVariable String user, @PathVariable int cookBookId, @RequestBody Recipe recipe) {
+        accountService.addRecipeToUser(user, cookBookId, recipe);
+        System.out.println("Added " + recipe);
     }
 
     @DeleteMapping("/removeRecipeFromCookBook/{user}/{cookBookId}/{recipeId}")

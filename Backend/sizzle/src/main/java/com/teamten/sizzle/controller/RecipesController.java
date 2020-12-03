@@ -11,9 +11,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.ArrayList;
 import java.util.List;
 
-@CrossOrigin
+@CrossOrigin("*")
 @RestController
-@RequestMapping("api/recipes")
+@RequestMapping("/recipes")
 public class RecipesController {
 
     @Autowired

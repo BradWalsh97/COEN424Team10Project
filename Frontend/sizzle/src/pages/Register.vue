@@ -4,11 +4,21 @@
       <!-- The inputs -->
       <h3>Register your new Sizzle account</h3>
       <div>
-        <q-input outlined v-model="account.email" label="Email" />
+        <q-input
+          outlined
+          v-model="account.email"
+          bg-color="brown-5"
+          label="Email"
+        />
       </div>
 
       <div style="padding-top: 5%">
-        <q-input outlined v-model="account.username" label="username" />
+        <q-input
+          outlined
+          v-model="account.username"
+          bg-color="brown-5"
+          label="username"
+        />
       </div>
       <div style="padding-top: 5%">
         <q-input
@@ -16,6 +26,7 @@
           v-model="account.password"
           :type="isPwd ? 'password' : 'text'"
           label="Password"
+          bg-color="brown-5"
         >
           <template v-slot:append>
             <q-icon
@@ -61,7 +72,7 @@ export default {
         .catch((err) => console.log("Register", err));
     },
     cancel() {
-      this.$router.push("/login");
+      this.$router.push("/");
     },
   },
 };

@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -71,9 +71,19 @@ public class DefaultRecipesServiceImpl implements RecipesService {
         ArrayList<Recipe> recipes = new ArrayList<>();
         ArrayList<Recipe> recipesFromApi = recipesFacade.getRecipeByQuery(query);
         ArrayList<Recipe> recipesFromDb = accountDao.getRecipeByTitleMatch(query);
+        ArrayList<Recipe> allRecipes = new ArrayList<>();
+        allRecipes.addAll(recipesFromApi);
+        allRecipes.addAll(recipesFromDb);
 
-        recipes.addAll(recipesFromApi);
-        recipes.addAll(recipesFromDb);
+        HashMap<Integer, Boolean> uniqueMap = new HashMap<>();
+
+        for (Recipe r:allRecipes) {
+            if (!uniqueMap.containsKey(r.getId())) {
+                recipes.add(r);
+                uniqueMap.put(r.getId(), true);
+            }
+        }
+
         return recipes;
     }
 
@@ -86,16 +96,16 @@ public class DefaultRecipesServiceImpl implements RecipesService {
         Account account = accountDao.findAccountByUsername(user);
         CookBook cookBook = null;
         ArrayList<Recipe> recipes = null;
-        for (CookBook c:account.getCookBooks()) {
+        for (CookBook c : account.getCookBooks()) {
             if (c.getId() == cookbookId) {
                 cookBook = c;
                 break;
             }
         }
         if (cookBook != null) {
-            recipes = accountDao.getRecipesByIds(cookBook.getRecipeIds());
-        }
-        else {
+            if (cookBook.getRecipeIds() != null) recipes = accountDao.getRecipesByIds(cookBook.getRecipeIds());
+
+        } else {
             throw new CookbookNotFoundException("Cookbook of id " + cookbookId + " was not found");
         }
         return recipes;

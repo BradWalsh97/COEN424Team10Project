@@ -4,9 +4,7 @@
       <q-header class="header-bar">
         <q-toolbar class="text-primary bold">
           <div class="full-width row justify-between">
-            <div>
-              <q-toolbar-title class="text-h4"> Sizzle </q-toolbar-title>
-            </div>
+            <div></div>
             <div>
               <q-btn label="Log out" flat color="primary" @click="logOut()" />
             </div>
