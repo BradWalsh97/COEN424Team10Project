@@ -177,7 +177,7 @@ export default {
   beforeMount() {
     console.log("Before mount CookBook");
     if (!this.$store.getters["example/isAuthenticated"]) {
-      this.$router.push("/login");
+      this.$router.push("/");
     }
   },
   async activated() {
