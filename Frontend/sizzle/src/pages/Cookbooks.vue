@@ -3,6 +3,7 @@
     <q-drawer
       show-if-above
       :value="true"
+      :overlay="true"
       side="left"
       behavior="desktop"
       class="cookbook-drawer"
