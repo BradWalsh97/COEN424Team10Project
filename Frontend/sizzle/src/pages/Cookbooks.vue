@@ -203,10 +203,10 @@ export default {
       ).then((res) => (this.userCookbooks = res.data.cookBooks));
     },
     getCookbookRecipes() {
-      console.log('getting recipes');
+      console.log("getting recipes");
       return Axios.get(
         `${urlSchema.recipeUrl}cookbook/${this.$store.getters["example/getUser"]}/${this.selectedCookbook.id}`
-      ).then((res) =>  {
+      ).then((res) => {
         this.selectedCookbookRecipes = res.data;
         console.log(this.selectedCookbookRecipes);
       });
@@ -220,7 +220,7 @@ export default {
       return Axios.delete(
         `${urlSchema.profileUrl}removeRecipeFromCookBook/${this.$store.getters["example/getUser"]}/${this.selectedCookbook.id}/${this.deleteRecipe.id}`
       )
-        .finally((_) => (this.showConfirm = false))
+        .finally((_) => (this.showConfirmRecipe = false))
         .then(this.getCookbookRecipes);
     },
     removeCookbookFromAccount() {
@@ -233,8 +233,11 @@ export default {
             if (this.selectedCookbook.id === this.deleteCookbook.id) {
               this.selectedCookbookRecipes = [];
             }
-            if (this.userCookbooks.length > 0)
+            if (this.userCookbooks.length > 0) {
               this.selectCookbook(this.userCookbooks[0]);
+            } else {
+              this.selectedCookbook = false;
+            }
           });
         });
     },

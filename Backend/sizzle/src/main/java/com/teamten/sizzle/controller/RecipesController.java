@@ -44,8 +44,8 @@ public class RecipesController {
     }
 
     @PutMapping("/newRecipe/{user}/{cookBook}")
-    public ResponseEntity<Recipe> addNewRecipe(@PathVariable String user, @PathVariable int cookBook, @RequestParam MultipartFile imageFile,
-                             @RequestParam String title, @RequestParam String summary, @RequestParam String instructions, @RequestParam Boolean isPublic) {
+    public ResponseEntity<Recipe> addNewRecipe(@PathVariable String user, @PathVariable int cookBook, @RequestParam("imageFile") MultipartFile imageFile,
+                             @RequestParam("title") String title, @RequestParam("summary") String summary, @RequestParam("instructions") String instructions, @RequestParam("isPublic") Boolean isPublic) {
         Recipe recipe = new Recipe(title, summary, instructions, "", 0, isPublic, true);
         recipe = recipesService.addNewRecipe(user, cookBook, recipe, imageFile);
         return ResponseEntity.ok(recipe);
