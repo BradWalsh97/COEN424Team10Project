@@ -180,10 +180,10 @@ export default {
       this.$router.push("/login");
     }
   },
-  activated() {
-    this.getCookbooks().then((_) => {
+  async activated() {
+    this.getCookbooks().then(async (_) => {
       if (this.userCookbooks.length > 0)
-        this.selectCookbook(this.userCookbooks[0]);
+        await this.selectCookbook(this.userCookbooks[0]);
     });
   },
   computed: {
@@ -199,9 +199,13 @@ export default {
       ).then((res) => (this.userCookbooks = res.data.cookBooks));
     },
     getCookbookRecipes() {
+      console.log('getting recipes');
       return Axios.get(
         `${urlSchema.recipeUrl}cookbook/${this.$store.getters["example/getUser"]}/${this.selectedCookbook.id}`
-      ).then((res) => (this.selectedCookbookRecipes = res.data));
+      ).then((res) =>  {
+        this.selectedCookbookRecipes = res.data;
+        console.log(this.selectedCookbookRecipes);
+      });
     },
     selectCookbook(cookbook) {
       console.log("clicked on tab", cookbook.id);
