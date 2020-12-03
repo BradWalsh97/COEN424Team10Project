@@ -116,7 +116,7 @@
         </div>
         <q-btn color="primary" outline label="Save" @click="showSelectCookbook = true" style="margin-top: 2em; padding: 0 2em;" />
 
-        <SelectCookBook :recipe="recipe" v-model="showSelectCookbook" v-on:closedialog="closeDialog" />
+        <SelectCookBook :recipe="recipe" :adding="true" v-model="showSelectCookbook" v-on:closedialog="closeDialog" />
         
       </q-page>
     </q-page-container>
