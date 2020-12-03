@@ -108,15 +108,6 @@
           </q-file>
         </div>
 
-        <div class="q-pa-md">
-          <q-select
-            outlined
-            v-model="cookbook"
-            :options="cookBooks"
-            label="Cookbook"
-          />
-        </div>
-
         <div class="q-pa-md" style="">
           <!-- <div class="q-gutter-sm"> -->
           <div>
@@ -127,10 +118,10 @@
             <q-radio v-model="recipe.isPublic" :val="false" label="Private" />
           </div>
         </div>
+        <q-btn color="primary" outline label="Save" @click="showSelectCookbook = true" style="margin-top: 2em; padding: 0 2em;" />
 
-        <div class="q-pa-md q-gutter-sm" style="padding-top: 2%">
-          <q-btn label="Save" outline color="primary" />
-        </div>
+        <SelectCookBook :recipe="recipe" v-model="showSelectCookbook" />
+        
       </q-page>
     </q-page-container>
   </q-layout>
@@ -138,12 +129,16 @@
 
 <script>
 import Axios from "axios";
+import SelectCookBook from "./SelectCookBook";
 const urlSchema = require("../SizzleUrls").default;
+
 
 export default {
   name: "AddNewRecipe",
+  components: { SelectCookBook },
   data() {
     return {
+      showSelectCookbook: false,
       recipe: {
         title: "",
         summary: "",
