@@ -14,7 +14,8 @@
     <q-drawer
       :value="false"
       side="left"
-      behavior="desktop"
+      :overlay="true"
+      behavior="mobile"
       class="search-drawer"
     />
 
