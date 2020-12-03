@@ -52,13 +52,16 @@ export default {
       type: Object,
       required: true,
     },
-    recipeFromApi: Boolean,
+    adding: {
+      type: Boolean
+    }
   },
   data() {
     return {
       userCookbooks: [],
       cookbook: { label: "New cookbook", value: null },
       newCookbookName: "",
+      newCookbook: undefined
     };
   },
   computed: {
@@ -74,11 +77,13 @@ export default {
   },
   methods: {
     save() {
-      console.log("saving R", this.recipe);
-      if (!this.recipeFromApi) {
-        this.addRecipe();
-      } else {
+      console.log(this.recipe);
+      console.log(this.cookbook);
+      if (this.recipe.fromCookbook || this.adding) {
         this.saveToCookbook();
+      }
+      else {
+        this.addRecipe();
       }
     },
 
@@ -135,37 +140,40 @@ export default {
           });
       }
     },
+
     async addRecipe() {
+      console.log('hi');
       if (this.cookbook.value) {
-        Axios({
-          method: "post",
-          url: `${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${this.cookbook.value.id}`,
-          headers: { "Content-Type": "application/json" },
-        }).then((res) => {
-          console.log(res);
+        var that = this; 
+        console.log('here');
+        await Axios.post(`${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${this.cookbook.value.id}`, this.recipe)
+        .then((res) => {
+          // Close dialog
           that.$emit("closedialog");
+        })
+        .catch((err) => {
+          console.error(err);
         });
       } else {
         // Create cookbook
-        let newCookbook = (
-          await Axios.put(
-            `${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`,
-            { name: this.newCookbookName }
-          )
-        ).data;
-        Axios({
-          method: "post",
-          url: `${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${newCookbook.id}`,
-          headers: { "Content-Type": "application/json" },
+        await Axios.put(
+          `${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`,
+          { name: this.newCookbookName }
+        )
+        .then((res) => {
+          console.log('new cookbook', res)
+          this.newCookbook = res.data;
         })
-          .then((res) => {
-            console.log(res);
-            // Close dialog
-            that.$emit("closedialog");
-          })
-          .catch((err) => {
-            console.error(err);
-          });
+
+        var that = this; 
+        await Axios.post(`${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${this.newCookbook.id}`, this.recipe)
+        .then((res) => {
+          // Close dialog
+          that.$emit("closedialog");
+        })
+        .catch((err) => {
+          console.error(err);
+        });
       }
     },
   },

@@ -103,7 +103,7 @@
         transition-show="scale"
         transition-hide="scale"
       >
-        <AddNewRecipe v-on:closedialog="layout = !layout" />
+        <AddNewRecipe v-on:closedialog="recipeAdded" />
       </q-dialog>
 
       <q-dialog v-model="showConfirmRecipe" persistent>
@@ -177,13 +177,13 @@ export default {
   beforeMount() {
     console.log("Before mount CookBook");
     if (!this.$store.getters["example/isAuthenticated"]) {
-      this.$router.push("/login");
+      this.$router.push("/");
     }
   },
-  activated() {
-    this.getCookbooks().then((_) => {
+  async activated() {
+    this.getCookbooks().then(async (_) => {
       if (this.userCookbooks.length > 0)
-        this.selectCookbook(this.userCookbooks[0]);
+        await this.selectCookbook(this.userCookbooks[0]);
     });
   },
   computed: {
@@ -193,15 +193,23 @@ export default {
     },
   },
   methods: {
+    recipeAdded() {
+      this.layout = !this.layout;
+      this.getCookbookRecipes();
+    },
     getCookbooks() {
       return Axios.get(
         `${urlSchema.profileUrl}getCookBooksFor/${this.$store.getters["example/getUser"]}`
       ).then((res) => (this.userCookbooks = res.data.cookBooks));
     },
     getCookbookRecipes() {
+      console.log('getting recipes');
       return Axios.get(
         `${urlSchema.recipeUrl}cookbook/${this.$store.getters["example/getUser"]}/${this.selectedCookbook.id}`
-      ).then((res) => (this.selectedCookbookRecipes = res.data));
+      ).then((res) =>  {
+        this.selectedCookbookRecipes = res.data;
+        console.log(this.selectedCookbookRecipes);
+      });
     },
     selectCookbook(cookbook) {
       console.log("clicked on tab", cookbook.id);

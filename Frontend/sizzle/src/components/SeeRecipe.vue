@@ -35,7 +35,7 @@
 
       <SelectCookBook
         :recipe="recipe"
-        :recipeFromApi="recipe.isFromCookBook"
+        v-on:closedialog="closeDialog"
         v-model="showSelectCookbook"
       />
     </q-card>
@@ -66,6 +66,13 @@ export default {
       required: true,
     },
   },
+  methods: {
+    closeDialog() {
+      console.log('closing cookbook selector');
+      this.showSelectCookbook = false;
+      this.$emit('closeseerecipe');
+    }
+  }
 };
 </script>
 

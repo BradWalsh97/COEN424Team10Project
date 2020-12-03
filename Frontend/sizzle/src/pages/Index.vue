@@ -81,7 +81,7 @@
       <AddNewRecipe v-on:closedialog="layout = !layout"/>
     </q-dialog>
 
-    <SeeRecipe v-model="card" :recipe="chosenRecipe" />
+    <SeeRecipe v-model="card" v-on:closeseerecipe="card = false" :recipe="chosenRecipe" />
     <!-- </q-page> -->
   </div>
 </template>
@@ -134,7 +134,7 @@ export default {
   beforeMount() {
     console.log("Before mount index");
     if (!this.$store.getters["example/isAuthenticated"]) {
-      this.$router.push("/login");
+      this.$router.push("/");
     } else {
       this.getRecipes();
       this.user = this.$store.getters["example/getUser"];
