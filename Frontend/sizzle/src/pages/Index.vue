@@ -134,7 +134,7 @@ export default {
   beforeMount() {
     console.log("Before mount index");
     if (!this.$store.getters["example/isAuthenticated"]) {
-      this.$router.push("/login");
+      this.$router.push("/");
     } else {
       this.getRecipes();
       this.user = this.$store.getters["example/getUser"];
