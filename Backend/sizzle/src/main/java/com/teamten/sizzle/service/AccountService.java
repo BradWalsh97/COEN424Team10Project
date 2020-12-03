@@ -26,6 +26,9 @@ public class AccountService {
     @Autowired
     RecipeDao recipeDao;
 
+    @Autowired
+    private RecipesService recipesService;
+
     public boolean addUser(Account account) {
         if (accountDao.userExistsWithUsername(account.getUsername())) return false;
         account.setPassword(passwordEncoder.encode(account.getPassword()));
@@ -61,6 +64,7 @@ public class AccountService {
             cookBookList.sort((c1, c2) -> c2.getId() - c1.getId());
             cookBook.setId(cookBookList.get(0).getId() + 1);
         }
+        cookBook.setRecipeIds(new int[0]);
         accountDao.addNewCookBook(user, cookBook);
         return cookBook;
     }
@@ -72,10 +76,13 @@ public class AccountService {
 
     public void addRecipeToUser(String user, int cookBookId, Recipe recipe) {
         if (!accountDao.userExistsWithUsername(user)) return;
-        Optional<Recipe> r = recipeDao.findById((long)recipe.getId());
-        if (r.isEmpty()) {
+
+        if (!recipe.isFromCookbook()) {
+            recipe.setId(recipesService.getNextRecipeIndex());
+            recipe.setFromCookbook(true);
             recipeDao.save(recipe);
         }
+
         if (!accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipe.getId())) {
             accountDao.addNewRecipeToUser(user, cookBookId, recipe.getId());
         }
