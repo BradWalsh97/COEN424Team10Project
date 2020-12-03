@@ -3,7 +3,6 @@
     <q-drawer
       show-if-above
       :value="true"
-      :overlay="true"
       side="left"
       behavior="desktop"
       class="cookbook-drawer"
@@ -22,7 +21,7 @@
         <q-tabs
           :value="selectedCookbookTab"
           vertical
-          align="right"
+          align="left"
           inline-label
           class="text-primary"
         >
@@ -49,11 +48,11 @@
 
     <div class="col-1 q-pb-md">
       <div class="column items-center text-h2">
-        {{ selectedCookbook ? selectedCookbook.name : "Add Cookbook to Start" }}
+        <span class="bg-tint rounded-borders" style="padding: 20px;">{{ selectedCookbook ? selectedCookbook.name : "Add Cookbook to Start" }}</span>
       </div>
     </div>
 
-    <div class="row" style="height: 500pt; width: 100%">
+    <div class="row" style="height: 500pt; width: 100%; padding-left:300px;">
       <q-card
         :key="recipe.id"
         v-for="recipe in selectedCookbookRecipes"
@@ -88,7 +87,7 @@
       <q-fab
         icon="add"
         :value="layout"
-        color="accent"
+        color="green"
         @click="layout = !layout"
       />
     </q-page-sticky>
@@ -217,6 +216,9 @@ export default {
         .finally((_) => (this.showConfirmCookbook = false))
         .then((_) => {
           this.getCookbooks().then((_) => {
+            if (this.selectedCookbook.id === this.deleteCookbook.id) {
+                this.selectedCookbookRecipes = [];
+            }
             if (this.userCookbooks.length > 0)
               this.selectCookbook(this.userCookbooks[0]);
           });
