@@ -46,17 +46,15 @@
         </q-tab-panel>
 
         <q-tab-panel name="search">
-          <PageIndex />
+          <Search />
         </q-tab-panel>
 
-        <q-tab-panel name="book">
+        <q-tab-panel name="cookbook">
           <CookBooks />
         </q-tab-panel>
       </q-tab-panels>
     </q-page-container>
     <!-- </div> -->
-
-    <!-- <q-img src="../assets/cookbooks-img.jpg" class="top" /> -->
   </q-layout>
   <!-- </div> -->
 </template>
@@ -64,11 +62,13 @@
 <script>
 import PageIndex from "../pages/Index";
 import CookBooks from "../pages/Cookbooks";
+import Search from "../pages/Search";
 export default {
   name: "MainLayout",
   components: {
     PageIndex,
     CookBooks,
+    Search,
   },
   data() {
     return {
@@ -85,7 +85,7 @@ export default {
     },
     logOut() {
       this.$store.commit("example/LOGGED_OUT");
-      this.$router.push("/login");
+      this.$router.push("/");
     },
   },
   beforeMount() {
@@ -106,13 +106,6 @@ export default {
 </script>
 
 <style scoped>
-.bg-image {
-  height: 100%;
-  z-index: -1;
-  background-image: url("/src/assets/cookbooks-img.jpg");
-  background-repeat: no-repeat;
-  background-size: contain;
-}
 .text-h4 {
   /* text-shadow: 2px 2px rgb(49, 49, 49); */
 }

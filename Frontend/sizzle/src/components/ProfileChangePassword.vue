@@ -1,10 +1,13 @@
 <template>
   <div style="width: 50%">
-    <div>Change your Password</div>
     <div style="padding-top: 1%">
       <q-input
         v-model="currentPassword"
+        ref="current"
         outlined
+        class="fill-input"
+        color="dark"
+        bg-color="brown-5"
         :type="isCurrentPwd ? 'password' : 'text'"
         label="Current Password"
         :rules="[(val) => !!val || 'Field is required']"
@@ -21,7 +24,11 @@
     <div style="padding-top: 1%">
       <q-input
         v-model="newPassword"
+        ref="new"
         outlined
+        class="fill-input"
+        bg-color="brown-5"
+        color="dark"
         :type="isNewPwd ? 'password' : 'text'"
         label="New Password"
         :rules="[(val) => !!val || 'Field is required']"
@@ -38,7 +45,11 @@
     <div style="padding-top: 1%">
       <q-input
         v-model="confirmNewPassword"
+        ref="confirm"
         outlined
+        class="fill-input"
+        bg-color="brown-5"
+        color="dark"
         :type="isConfirmNewPwd ? 'password' : 'text'"
         label="Confirm New Password"
         :rules="[
@@ -56,7 +67,11 @@
     </div>
 
     <div style="padding-top: 3%">
-      <q-btn outline label="Change Password" @click="changePassword()" />
+      <q-btn
+        color="brown-5"
+        label="Change Password"
+        @click="changePassword()"
+      />
     </div>
   </div>
 </template>
@@ -79,8 +94,24 @@ export default {
     };
   },
   methods: {
-    checkNewPasswords() {},
-    changePassword() {},
+    changePassword() {
+      if (this.newPassword === this.confirmNewPassword) {
+        Axios.post(
+          `${urlSchema.profileUrl}updatePassword/${this.user}/${this.currentPassword}/${this.newPassword}`
+        )
+          .then(this.resetFields())
+          .catch((error) => console.log("change password", error));
+      }
+    },
+    resetFields() {
+      console.log("trying to reset shit");
+      this.$refs.current.resetValidation();
+      this.$refs.new.resetValidation();
+      this.$refs.confirm.resetValidation();
+      this.currentPassword = "";
+      this.newPassword = "";
+      this.confirmNewPassword = "";
+    },
   },
 
   mounted() {

@@ -1,18 +1,28 @@
 <template>
-  <q-page class="full-width row justify-center">
-    <div class="" style="min-width: 50%; padding-top: 5%">
+  <q-page class="full-width row justify-center items-center">
+    <div class="bg-tint login-container">
       <!-- The inputs -->
-      <h3>Login</h3>
+      <h3 class="text-primary" style="margin-top: 0 !important">Login</h3>
 
-      <div style="">
-        <q-input outlined v-model="account.username" label="username" />
+      <div style="" class="text-black">
+        <q-input
+          color="light"
+          outlined
+          class="fill-input text-black"
+          v-model="account.username"
+          label="username"
+          bg-color="brown-5"
+        />
       </div>
       <div style="padding-top: 5%">
         <q-input
           outlined
+          class="fill-input text-black"
+          color="light"
           v-model="account.password"
           :type="isPwd ? 'password' : 'text'"
           label="Password"
+          bg-color="brown-5"
         >
           <template v-slot:append>
             <q-icon
@@ -77,3 +87,11 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.login-container {
+  min-width: 50%;
+  padding: 3em 2em;
+  border-radius: 3px;
+}
+</style>

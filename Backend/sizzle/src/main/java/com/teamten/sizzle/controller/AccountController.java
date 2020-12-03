@@ -2,9 +2,13 @@ package com.teamten.sizzle.controller;
 
 import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
+import com.teamten.sizzle.model.Recipe;
 import com.teamten.sizzle.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
 
 @RestController
 @CrossOrigin("*")
@@ -32,6 +36,7 @@ public class AccountController {
 
     @PutMapping("/newCookBook/{user}")
     public void addNewCookBook(@PathVariable String user, @RequestBody CookBook cookBook) {
+        System.out.println(cookBook.toString());
         accountService.addNewCookBook(user, cookBook);
     }
 
@@ -40,9 +45,10 @@ public class AccountController {
         accountService.removeCookBook(user, cookBookId);
     }
 
-    @PostMapping("/saveRecipe/{user}/{cookBookId}/{recipeId}")
-    public void saveRecipeForUser(@PathVariable String user, @PathVariable int cookBookId, @PathVariable int recipeId) {
-        accountService.addRecipeToUser(user, cookBookId, recipeId);
+    @PostMapping("/saveRecipe/{user}/{cookBookId}")
+    public void saveRecipeForUser(@PathVariable String user, @PathVariable int cookBookId, @RequestBody Recipe recipe) {
+        accountService.addRecipeToUser(user, cookBookId, recipe);
+        System.out.println("Added " + recipe);
     }
 
     @DeleteMapping("/removeRecipeFromCookBook/{user}/{cookBookId}/{recipeId}")
@@ -74,4 +80,5 @@ public class AccountController {
     public Account getCookBooks(@PathVariable String user){
         return accountService.getCookBooksForUser(user);
     }
+
 }

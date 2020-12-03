@@ -1,5 +1,6 @@
 package com.teamten.sizzle.facade;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -11,6 +12,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 @Component
@@ -19,11 +21,17 @@ public class RecipesFacade {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${spoonacularApi}")
-    private String apiKey;
+    @Value("${spoonacularApiRandom}")
+    private String spoonacularApiRandom;
 
-    public ArrayList<Recipe> getRecipesByIngredients(Integer amount) {
-        String url = "https://api.spoonacular.com/recipes/random?apiKey="+apiKey+"&number="+amount;
+    @Value("${spoonacularApiSearchQuery}")
+    private String spoonacularApiSearchQuery;
+
+    @Value("${spoonacularApiSearchIngredients}")
+    private String spoonacularApiSearchIngredients;
+
+    public ArrayList<Recipe> getRandomRecipe(Integer amount) {
+        String url = "https://api.spoonacular.com/recipes/random?apiKey="+spoonacularApiRandom+"&number="+amount;
         System.out.println(url);
         String results = restTemplate.getForObject(url, String.class);
         JsonObject jsonObject = new JsonParser().parse(results).getAsJsonObject();
@@ -33,17 +41,131 @@ public class RecipesFacade {
         for (JsonElement recipe:jsonObject.getAsJsonArray("recipes")) {
             JsonObject json = new JsonParser().parse(recipe.toString()).getAsJsonObject();
 
+            int id = json.get("id").getAsInt();
             String title = json.get("title").getAsString();
             String summary = json.get("summary").getAsString();
-            String instructions = json.get("instructions").getAsString();
             String image = json.get("image").getAsString();
+            String instructions = json.get("instructions").getAsString();
 
-            recipes.add(new Recipe(title, summary, instructions, image));
+            recipes.add(new Recipe(id, title, summary, instructions, image, false, true));
         }
 
         return recipes;
     }
 
+
+    public ArrayList<Recipe> getRecipeByQuery(String query) {
+        String url = "https://api.spoonacular.com/recipes/complexSearch?apiKey="+ spoonacularApiSearchQuery +"&query="+query+"&addRecipeInformation=true&number=3";
+        String results = restTemplate.getForObject(url, String.class);
+        JsonObject jsonObject = new JsonParser().parse(results).getAsJsonObject();
+        JsonArray jsonResultsArray = jsonObject.getAsJsonArray("results");
+        ArrayList<Recipe> recipes = this.getRecipesByJsonResultsArray(jsonResultsArray);
+        return recipes;
+    }
+
+    public ArrayList<Recipe> getRecipesByIngredients(String ingredients, String badIngredients) {
+        System.out.println(ingredients + " " + badIngredients);
+        ArrayList<Integer> recipeIds = this.getRecipeIdsByIngredients(ingredients, badIngredients);
+        ArrayList<Recipe> recipes = this.getRecipesByIdsBulk(recipeIds);
+        return recipes;
+    }
+
+    private ArrayList<Recipe> getRecipesByIdsBulk(ArrayList<Integer> recipeIds) {
+        String rIds = "";
+        for (Integer recipeId:recipeIds) {
+            rIds += recipeId.toString() + ",";
+        }
+        if (!rIds.isEmpty()) {
+            rIds = rIds.substring(0, rIds.length() - 1);
+            System.out.println("rIds " + rIds);
+            String url = "https://api.spoonacular.com/recipes/informationBulk?apiKey="+spoonacularApiSearchIngredients+"&ids="+rIds;
+            String results = restTemplate.getForObject(url, String.class);
+            JsonArray jsonResults = new JsonParser().parse(results).getAsJsonArray();
+            ArrayList<Recipe> recipes = this.getRecipesByJsonResultsArray(jsonResults);
+            return recipes;
+
+        }
+        else
+            return new ArrayList<Recipe>();
+    }
+
+    private ArrayList<Integer> getRecipeIdsByIngredients(String ingredients, String badIngredients) {
+        String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + spoonacularApiSearchIngredients + "&ingredients=" + ingredients + "&number=15";
+        String results = restTemplate.getForObject(url, String.class);
+        JsonArray recipes = new JsonParser().parse(results).getAsJsonArray();
+
+        HashMap<String, Boolean> badIngredientsMap = buildBadIngredientsMap(badIngredients);
+
+        ArrayList<Integer> recipeIdsList = new ArrayList<>();
+
+        for (JsonElement recipe:recipes) {
+            JsonObject jsonRecipe = new JsonParser().parse(recipe.toString()).getAsJsonObject();
+            JsonArray missedIngredients = jsonRecipe.get("missedIngredients").getAsJsonArray();
+            JsonArray usedIngredients = jsonRecipe.get("usedIngredients").getAsJsonArray();
+            String title = jsonRecipe.get("title").getAsString();
+            int id = jsonRecipe.get("id").getAsInt();
+            System.out.println(id + " " + title);
+
+            JsonArray allIngredients = new JsonArray();
+            allIngredients.addAll(missedIngredients);
+            allIngredients.addAll(usedIngredients);
+
+            boolean addRecipe = true;
+            for (JsonElement i:allIngredients) {
+                JsonObject jsonIngredient = new JsonParser().parse(i.toString()).getAsJsonObject();
+                String name = jsonIngredient.get("name").getAsString();
+                if (badIngredientsMap.containsKey(name)) {
+                    addRecipe = false;
+
+                    break;
+                }
+            }
+            if (addRecipe)
+                recipeIdsList.add(id);
+        }
+        return recipeIdsList;
+    }
+
+    private HashMap<String,Boolean> buildBadIngredientsMap(String badIngredients) {
+        HashMap<String, Boolean> badIngredientsMaps = new HashMap<>();
+        List<String> items = Arrays.asList(badIngredients.split("\\s*,\\s*"));
+        for (String item:items) {
+            badIngredientsMaps.put(item.toLowerCase(), true);
+        }
+        return badIngredientsMaps;
+    }
+
+    private ArrayList<Recipe> getRecipesByJsonResultsArray(JsonArray results) {
+        ArrayList<Recipe> recipes = new ArrayList<>();
+        String i = "<ol>";
+        for (JsonElement recipe:results) {
+            JsonObject jsonRecipe = new JsonParser().parse(recipe.toString()).getAsJsonObject();
+
+            String title = jsonRecipe.get("title").getAsString();
+            String summary = jsonRecipe.get("summary").getAsString();
+            String image = jsonRecipe.get("image").getAsString();
+            int id = jsonRecipe.get("id").getAsInt();
+            //System.out.println(title);
+
+            JsonArray instructions = jsonRecipe.get("analyzedInstructions").getAsJsonArray();
+
+            for (JsonElement instruction:instructions) {
+                JsonObject jsonInstruction = new JsonParser().parse(instruction.toString()).getAsJsonObject();
+                JsonArray steps = jsonInstruction.get("steps").getAsJsonArray();
+
+                for(JsonElement step:steps) {
+                    JsonObject jsonStep = new JsonParser().parse(step.toString()).getAsJsonObject();
+                    String s = "<li>" + jsonStep.get("step").getAsString() + "</li>";
+                    //System.out.println(s);
+                    i += s;
+                }
+            }
+            i += "</ol>";
+
+            recipes.add(new Recipe(id, title, summary, i, image, false, true));
+        }
+        return recipes;
+    }
 }
 
 

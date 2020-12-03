@@ -1,13 +1,20 @@
 package com.teamten.sizzle.service;
 
 import com.teamten.sizzle.dao.AccountDao;
+import com.teamten.sizzle.dao.RecipeDao;
+import com.teamten.sizzle.facade.AmazonS3Facade;
 import com.teamten.sizzle.model.Account;
 import com.teamten.sizzle.model.CookBook;
+import com.teamten.sizzle.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AccountService {
@@ -15,6 +22,9 @@ public class AccountService {
     private AccountDao accountDao;
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    RecipeDao recipeDao;
 
     public boolean addUser(Account account) {
         if (accountDao.userExistsWithUsername(account.getUsername())) return false;
@@ -42,9 +52,8 @@ public class AccountService {
         }
     }
 
-    public void addNewCookBook(String user, CookBook cookBook) {
+    public CookBook addNewCookBook(String user, CookBook cookBook) {
         Account account = accountDao.findAccountByUsername(user);
-        cookBook.setRecipeIds(new int[0]);
         List<CookBook> cookBookList = account.getCookBooks();
         if (cookBookList == null || cookBookList.size() == 0) {
             cookBook.setId(0);
@@ -53,6 +62,7 @@ public class AccountService {
             cookBook.setId(cookBookList.get(0).getId() + 1);
         }
         accountDao.addNewCookBook(user, cookBook);
+        return cookBook;
     }
 
     public void removeCookBook(String user, int cookBookId) {
@@ -60,10 +70,15 @@ public class AccountService {
         accountDao.removeCookBook(user, cookBookId);
     }
 
-    public void addRecipeToUser(String user, int cookBookId, int recipe) {
+    public void addRecipeToUser(String user, int cookBookId, Recipe recipe) {
         if (!accountDao.userExistsWithUsername(user)) return;
-        if (!accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipe))
-            accountDao.addNewRecipeToUser(user, cookBookId, recipe);
+        Optional<Recipe> r = recipeDao.findById((long)recipe.getId());
+        if (r.isEmpty()) {
+            recipeDao.save(recipe);
+        }
+        if (!accountDao.cookBookContainsRecipeWithId(user, cookBookId, recipe.getId())) {
+            accountDao.addNewRecipeToUser(user, cookBookId, recipe.getId());
+        }
     }
 
 
@@ -97,6 +112,8 @@ public class AccountService {
     public Account getCookBooksForUser(String user){
         return accountDao.getCookBooksForUser(user);
     }
+
+
 }
 
 

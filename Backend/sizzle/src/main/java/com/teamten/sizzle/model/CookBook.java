@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -19,4 +20,12 @@ public class CookBook {
     private String name;
     private int[] recipeIds;
 
+    @Override
+    public String toString() {
+        return "CookBook{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", recipeIds=" + Arrays.toString(recipeIds) +
+                '}';
+    }
 }

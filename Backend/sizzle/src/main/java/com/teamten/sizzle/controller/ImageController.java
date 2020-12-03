@@ -11,7 +11,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-
+@CrossOrigin("*")
 @RestController
 @RequestMapping("image")
 public class ImageController {
@@ -20,10 +20,10 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping("/analyseFile")
-    //public String analyseImage(@RequestPart(value = "file") final MultipartFile file) {
     public List<Tag> analyseImage(@RequestBody final File file){
         return imageService.analyse(file);
     }
+
     @PostMapping("/analyseByte")
     public List<Tag> analyseImage(@RequestBody final byte[] file) throws IOException {
         File tmpByteFile = new File("tmpByteFile");
@@ -31,9 +31,10 @@ public class ImageController {
         return imageService.analyse(tmpByteFile);
     }
     @PostMapping("/analyseMultiFile")
-    public List<Tag> analyseImage(@RequestBody final MultipartFile file) throws IOException {
-        File tmpFile = new File("image.tmp");
-        file.transferTo(tmpFile);
+    public List<Tag> analyseImage(@RequestPart("file") final MultipartFile file) throws IOException {
+        byte[] bytes = file.getBytes();
+        File tmpFile = new File("image.jpeg");
+        FileUtils.writeByteArrayToFile(tmpFile, bytes);
         return imageService.analyse(tmpFile);
     }
 
