@@ -103,7 +103,7 @@
         transition-show="scale"
         transition-hide="scale"
       >
-        <AddNewRecipe v-on:closedialog="layout = !layout" />
+        <AddNewRecipe v-on:closedialog="recipeAdded" />
       </q-dialog>
 
       <q-dialog v-model="showConfirmRecipe" persistent>
@@ -193,6 +193,10 @@ export default {
     },
   },
   methods: {
+    recipeAdded() {
+      this.layout = !this.layout;
+      this.getCookbookRecipes();
+    },
     getCookbooks() {
       return Axios.get(
         `${urlSchema.profileUrl}getCookBooksFor/${this.$store.getters["example/getUser"]}`

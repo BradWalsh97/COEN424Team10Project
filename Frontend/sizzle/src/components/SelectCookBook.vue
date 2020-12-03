@@ -51,6 +51,9 @@ export default {
     recipe: {
       type: Object,
       required: true,
+    },
+    adding: {
+      type: Boolean
     }
   },
   data() {
@@ -76,7 +79,7 @@ export default {
     save() {
       console.log(this.recipe);
       console.log(this.cookbook);
-      if (this.recipe.fromCookbook) {
+      if (this.recipe.fromCookbook || this.adding) {
         this.saveToCookbook();
       }
       else {
