@@ -225,8 +225,11 @@ export default {
             if (this.selectedCookbook.id === this.deleteCookbook.id) {
               this.selectedCookbookRecipes = [];
             }
-            if (this.userCookbooks.length > 0)
+            if (this.userCookbooks.length > 0) {
               this.selectCookbook(this.userCookbooks[0]);
+            } else {
+              this.selectedCookbook = false;
+            }
           });
         });
     },
