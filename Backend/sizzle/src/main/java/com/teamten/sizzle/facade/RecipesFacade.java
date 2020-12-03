@@ -6,7 +6,6 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.teamten.sizzle.model.Recipe;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
@@ -21,24 +20,19 @@ public class RecipesFacade {
     @Autowired
     private RestTemplate restTemplate;
 
-    @Value("${spoonacularApiRandom}")
-    private String spoonacularApiRandom;
+    private int apiKeyId = 0;
 
-    @Value("${spoonacularApiSearchQuery}")
-    private String spoonacularApiSearchQuery;
-
-    @Value("${spoonacularApiSearchIngredients}")
-    private String spoonacularApiSearchIngredients;
+    private String[] apiKeys = {"e1ea8e0b803b48e3a48b95732783e0ef", "122b3ec99c6c4081bf38f22b878f8dcb", "9eb28a6adf5f4147a1382e2965d2b34c", "1c39e95e7c6548deb69114bc4bf96b40", "4ff79984454e4be584f4274bda81f99b", "87b5fe20b6c742b2a72db78fe610c98b"};
 
     public ArrayList<Recipe> getRandomRecipe(Integer amount) {
-        String url = "https://api.spoonacular.com/recipes/random?apiKey="+spoonacularApiRandom+"&number="+amount;
+        String url = "https://api.spoonacular.com/recipes/random?apiKey=" + apiKeys[(apiKeyId++ % apiKeys.length)] + "&number=" + amount;
         System.out.println(url);
         String results = restTemplate.getForObject(url, String.class);
         JsonObject jsonObject = new JsonParser().parse(results).getAsJsonObject();
 
         ArrayList<Recipe> recipes = new ArrayList<>();
 
-        for (JsonElement recipe:jsonObject.getAsJsonArray("recipes")) {
+        for (JsonElement recipe : jsonObject.getAsJsonArray("recipes")) {
             JsonObject json = new JsonParser().parse(recipe.toString()).getAsJsonObject();
 
             int id = json.get("id").getAsInt();
@@ -55,7 +49,7 @@ public class RecipesFacade {
 
 
     public ArrayList<Recipe> getRecipeByQuery(String query) {
-        String url = "https://api.spoonacular.com/recipes/complexSearch?apiKey="+ spoonacularApiSearchQuery +"&query="+query+"&addRecipeInformation=true&number=3";
+        String url = "https://api.spoonacular.com/recipes/complexSearch?apiKey=" + apiKeys[(apiKeyId++ % apiKeys.length)] + "&query=" + query + "&addRecipeInformation=true&number=3";
         String results = restTemplate.getForObject(url, String.class);
         JsonObject jsonObject = new JsonParser().parse(results).getAsJsonObject();
         JsonArray jsonResultsArray = jsonObject.getAsJsonArray("results");
@@ -72,25 +66,24 @@ public class RecipesFacade {
 
     private ArrayList<Recipe> getRecipesByIdsBulk(ArrayList<Integer> recipeIds) {
         String rIds = "";
-        for (Integer recipeId:recipeIds) {
+        for (Integer recipeId : recipeIds) {
             rIds += recipeId.toString() + ",";
         }
         if (!rIds.isEmpty()) {
             rIds = rIds.substring(0, rIds.length() - 1);
             System.out.println("rIds " + rIds);
-            String url = "https://api.spoonacular.com/recipes/informationBulk?apiKey="+spoonacularApiSearchIngredients+"&ids="+rIds;
+            String url = "https://api.spoonacular.com/recipes/informationBulk?apiKey=" + apiKeys[(apiKeyId++ % apiKeys.length)] + "&ids=" + rIds;
             String results = restTemplate.getForObject(url, String.class);
             JsonArray jsonResults = new JsonParser().parse(results).getAsJsonArray();
             ArrayList<Recipe> recipes = this.getRecipesByJsonResultsArray(jsonResults);
             return recipes;
 
-        }
-        else
+        } else
             return new ArrayList<Recipe>();
     }
 
     private ArrayList<Integer> getRecipeIdsByIngredients(String ingredients, String badIngredients) {
-        String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + spoonacularApiSearchIngredients + "&ingredients=" + ingredients + "&number=15";
+        String url = "https://api.spoonacular.com/recipes/findByIngredients?apiKey=" + apiKeys[(apiKeyId++ % apiKeys.length)] + "&ingredients=" + ingredients + "&number=15";
         String results = restTemplate.getForObject(url, String.class);
         JsonArray recipes = new JsonParser().parse(results).getAsJsonArray();
 
@@ -98,7 +91,7 @@ public class RecipesFacade {
 
         ArrayList<Integer> recipeIdsList = new ArrayList<>();
 
-        for (JsonElement recipe:recipes) {
+        for (JsonElement recipe : recipes) {
             JsonObject jsonRecipe = new JsonParser().parse(recipe.toString()).getAsJsonObject();
             JsonArray missedIngredients = jsonRecipe.get("missedIngredients").getAsJsonArray();
             JsonArray usedIngredients = jsonRecipe.get("usedIngredients").getAsJsonArray();
@@ -111,7 +104,7 @@ public class RecipesFacade {
             allIngredients.addAll(usedIngredients);
 
             boolean addRecipe = true;
-            for (JsonElement i:allIngredients) {
+            for (JsonElement i : allIngredients) {
                 JsonObject jsonIngredient = new JsonParser().parse(i.toString()).getAsJsonObject();
                 String name = jsonIngredient.get("name").getAsString();
                 if (badIngredientsMap.containsKey(name)) {
@@ -126,10 +119,10 @@ public class RecipesFacade {
         return recipeIdsList;
     }
 
-    private HashMap<String,Boolean> buildBadIngredientsMap(String badIngredients) {
+    private HashMap<String, Boolean> buildBadIngredientsMap(String badIngredients) {
         HashMap<String, Boolean> badIngredientsMaps = new HashMap<>();
         List<String> items = Arrays.asList(badIngredients.split("\\s*,\\s*"));
-        for (String item:items) {
+        for (String item : items) {
             badIngredientsMaps.put(item.toLowerCase(), true);
         }
         return badIngredientsMaps;
@@ -138,7 +131,7 @@ public class RecipesFacade {
     private ArrayList<Recipe> getRecipesByJsonResultsArray(JsonArray results) {
         ArrayList<Recipe> recipes = new ArrayList<>();
         String i = "<ol>";
-        for (JsonElement recipe:results) {
+        for (JsonElement recipe : results) {
             JsonObject jsonRecipe = new JsonParser().parse(recipe.toString()).getAsJsonObject();
 
             String title = jsonRecipe.get("title").getAsString();
@@ -149,11 +142,11 @@ public class RecipesFacade {
 
             JsonArray instructions = jsonRecipe.get("analyzedInstructions").getAsJsonArray();
 
-            for (JsonElement instruction:instructions) {
+            for (JsonElement instruction : instructions) {
                 JsonObject jsonInstruction = new JsonParser().parse(instruction.toString()).getAsJsonObject();
                 JsonArray steps = jsonInstruction.get("steps").getAsJsonArray();
 
-                for(JsonElement step:steps) {
+                for (JsonElement step : steps) {
                     JsonObject jsonStep = new JsonParser().parse(step.toString()).getAsJsonObject();
                     String s = "<li>" + jsonStep.get("step").getAsString() + "</li>";
                     //System.out.println(s);
