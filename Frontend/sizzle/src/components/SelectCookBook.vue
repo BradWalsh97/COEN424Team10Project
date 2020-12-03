@@ -58,25 +58,45 @@ export default {
             .then(res => this.userCookbooks = res.data.cookBooks);
         },
         async saveToCookbook() {
+            console.log('Saving recipe to db and image to s3');
+
+            var bodyFormData = new FormData();
+            bodyFormData.append('title', this.recipe.title);
+            bodyFormData.append('summary', this.recipe.summary);
+            bodyFormData.append('instructions', this.recipe.instructions);
+            bodyFormData.append('imageFile', this.recipe.image);
+            bodyFormData.append('isPublic', this.recipe.isPublic);
+
+            var that = this;
+
+            var body = {...this.recipe}
             if (this.cookbook.value) {
-                Axios.post(`${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${this.cookbook.value.id}/${this.recipe.id}`)
-                .then(res => this.$emit('input', false))
-                .catch(err => console.error(err));
+                Axios({
+                    method: 'put',
+                    url: `${urlSchema.recipeUrl}newRecipe/${this.$store.getters["example/getUser"]}/${this.cookbook.value.id}`,
+                    data: bodyFormData,
+                    headers: {'Content-Type': 'multipart/form-data' }
+                })
+                .then((res) => {
+                    console.log(res);
+                    that.$emit('closedialog');
+                });
             } else {
-                try {
-                    
-                    // Create cookbook
-                    let newCookbook = (await Axios.put(`${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`, { name: this.newCookbookName })).data;
-
-                    // Add recipe to cookbook
-                    await Axios.post(`${urlSchema.profileUrl}saveRecipe/${this.$store.getters["example/getUser"]}/${newCookbook.id}/${this.recipe.id}`);
-
-                    // Close dialog
-                    this.$emit('input', false);
+                // Create cookbook
+                let newCookbook = (await Axios.put(`${urlSchema.profileUrl}newCookBook/${this.$store.getters["example/getUser"]}`, { name: this.newCookbookName })).data;
                 
-                } catch (err) {
+                Axios({
+                    method: 'put',
+                    url: `${urlSchema.recipeUrl}newRecipe/${this.$store.getters["example/getUser"]}/${newCookbook.id}`,
+                    data: bodyFormData,
+                    headers: {'Content-Type': 'multipart/form-data' }
+                }).then((res) => {
+                    console.log(res);
+                    // Close dialog
+                    that.$emit('closedialog');
+                }).catch((err) => {
                     console.error(err);
-                }
+                });
             }
         }
     },

@@ -94,7 +94,7 @@
           </div>
         </div>
 
-        <div class="q-pa-md q-gutter-none" style="padding-top: 2%">
+        <div class="q-pa-md q-gutter-none bg-tint" style="padding-top: 2%">
           <q-file
             v-model="recipe.image"
             label="Image"
@@ -107,30 +107,17 @@
             </template>
           </q-file>
         </div>
-
-        <div class="q-pa-md">
-          <q-select
-            outlined
-            v-model="cookbook"
-            :options="cookBooks"
-            label="Cookbook"
-          />
-        </div>
-
-        <div class="q-pa-md" style="">
-          <!-- <div class="q-gutter-sm"> -->
+        <div class="q-pa-md bg-tint" style="">
           <div>
             Your recipe's privacy:
-
-            <!-- </div> -->
             <q-radio v-model="recipe.isPublic" :val="true" label="Public" />
             <q-radio v-model="recipe.isPublic" :val="false" label="Private" />
           </div>
         </div>
+        <q-btn color="primary" outline label="Save" @click="showSelectCookbook = true" style="margin-top: 2em; padding: 0 2em;" />
 
-        <div class="q-pa-md q-gutter-sm" style="padding-top: 2%">
-          <q-btn label="Save" outline color="primary" />
-        </div>
+        <SelectCookBook :recipe="recipe" v-model="showSelectCookbook" v-on:closedialog="closeDialog" />
+        
       </q-page>
     </q-page-container>
   </q-layout>
@@ -138,12 +125,16 @@
 
 <script>
 import Axios from "axios";
+import SelectCookBook from "./SelectCookBook";
 const urlSchema = require("../SizzleUrls").default;
+
 
 export default {
   name: "AddNewRecipe",
+  components: { SelectCookBook },
   data() {
     return {
+      showSelectCookbook: false,
       recipe: {
         title: "",
         summary: "",
@@ -167,9 +158,15 @@ export default {
   },
   methods: {
     addNewRecipe: function () {},
+    closeDialog() {
+      console.log('closing cookbook selector');
+      this.showSelectCookbook = false;
+      this.$emit('closedialog');
+    }
   },
   mounted() {
     this.user = this.$store.getters["example/getUser"];
+    console.log('user', this.user);
   },
   // watch: {
   // 	this.$q.dark.isActive() :

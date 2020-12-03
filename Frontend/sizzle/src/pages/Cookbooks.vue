@@ -3,7 +3,6 @@
     <q-drawer
       show-if-above
       :value="true"
-      :overlay="true"
       side="left"
       behavior="desktop"
       class="cookbook-drawer"
@@ -22,7 +21,7 @@
         <q-tabs
           :value="selectedCookbookTab"
           vertical
-          align="right"
+          align="left"
           inline-label
           class="text-primary"
         >
@@ -220,6 +219,9 @@ export default {
         .finally((_) => (this.showConfirmCookbook = false))
         .then((_) => {
           this.getCookbooks().then((_) => {
+            if (this.selectedCookbook.id === this.deleteCookbook.id) {
+                this.selectedCookbookRecipes = [];
+            }
             if (this.userCookbooks.length > 0)
               this.selectCookbook(this.userCookbooks[0]);
           });

@@ -26,7 +26,7 @@
           class="row justify-center text-h3 text-primary"
           style="padding-top: 1%"
         >
-          Recipes you might like
+        <span class="bg-tint rounded-borders" style="padding: 20px;">Recipes you might like</span>
         </div>
         <div style="padding-top: 1%; padding-bottom: 1%"></div>
       </div>
@@ -45,8 +45,8 @@
             navigation
             padding
             arrows
-            class="bg-purple text-white shadow-1 rounded-borders"
-            style="width: 60%; height: 100%"
+            class="bg-white text-white shadow-4 rounded-borders"
+            style="width: 60%; height: 100%; border: 10px solid #ccc;"
           >
             <q-carousel-slide
               v-for="(recipe, index) in recipes"
@@ -57,13 +57,7 @@
               :style="customHeight"
             />
           </q-carousel>
-          <q-btn
-            color="primary"
-            outline
-            label="Refresh"
-            @click="getRecipes()"
-            style="margin-top: 2em; padding: 0 2em"
-          />
+          <q-btn class="bg-tint" color="primary" outline label="Refresh" @click="getRecipes()" style="margin-top: 2em; padding: 0 2em;" />
         </div>
       </div>
       <!-- </div> -->
@@ -84,7 +78,7 @@
       transition-show="scale"
       transition-hide="scale"
     >
-      <AddNewRecipe />
+      <AddNewRecipe v-on:closedialog="layout = !layout"/>
     </q-dialog>
 
     <SeeRecipe v-model="card" :recipe="chosenRecipe" />
@@ -116,7 +110,7 @@ export default {
   },
   methods: {
     getRecipes() {
-      Axios.get(`${urlSchema.recipeUrl}get`)
+      Axios.get(`${urlSchema.recipeUrl}random/10`)
         .then((res) => {
           this.recipes = res.data;
           console.log("res.data", res.data);
@@ -127,7 +121,7 @@ export default {
       console.log("test", id);
       this.chosenRecipe = this.recipes[id];
       this.card = true;
-    },
+    }
   },
 
   computed: {

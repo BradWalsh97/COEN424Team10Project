@@ -45,7 +45,7 @@
         transition-prev="slide-down"
         transition-next="slide-up"
       >
-        <q-tab-panel name="keyword">
+        <q-tab-panel name="keyword" style="padding-left:100px;">
           <div>
             <q-input
               style="

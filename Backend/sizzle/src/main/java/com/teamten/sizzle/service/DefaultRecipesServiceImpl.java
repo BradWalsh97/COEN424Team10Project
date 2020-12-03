@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @Service
@@ -70,9 +71,19 @@ public class DefaultRecipesServiceImpl implements RecipesService {
         ArrayList<Recipe> recipes = new ArrayList<>();
         ArrayList<Recipe> recipesFromApi = recipesFacade.getRecipeByQuery(query);
         ArrayList<Recipe> recipesFromDb = accountDao.getRecipeByTitleMatch(query);
+        ArrayList<Recipe> allRecipes = new ArrayList<>();
+        allRecipes.addAll(recipesFromApi);
+        allRecipes.addAll(recipesFromDb);
 
-        recipes.addAll(recipesFromApi);
-        recipes.addAll(recipesFromDb);
+        HashMap<Integer, Boolean> uniqueMap = new HashMap<>();
+
+        for (Recipe r:allRecipes) {
+            if (!uniqueMap.containsKey(r.getId())) {
+                recipes.add(r);
+                uniqueMap.put(r.getId(), true);
+            }
+        }
+
         return recipes;
     }
 
