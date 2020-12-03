@@ -37,7 +37,7 @@
         </q-tabs>
       </q-scroll-area>
     </q-drawer>
-    <div style="padding-left: 15%">
+    <div style="padding-left: 300px">
       <q-tab-panels
         v-model="selectedSearchTab"
         animated
@@ -45,7 +45,7 @@
         transition-prev="slide-down"
         transition-next="slide-up"
       >
-        <q-tab-panel name="keyword" style="padding-left:100px;">
+        <q-tab-panel name="keyword" style="padding-left: 100px">
           <div>
             <q-input
               style="

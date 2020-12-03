@@ -46,7 +46,7 @@
         </q-tabs>
       </q-scroll-area>
     </q-drawer>
-    <div style="padding-left: 17%">
+    <div style="padding-left: 300px">
       <div class="col-1 q-pb-md">
         <div class="row justify-center text-h2" style="padding-right: 300px">
           <span class="bg-tint rounded-borders">
